@@ -227,6 +227,22 @@
         }
         return path;
     };
+    
+    Hippo.Util.getBoolean = function(object) {
+        if (typeof object === 'undefined' || object === null) {
+            return null;
+        }
+        if (object === true || object === false) {
+            return object;
+        }
+        var str = object.toString().toLowerCase();
+        if (str === "true") {
+            return true;
+        } else if (str === "false") {
+            return false
+        }
+        return null;
+    };
 
 })(jQuery);
 

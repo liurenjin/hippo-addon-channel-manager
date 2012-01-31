@@ -762,7 +762,8 @@
                 sendMessage({}, 'refresh');
             } else {
                 var id = this.element.getAttribute('id');
-                sendMessage({elementId: id}, 'onclick');
+                var inherited = Hippo.Util.getBoolean(this.el.attr(HST.ATTR.INHERITED));
+                sendMessage({elementId: id, inherited: inherited}, 'onclick');
             }
         },
 

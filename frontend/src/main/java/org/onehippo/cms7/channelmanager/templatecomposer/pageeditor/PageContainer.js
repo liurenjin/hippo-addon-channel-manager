@@ -440,11 +440,11 @@ Hippo.ChannelManager.TemplateComposer.PageContainer = Ext.extend(Ext.util.Observ
             console.warn('Handling onClick for element[id=' + data.elementId + '] with no record in component store');
             return;
         }
-
+        
         if (this.selectedRecord !== record) {
             this.sendFrameMessage({id: record.data.id}, 'select');
             this.selectedRecord = record;
-            this.fireEvent('selectItem', record);
+            this.fireEvent('selectItem', record, data.inherited);
         }
     },
 
