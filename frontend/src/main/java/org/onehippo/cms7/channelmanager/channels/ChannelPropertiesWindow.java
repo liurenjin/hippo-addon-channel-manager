@@ -18,6 +18,7 @@ package org.onehippo.cms7.channelmanager.channels;
 
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -144,7 +145,14 @@ public class ChannelPropertiesWindow extends ExtFormPanel {
                         if (channel == null) {
                             return Collections.emptyList();
                         } else {
-                            return Arrays.asList(fieldGroup.value());
+                            String[] strings = fieldGroup.value();
+                            List<String> keys = new ArrayList<String>(strings.length);
+                            for (String key : strings) {
+                                if (getPropertyDefinition(key) != null) {
+                                    keys.add(key);
+                                }
+                            }
+                            return keys;
                         }
                     }
 
@@ -153,10 +161,6 @@ public class ChannelPropertiesWindow extends ExtFormPanel {
                     protected void populateItem(final ListItem<String> item) {
                         final String key = item.getModelObject();
                         HstPropertyDefinition propDef = getPropertyDefinition(key);
-
-                        if (propDef == null) {
-                            return;
-                        }
 
                         item.add(new Label(WICKET_ID_KEY, new ChannelResourceModel(channel, key)));
 
