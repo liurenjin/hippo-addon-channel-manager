@@ -17,7 +17,7 @@
 
   <properties>
     <hippo.cms.version>2.22.01</hippo.cms.version>
-    <hippo.hst.version>2.24.01</hippo.hst.version>
+    <hippo.hst.version>2.24.03-SNAPSHOT</hippo.hst.version>
     <hippo.repository.version>2.22.02</hippo.repository.version>
     <hippo.addon-hst-configuration-editor.version>1.09.00</hippo.addon-hst-configuration-editor.version>
     <commons-lang.version>2.1</commons-lang.version>

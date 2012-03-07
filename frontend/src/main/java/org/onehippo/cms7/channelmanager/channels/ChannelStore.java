@@ -15,6 +15,7 @@
  */
 package org.onehippo.cms7.channelmanager.channels;
 
+import java.lang.reflect.Field;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
@@ -28,17 +29,20 @@ import java.util.Map;
 import javax.jcr.Credentials;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
+import javax.jcr.Session;
 import javax.security.auth.Subject;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.wicket.Session;
+import org.apache.wicket.RequestCycle;
+import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.protocol.http.WicketURLEncoder;
+import org.apache.wicket.util.string.interpolator.MapVariableInterpolator;
 import org.hippoecm.frontend.plugins.standards.ClassResourceModel;
 import org.hippoecm.frontend.session.UserSession;
 import org.hippoecm.hst.configuration.channel.Channel;
 import org.hippoecm.hst.configuration.channel.ChannelException;
 import org.hippoecm.hst.configuration.channel.ChannelManager;
-import org.hippoecm.hst.core.container.ComponentManager;
 import org.hippoecm.hst.security.HstSubject;
 import org.hippoecm.hst.site.HstServices;
 import org.json.JSONArray;
@@ -57,6 +61,9 @@ import org.wicketstuff.js.ext.util.ExtClass;
 @ExtClass("Hippo.ChannelManager.ChannelStore")
 public class ChannelStore extends ExtGroupingStore<Object> {
 
+    public static final String DEFAULT_TYPE = "website";
+    public static final String DEFAULT_CHANNEL_ICON_PATH = "/content/gallery/channels/${name}.png/${name}.png/hippogallery:original";
+
     // the names are used to access
     // the getters of Channel via reflection
     public enum ChannelField {
@@ -72,7 +79,6 @@ public class ChannelStore extends ExtGroupingStore<Object> {
         mountPath,
         cmsPreviewPrefix,
         contextPath,
-        type,
         url
     }
     public static final List<String> ALL_FIELD_NAMES;
@@ -100,6 +106,10 @@ public class ChannelStore extends ExtGroupingStore<Object> {
     private final String sortFieldName;
     private final SortOrder sortOrder;
     private final LocaleResolver localeResolver;
+
+    private String channelRegionIconPath = DEFAULT_CHANNEL_ICON_PATH;
+    private String channelTypeIconPath = DEFAULT_CHANNEL_ICON_PATH;
+
 
     public ChannelStore(String storeId, List<ExtField> fields, String sortFieldName, SortOrder sortOrder, LocaleResolver localeResolver) {
         super(fields);
@@ -149,10 +159,113 @@ public class ChannelStore extends ExtGroupingStore<Object> {
                 }
                 object.put(field.getName(), fieldValue);
             }
+
+            populateChannelTypeAndRegion(channel, object);
+            
             data.put(object);
         }
 
         return data;
+    }
+
+    private void populateChannelTypeAndRegion(final Channel channel, final JSONObject object) throws JSONException {
+        String type = channel.getType();
+        if (StringUtils.isEmpty(type)) {
+            type = DEFAULT_TYPE;
+            channel.setType(DEFAULT_TYPE);
+        }
+        object.put("channelType", type);
+
+        final Map<String, String> channelFieldValues = getChannelFieldValues(channel);
+
+        String channelIconUrl = getChannelTypeIconUrl(channelFieldValues);
+        if (StringUtils.isEmpty(channelIconUrl)) {
+            channelIconUrl = getIconResourceReferenceUrl(type+".png");
+        }
+        object.put("channelTypeImg", channelIconUrl);
+
+        if (StringUtils.isNotEmpty(channel.getRegion())) {
+            object.put("channelRegion", channel.getRegion());
+            String regionIconUrl = getChannelRegionIconUrl(channelFieldValues);
+            if (StringUtils.isEmpty(regionIconUrl)) {
+                regionIconUrl = getIconResourceReferenceUrl(channel.getRegion()+".png");
+            }
+            if (StringUtils.isNotEmpty(regionIconUrl)) {
+                object.put("channelRegionImg", regionIconUrl);
+            }
+        }
+    }
+
+    private Map<String, String> getChannelFieldValues(final Channel channel) {
+        final Map<String, String> channelFieldValues = new HashMap<String, String>();
+        for (Field field : channel.getClass().getDeclaredFields()) {
+            if (field.getType() != String.class) {
+                continue;
+            }
+            String fieldValue = ReflectionUtil.getStringValue(channel, field.getName());
+            channelFieldValues.put(field.getName(), fieldValue);
+        }
+        return channelFieldValues;
+    }
+
+    private String getChannelRegionIconUrl(final Map<String, String> channelFieldValues) {
+        MapVariableInterpolator mapVariableInterpolator = new MapVariableInterpolator(this.channelRegionIconPath, channelFieldValues);
+        return getChannelIconUrl(mapVariableInterpolator.toString());
+    }
+
+    private String getChannelTypeIconUrl(final Map<String, String> channelFieldValues) {
+        MapVariableInterpolator mapVariableInterpolator = new MapVariableInterpolator(this.channelTypeIconPath, channelFieldValues);
+        return getChannelIconUrl(mapVariableInterpolator.toString());
+    }
+
+    private String getChannelIconUrl(final String channelIconPath) {
+        if (StringUtils.isEmpty(channelIconPath)) {
+            return null;
+        }
+
+        Session session = ((UserSession) RequestCycle.get().getSession()).getJcrSession();
+        try {
+            if (session.nodeExists(channelIconPath)) {
+                String url = encodeUrl("binaries" + channelIconPath);
+                return RequestCycle.get().getResponse().encodeURL(url).toString();
+            }
+        } catch (RepositoryException repositoryException) {
+            log.error("Error getting the channel icon resource url.", repositoryException);
+        }
+
+        return null;
+    }
+
+    private final String encodeUrl(String path) {
+        String[] elements = StringUtils.split(path, '/');
+        for (int i = 0; i < elements.length; i++) {
+            elements[i] = WicketURLEncoder.PATH_INSTANCE.encode(elements[i], "UTF-8");
+        }
+        return StringUtils.join(elements, '/');
+    }
+
+    public String getChannelRegionIconPath() {
+        return channelRegionIconPath;
+    }
+
+    public void setChannelRegionIconPath(final String channelRegionIconPath) {
+        this.channelRegionIconPath = channelRegionIconPath;
+    }
+
+    public String getChannelTypeIconPath() {
+        return this.channelTypeIconPath;
+    }
+
+    public void setChannelTypeIconPath(final String channelTypeIconPath) {
+        this.channelTypeIconPath = channelTypeIconPath;
+    }
+
+    private String getIconResourceReferenceUrl(final String resource) {
+        RequestCycle requestCycle = RequestCycle.get();
+        ResourceReference iconResource = new ResourceReference(getClass(), resource);
+        iconResource.bind(requestCycle.getApplication());
+        CharSequence typeImgUrl = requestCycle.urlFor(iconResource);
+        return typeImgUrl.toString();
     }
 
     String getLocalizedFieldName(String fieldName) {
@@ -285,7 +398,7 @@ public class ChannelStore extends ExtGroupingStore<Object> {
     }
 
     private Subject createSubject() {
-        UserSession session = (UserSession) Session.get();
+        UserSession session = (UserSession) org.apache.wicket.Session.get();
 
         @SuppressWarnings("deprecation")
         Credentials credentials = session.getCredentials();
@@ -336,7 +449,7 @@ public class ChannelStore extends ExtGroupingStore<Object> {
         if (StringUtils.isEmpty(absPath)) {
             return null;
         }
-        javax.jcr.Session session = ((UserSession) Session.get()).getJcrSession();
+        javax.jcr.Session session = ((UserSession) org.apache.wicket.Session.get()).getJcrSession();
         try {
             if (!session.nodeExists(absPath)) {
                 return null;
