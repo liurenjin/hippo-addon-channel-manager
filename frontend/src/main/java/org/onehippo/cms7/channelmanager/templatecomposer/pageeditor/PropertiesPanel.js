@@ -201,13 +201,23 @@ Hippo.ChannelManager.TemplateComposer.PropertiesPanel = Ext.extend(Ext.FormPanel
                     }
 
                 } else {
-                    this.add({
+                    var value = property.get('value');
+                    var propertyFieldConfig = {
                         fieldLabel: property.get('label'),
                         xtype: property.get('type'),
-                        value: property.get('value'),
+                        value: value,
                         allowBlank: !property.get('required'),
                         name: property.get('name')
-                    });
+                    };
+                    if (property.get('type') === 'checkbox') {
+                        propertyFieldConfig.checked = (value === true || value === 'true');
+                        propertyFieldConfig.listeners = {
+                            check: function(checkbox, checked) {
+                                checkbox.setRawValue(checked);
+                            }
+                        }
+                    }
+                    this.add(propertyFieldConfig);
                 }
 
 
