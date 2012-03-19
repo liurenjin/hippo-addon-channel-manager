@@ -287,9 +287,25 @@
     padding-bottom: 1px;
     padding-right: 5px;
 }
+
+.channel-manager .collapse-group {
+    cursor: pointer;
+    padding-left: 20px;
+    height: 17px;
+}
+
+.channel-manager .collapse-group.expanded {
+    background: url(channels/triangle-expanded.png) no-repeat;
+    padding-top: 3px;
+    height: 17px;
+    display:block;
+}
+
 .channel-manager .collapse-group.collapsed {
     background: url(channels/triangle-collapsed.png) no-repeat;
-    padding-bottom: 2px;
+    padding-top: 3px;
+    height: 17px;
+    display: block;
 }
 
 .channel-manager .regionIcon {
@@ -306,10 +322,6 @@
     padding-top: 5px;
     padding-left: 5px;
 }
-
-opacity: 0.9;
-filter: alpha(opacity=90);
-    }
 
 .channel-manager .collapse-panel .x-panel-body {
     background-color: none;
@@ -373,19 +385,4 @@ filter: alpha(opacity=90);
 
 .channel-manager .x-slider-horz .x-slider-thumb {
     background-image: url(images/slider-thumb.png);
-}
-
-.channel-manager .collapse-group {
-    cursor: pointer;
-    padding-left: 17px;
-}
-
-.channel-manager .collapse-group.expanded {
-    background: url(channels/triangle-expanded.png) no-repeat;
-    padding-bottom: 2px;
-}
-
-.channel-manager .collapse-group.collapsed {
-    background: url(collapsed.png) no-repeat;
-    padding-bottom: 2px;
 }
