@@ -374,9 +374,13 @@ Hippo.ChannelManager.TemplateComposer.PageContainer = Ext.extend(Ext.util.Observ
             this.previewMode = this.pageContext.previewMode;
             this._complete();
         }, this);
-        this.pageContext.on('pageContextInitializationFailed', function() {
+        this.pageContext.on('pageContextInitializationFailed', function(reasonObject) {
             this.previewMode = this.pageContext.previewMode;
-            Hippo.Msg.alert(this.resources['page-context-initialization-failed-title'], this.resources['page-context-initialization-failed-message'], this);
+            console.error(this.resources['page-context-initialization-failed-message']);
+            console.error(reasonObject);
+            if (this._hasFocus()) {
+                Hippo.Msg.alert(this.resources['page-context-initialization-failed-title'], this.resources['page-context-initialization-failed-message'], this);
+            }
             this._fail();
         }, this);
         this.pageContext.initialize(frm, this.canEdit);
@@ -471,6 +475,18 @@ Hippo.ChannelManager.TemplateComposer.PageContainer = Ext.extend(Ext.util.Observ
         var index = store.findExact('id', Ext.fly(element).getAttribute(HST.ATTR.ID));
         this._removeByRecord(store.getAt(index))
     },
+
+    _hasFocus : function() {
+        var node = Ext.getCmp('Iframe').el.dom;
+        while (node) {
+            if (node.style.visibility === 'hidden' || node.style.display === 'none') {
+                return false;
+            }
+            node = node.parentNode;
+        }
+        return true;
+    },
+
 
     /**
      * It's not possible to register message:afterselect style listeners..
