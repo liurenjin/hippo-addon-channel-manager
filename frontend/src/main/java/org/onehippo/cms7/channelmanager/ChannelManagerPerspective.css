@@ -386,3 +386,7 @@
 .channel-manager .x-slider-horz .x-slider-thumb {
     background-image: url(images/slider-thumb.png);
 }
+
+.channel-manager #channel-grid-panel {
+    overflow: auto;
+}
