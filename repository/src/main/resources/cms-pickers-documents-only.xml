@@ -37,6 +37,9 @@
     <sv:property sv:name="model.document" sv:type="String">
       <sv:value>${wicket.model}</sv:value>
     </sv:property>
+    <sv:property sv:name="model.folder" sv:type="String">
+      <sv:value>${model.folder}</sv:value>
+    </sv:property>
     <sv:property sv:name="plugin.class" sv:type="String">
       <sv:value>org.hippoecm.frontend.plugins.cms.browse.Navigator</sv:value>
     </sv:property>
@@ -103,6 +106,9 @@
     </sv:property>
     <sv:property sv:name="wicket.id" sv:type="String">
       <sv:value>service.dialog.breadcrumb</sv:value>
+    </sv:property>
+    <sv:property sv:name="model.folder" sv:type="String">
+      <sv:value>${model.folder}</sv:value>
     </sv:property>
   </sv:node>
   <sv:node sv:name="documentsTreeLoader">
