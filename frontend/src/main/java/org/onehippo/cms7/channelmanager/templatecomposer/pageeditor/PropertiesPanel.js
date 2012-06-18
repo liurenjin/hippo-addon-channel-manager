@@ -54,10 +54,22 @@ Hippo.ChannelManager.TemplateComposer.PropertiesPanel = Ext.extend(Ext.FormPanel
 
     submitForm:function () {
         this.fireEvent('save');
+
+        var uncheckedValues = {};
+        var items = this.getForm().items;
+        items.each(function(item) {
+            if (item instanceof Ext.form.Checkbox) {
+                if (!item.checked) {
+                    uncheckedValues[item.name] = 'off';
+                }
+            }
+        });
+
         this.getForm().submit({
             headers: {
                     'FORCE_CLIENT_HOST': 'true'
             },
+            params: uncheckedValues,
             url: this.composerRestMountUrl +'/'+ this.id + './parameters?FORCE_CLIENT_HOST=true',
             method: 'POST' ,
             success: function () {
