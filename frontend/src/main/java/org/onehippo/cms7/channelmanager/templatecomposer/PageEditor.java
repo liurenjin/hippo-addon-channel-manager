@@ -98,7 +98,7 @@ public class PageEditor extends ExtPanel {
     private String cmsUser;
 
     @ExtProperty
-    private Boolean previewMode = true;
+    private Boolean previewMode = Boolean.TRUE;
 
     @ExtProperty
     private Long initialHstConnectionTimeout = DEFAULT_INITIAL_CONNECTION_TIMEOUT;
@@ -115,6 +115,9 @@ public class PageEditor extends ExtPanel {
     @ExtProperty
     private String channelId;
 
+    @ExtProperty
+    private Boolean initializeHstConfigEditorWithPreviewContext = Boolean.TRUE;
+
     public PageEditor(final IPluginContext context, final IPluginConfig config, final HstConfigEditor hstConfigEditor, final ExtStoreFuture<Object> channelStoreFuture) {
         this.context = context;
         this.channelStoreFuture = channelStoreFuture;
@@ -125,6 +128,9 @@ public class PageEditor extends ExtPanel {
             this.initialHstConnectionTimeout = config.getLong("initialHstConnectionTimeout", DEFAULT_INITIAL_CONNECTION_TIMEOUT);
             if (config.get("previewMode") != null) {
                 this.previewMode = config.getBoolean("previewMode");
+            }
+            if (config.containsKey("initializeHstConfigEditorWithPreviewContext")) {
+                this.initializeHstConfigEditorWithPreviewContext = config.getBoolean("initializeHstConfigEditorWithPreviewContext");
             }
         }
         this.debug = Application.get().getDebugSettings().isAjaxDebugModeEnabled();
