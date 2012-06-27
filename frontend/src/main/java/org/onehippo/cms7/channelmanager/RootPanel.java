@@ -19,6 +19,7 @@ import org.apache.wicket.RequestCycle;
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.model.Model;
 import org.hippoecm.frontend.PluginRequestTarget;
+import org.hippoecm.frontend.js.HippoFutureResourceBehavior;
 import org.hippoecm.frontend.plugin.IPluginContext;
 import org.hippoecm.frontend.plugin.config.IPluginConfig;
 import org.json.JSONException;
@@ -80,6 +81,7 @@ public class RootPanel extends ExtPanel {
     public RootPanel(final IPluginContext context, final IPluginConfig config, String id) {
         super(id);
 
+        add(new HippoFutureResourceBehavior());
         add(new ChannelManagerResourceBehaviour());
 
         final IPluginConfig channelListConfig = config.getPluginConfig(CONFIG_CHANNEL_LIST);
