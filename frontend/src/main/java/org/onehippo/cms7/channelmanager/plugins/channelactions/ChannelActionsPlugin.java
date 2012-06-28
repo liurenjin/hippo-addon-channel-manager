@@ -133,8 +133,10 @@ public class ChannelActionsPlugin extends CompatibilityWorkflowPlugin<Workflow> 
                 }
             });
         } catch (WebApplicationException e) {
+            final int statusCode = e.getResponse().getStatus();
             log.error("Could not initialize channel actions menu, REST proxy returned status code '{}'",
-                    e.getResponse().getStatus());
+                    statusCode + ((statusCode == 404) ? ". This might be due to the reason that the site is down. Pleas check with your system administrator." : ""));
+
             if (log.isDebugEnabled()) {
                 log.debug("REST proxy returned message: {}", e.getMessage());
             }
