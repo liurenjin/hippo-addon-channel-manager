@@ -80,7 +80,9 @@ public class ChannelStore extends ExtGroupingStore<Object> {
         mountPath,
         cmsPreviewPrefix,
         contextPath,
-        url
+        url,
+        lockedBy,
+        lockedOn
     }
     public static final List<String> ALL_FIELD_NAMES;
     public static final List<String> INTERNAL_FIELDS;
@@ -321,6 +323,24 @@ public class ChannelStore extends ExtGroupingStore<Object> {
         }
     }
 
+	public void update() {
+        int previous = getChannelsHash();
+        loadChannels();
+        if (getChannelsHash() != previous) {
+            reload();
+        }
+    }
+
+    private int getChannelsHash() {
+        int hashCode = 0;
+        if (channels != null) {
+            for (Channel channel : channels.values()) {
+                hashCode += channel.toString().hashCode();
+            }
+        }
+        return hashCode;
+    }
+
     public boolean canModifyChannels() {
         final ChannelManager channelManager = ChannelUtil.getChannelManager();
         if (channelManager == null) {
@@ -434,19 +454,24 @@ public class ChannelStore extends ExtGroupingStore<Object> {
     private Map<String, Channel> getChannels() {
         if (channels == null) {
             // reload channels
-            ChannelManager channelManager = ChannelUtil.getChannelManager();
-            if (channelManager == null) {
-                log.info("Cannot load the channel manager. No channels will be shown.");
-                return Collections.emptyMap();
-            }
+            loadChannels();
+        }
+        return channels;
+    }
+
+    private void loadChannels() {
+        ChannelManager channelManager = ChannelUtil.getChannelManager();
+        if (channelManager == null) {
+            log.info("Cannot load the channel manager. No channels will be shown.");
+            channels = Collections.emptyMap();
+        } else {
             try {
                 channels = channelManager.getChannels();
             } catch (ChannelException e) {
                 log.error("Failed to retrieve channels", e);
-                return Collections.emptyMap();
+                channels = Collections.emptyMap();
             }
         }
-        return channels;
     }
 
     private Locale getLocale(String absPath) {

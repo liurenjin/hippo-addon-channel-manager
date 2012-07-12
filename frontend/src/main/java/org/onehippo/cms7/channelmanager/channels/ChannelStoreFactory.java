@@ -21,13 +21,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hippoecm.frontend.model.event.IRefreshable;
 import org.hippoecm.frontend.plugin.IPluginContext;
 import org.hippoecm.frontend.plugin.config.IPluginConfig;
+import org.hippoecm.frontend.service.IRestProxyService;
 import org.hippoecm.frontend.translation.ILocaleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wicketstuff.js.ext.data.ExtField;
-
 
 public final class ChannelStoreFactory {
 
@@ -56,7 +57,7 @@ public final class ChannelStoreFactory {
         if (localeProvider == null) {
             throw new IllegalStateException("Cannot find locale provider service with ID '" + localeProviderServiceId + "'");
         }
-        ChannelStore channelStore = new ChannelStore("channel-store",
+        final ChannelStore channelStore = new ChannelStore("channel-store",
                 fieldList,
                 parseSortColumn(config, storeFieldNames),
                 parseSortOrder(config),
@@ -68,6 +69,13 @@ public final class ChannelStoreFactory {
         if (config.containsKey("channelTypeIconPath")) {
             channelStore.setChannelTypeIconPath(config.getString("channelTypeIconPath"));
         }
+
+        context.registerService(new IRefreshable() {
+            @Override
+            public void refresh() {
+                channelStore.update();
+            }
+        }, IRefreshable.class.getName());
 
         return channelStore;
     }

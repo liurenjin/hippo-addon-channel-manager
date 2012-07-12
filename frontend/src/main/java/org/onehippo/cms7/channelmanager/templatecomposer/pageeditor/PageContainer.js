@@ -125,6 +125,8 @@ Hippo.ChannelManager.TemplateComposer.PageContainer = Ext.extend(Ext.util.Observ
             return;
         }
 
+		this.previewMode = true;
+
         this._lock();
 
         var retry = this.initialHstConnectionTimeout;
@@ -215,7 +217,82 @@ Hippo.ChannelManager.TemplateComposer.PageContainer = Ext.extend(Ext.util.Observ
         iframe.getFrameDocument().location.reload(true);
     },
 
+    unlockMount: function () {
+        this._lock();
+        var self = this;
+        var mountId = this.pageContext.ids.mountId;
+        Hippo.Msg.confirm(self.resources['unlock-channel-title'], self.resources['unlock-channel-message'], function(btn, text) {
+            if (btn == 'yes') {
+                Ext.Ajax.request({
+                    method: 'POST',
+                    headers: {
+                        'FORCE_CLIENT_HOST': 'true'
+                    },
+                    url: self.composerRestMountUrl + '/' + mountId + './unlock?FORCE_CLIENT_HOST=true',
+                    success: function () {
+                        // reset pageContext, the page and toolkit stores must be reloaded
+                        self.pageContext = null;
+                        // refresh iframe to get new hst config uuids. previewMode=false will initialize
+                        // the editor for editing with the refresh
+                        self.refreshIframe.call(self, null);
+                    },
+                    failure: function(result) {
+                        var jsonData = Ext.util.JSON.decode(result.responseText);
+                        console.error('Unlocking failed ' + jsonData.message);
+                        Hippo.Msg.alert(self.resources['unlocking-failed-title'], self.resources['unlocking-failed-message'], function() {
+                        self.initComposer.call(self);
+                        });
+                    }
+                });
+            } else {
+                self.pageContext = null;
+                self.refreshIframe.call(self, null);
+            }
+        });
+    },
+
+    discardChanges : function () {
+        this._lock();
+        var self = this;
+
+        var mountId = this.pageContext.ids.mountId;
+        var hasPreviewHstConfig = this.pageContext.hasPreviewHstConfig;
+
+        if (hasPreviewHstConfig) {
+
+            Hippo.Msg.confirm(self.resources['discard-changes-title'], self.resources['discard-changes-message'], function(btn, text) {
+                if (btn == 'yes') {
+                    Ext.Ajax.request({
+                        method: 'POST',
+                        headers: {
+                            'FORCE_CLIENT_HOST': 'true'
+                        },
+                        url: self.composerRestMountUrl + '/' + mountId + './discard?FORCE_CLIENT_HOST=true',
+                        success: function () {
+                            // reset pageContext, the page and toolkit stores must be reloaded
+                            self.pageContext = null;
+                            // refresh iframe to get new hst config uuids. previewMode=false will initialize
+                            // the editor for editing with the refresh
+                            self.refreshIframe.call(self, null);
+                        },
+                        failure: function(result) {
+                            var jsonData = Ext.util.JSON.decode(result.responseText);
+                            console.error('Discarding changes failed ' + jsonData.message);
+                            Hippo.Msg.alert(self.resources['discard-changes-failed-title'], self.resources['discard-changes-failed-message'], function() {
+                            self.initComposer.call(self);
+                            });
+                        }
+                    });
+                } else {
+                    self.pageContext = null;
+                    self.refreshIframe.call(self, null);
+                }
+            });
+        }
+    },
+
     toggleMode: function () {
+        var self = this;
         this._lock();
 
         this.previewMode = !this.previewMode;
@@ -251,10 +328,16 @@ Hippo.ChannelManager.TemplateComposer.PageContainer = Ext.extend(Ext.util.Observ
                     },
                     failure: function(result) {
                         var jsonData = Ext.util.JSON.decode(result.responseText);
-                        console.error(self.resources['preview-hst-config-creation-failed'] + ' ' + jsonData.message);
-                        Hippo.Msg.alert(self.resources['preview-hst-config-creation-failed-title'], self.resources['preview-hst-config-creation-failed'], function() {
-                            self.initComposer.call(self);
-                        });
+                        if (jsonData.data == 'locked') {
+                            Hippo.Msg.alert(self.resources['mount-locked-title'], self.resources['mount-locked-message'], function() {
+                                self.initComposer.call(self, null);
+                            });
+                        } else {
+                            console.error(self.resources['preview-hst-config-creation-failed'] + ' ' + jsonData.message);
+                            Hippo.Msg.alert(self.resources['preview-hst-config-creation-failed-title'], self.resources['preview-hst-config-creation-failed'], function() {
+                                self.initComposer.call(self, null);
+                            });
+                        }
                     }
                 });
             }

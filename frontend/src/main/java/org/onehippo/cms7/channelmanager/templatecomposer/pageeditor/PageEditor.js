@@ -98,6 +98,8 @@ Hippo.ChannelManager.TemplateComposer.PageEditor = Ext.extend(Ext.Panel, {
             return;
         }
 
+		    this.toolbarButtons = this.getToolbarButtons();
+
         if (!this.pageContainer.previewMode) {
             if (this.propertiesWindow) {
                 this.propertiesWindow.destroy();
@@ -118,6 +120,18 @@ Hippo.ChannelManager.TemplateComposer.PageEditor = Ext.extend(Ext.Panel, {
                 listeners: {
                     click: {
                         fn : this.pageContainer.toggleMode,
+                        scope: this.pageContainer
+                    }
+                }
+            },
+            {
+                text: this.initialConfig.resources['discard-button'],
+                iconCls: 'discard-channel',
+                allowDepress: false,
+                width: 120,
+                listeners: {
+                    click: {
+                        fn : this.pageContainer.discardChanges,
                         scope: this.pageContainer
                     }
                 }
@@ -205,31 +219,12 @@ Hippo.ChannelManager.TemplateComposer.PageEditor = Ext.extend(Ext.Panel, {
             Ext.getCmp('previousLiveNotification').hide();
         } else {
             if (this.pageContainer.canEdit) {
-                toolbar.add({
-                    text: this.initialConfig.resources['edit-button'],
-                    iconCls: 'edit-channel',
-                    allowDepress: false,
-                    width: 120,
-                    listeners: {
-                        click: {
-                            fn : this.pageContainer.toggleMode,
-                            scope: this.pageContainer
-                        }
-                    }
-                },
-                {
-                    text: this.initialConfig.resources['publish-button'],
-                    iconCls: 'publish-channel',
-                    allowDepress: false,
-                    width: 120,
-                    hidden: !this.pageContainer.pageContext.hasPreviewHstConfig,
-                    listeners: {
-                        click: {
-                            fn : this.pageContainer.publishHstConfiguration,
-                            scope: this.pageContainer
-                        }
-                    }
-                });
+                toolbar.add(
+                    this.toolbarButtons['edit'],
+                    this.toolbarButtons['publish'],
+                    this.toolbarButtons['discard'],
+                    this.toolbarButtons['unlock'],
+                    this.toolbarButtons['label']);
             }
 
             if (this.propertiesWindow) {
@@ -378,6 +373,69 @@ Hippo.ChannelManager.TemplateComposer.PageEditor = Ext.extend(Ext.Panel, {
             this.pageContainer.previewMode = true;
             this.initComposer();
         }.createDelegate(this));
+    },
+
+	getToolbarButtons : function() {
+        var editButton = new Ext.Toolbar.Button({
+            text: this.initialConfig.resources['edit-button'],
+            iconCls: 'edit-channel',
+            allowDepress: false,
+            disabled: this.pageContainer.pageContext.locked,
+            width: 120,
+            listeners: {
+                click: {
+                    fn : this.pageContainer.toggleMode,
+                    scope: this.pageContainer
+                }
+            }
+        });
+        var publishButton = new Ext.Toolbar.Button({
+            text: this.initialConfig.resources['publish-button'],
+            iconCls: 'publish-channel',
+            allowDepress: false,
+            disabled: this.pageContainer.pageContext.locked,
+            width: 120,
+            hidden: !this.pageContainer.pageContext.hasPreviewHstConfig,
+            listeners: {
+                click: {
+                    fn : this.pageContainer.publishHstConfiguration,
+                    scope: this.pageContainer
+                }
+            }
+        });
+        var discardButton = new Ext.Toolbar.Button({
+            text: this.initialConfig.resources['discard-button'],
+            iconCls: 'discard-channel',
+            allowDespress: false,
+            disabled: this.pageContainer.pageContext.locked,
+            width: 120,
+            hidden: !this.pageContainer.pageContext.hasPreviewHstConfig,
+            listeners: {
+                click: {
+                    fn : this.pageContainer.discardChanges,
+                    scope: this.pageContainer
+                }
+            }
+        });
+        var unlockButton = new Ext.Toolbar.Button({
+            text: this.initialConfig.resources['unlock-button'],
+            iconCls: 'remove-lock',
+            allowDepress: false,
+            hidden: !this.pageContainer.pageContext.locked || !this.canUnlockChannels,
+            width: 120,
+            listeners: {
+                click: {
+                    fn : this.pageContainer.unlockMount,
+                    scope: this.pageContainer
+                }
+            }
+        });
+        var lockLabel = new Ext.Toolbar.TextItem({});
+        if (this.pageContainer.pageContext.locked) {
+            var lockedOn = new Date(this.pageContainer.pageContext.lockedOn).format(this.initialConfig.resources['mount-locked-format']);
+            lockLabel.setText(this.initialConfig.resources['mount-locked-toolbar'].format(this.pageContainer.pageContext.lockedBy, lockedOn));
+        }
+        return {'edit': editButton, 'publish': publishButton, 'discard': discardButton, 'unlock': unlockButton, 'label': lockLabel};
     }
 
 });
