@@ -230,10 +230,7 @@ Hippo.ChannelManager.TemplateComposer.PageContainer = Ext.extend(Ext.util.Observ
                     },
                     url: self.composerRestMountUrl + '/' + mountId + './unlock?FORCE_CLIENT_HOST=true',
                     success: function () {
-                        // reset pageContext, the page and toolkit stores must be reloaded
                         self.pageContext = null;
-                        // refresh iframe to get new hst config uuids. previewMode=false will initialize
-                        // the editor for editing with the refresh
                         self.refreshIframe.call(self, null);
                     },
                     failure: function(result) {
@@ -244,9 +241,6 @@ Hippo.ChannelManager.TemplateComposer.PageContainer = Ext.extend(Ext.util.Observ
                         });
                     }
                 });
-            } else {
-                self.pageContext = null;
-                self.refreshIframe.call(self, null);
             }
         });
     },
@@ -269,10 +263,7 @@ Hippo.ChannelManager.TemplateComposer.PageContainer = Ext.extend(Ext.util.Observ
                         },
                         url: self.composerRestMountUrl + '/' + mountId + './discard?FORCE_CLIENT_HOST=true',
                         success: function () {
-                            // reset pageContext, the page and toolkit stores must be reloaded
                             self.pageContext = null;
-                            // refresh iframe to get new hst config uuids. previewMode=false will initialize
-                            // the editor for editing with the refresh
                             self.refreshIframe.call(self, null);
                         },
                         failure: function(result) {
@@ -283,9 +274,6 @@ Hippo.ChannelManager.TemplateComposer.PageContainer = Ext.extend(Ext.util.Observ
                             });
                         }
                     });
-                } else {
-                    self.pageContext = null;
-                    self.refreshIframe.call(self, null);
                 }
             });
         }
