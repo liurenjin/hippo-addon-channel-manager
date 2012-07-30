@@ -172,20 +172,20 @@ Hippo.ChannelManager.TemplateComposer.PropertiesPanel = Ext.extend(Ext.FormPanel
             this.buttons[1].hide();
         } else {
             for (var i = 0; i < length; ++i) {
-                var property = records[i];
-                if (property.get('type') == 'combo') {
+                var record = records[i];
+                if ('documentcombobox' === record.get('type')) {
                     var comboStore = new Ext.data.JsonStore({
                         root: 'data',
-                        url: this.composerRestMountUrl +'/' + this.mountId + './documents/' + property.get('docType') + '?FORCE_CLIENT_HOST=true',
+                        url: this.composerRestMountUrl +'/' + this.mountId + './documents/' + record.get('docType') + '?FORCE_CLIENT_HOST=true',
                         fields:['path']
                     });
 
                     var field = this.add({
-                        fieldLabel: property.get('label'),
-                        xtype: property.get('type'),
-                        allowBlank: !property.get('required'),
-                        name: property.get('name'),
-                        value: property.get('value'),
+                        fieldLabel: record.get('label'),
+                        xtype: "combo",
+                        allowBlank: !record.get('required'),
+                        name: record.get('name'),
+                        value: record.get('value'),
                         store: comboStore,
                         forceSelection: true,
                         triggerAction: 'all',
@@ -193,7 +193,7 @@ Hippo.ChannelManager.TemplateComposer.PropertiesPanel = Ext.extend(Ext.FormPanel
                         valueField: 'path'
                     });
 
-                    if (property.get('allowCreation')) {
+                    if (record.get('allowCreation')) {
                         this.add({
                             bodyCfg: {
                                 tag: 'div',
@@ -206,22 +206,52 @@ Hippo.ChannelManager.TemplateComposer.PropertiesPanel = Ext.extend(Ext.FormPanel
 
                         this.doLayout(false, true); //Layout the form otherwise we can't use the link in the panel.
                         Ext.get("combo" + i).on("click", this.createDocument, this, 
-					    {      docType: property.get('docType'), 
-						    docLocation: property.get('docLocation'),
+					    {      docType: record.get('docType'),
+						    docLocation: record.get('docLocation'),
 						    comboId: field.id
 					     });
                     }
+                } else if ('combo' === record.get('type')) {
+                    var comboBoxValues = record.get(
+                        'dropDownListValues'
+                    );
+                    var comboBoxDisplayValues = record.get(
+                        'dropDownListDisplayValues'
+                    );
+                    var data = [];
+                    for (var dataIndex=0, comboBoxValuesLength=comboBoxValues.length; dataIndex<comboBoxValuesLength; dataIndex++) {
+                        data.push([comboBoxValues[dataIndex], comboBoxDisplayValues[dataIndex]]);
+                    }
 
+                    var dropDown = this.add({
+                        xtype: record.get('type'),
+                        fieldLabel : record.get('label'),
+                        store : new Ext.data.ArrayStore({
+                            fields: [
+                                'id',
+                                'displayText'
+                            ],
+                            data: data
+                        }),
+                        value : record.get('value'),
+                        hiddenName : record.get('name'),
+                        typeAhead: true,
+                        mode: 'local',
+                        triggerAction: 'all',
+                        selectOnFocus:true,
+                        valueField : 'id',
+                        displayField : 'displayText'
+                    });
                 } else {
-                    var value = property.get('value');
+                    var value = record.get('value');
                     var propertyFieldConfig = {
-                        fieldLabel: property.get('label'),
-                        xtype: property.get('type'),
+                        fieldLabel: record.get('label'),
+                        xtype: record.get('type'),
                         value: value,
-                        allowBlank: !property.get('required'),
-                        name: property.get('name')
+                        allowBlank: !record.get('required'),
+                        name: record.get('name')
                     };
-                    if (property.get('type') === 'checkbox') {
+                    if (record.get('type') === 'checkbox') {
                         propertyFieldConfig.checked = (value === true || value === 'true' || value == '1' || String(value).toLowerCase() == 'on');
                     }
                     this.add(propertyFieldConfig);
@@ -272,7 +302,7 @@ Hippo.ChannelManager.TemplateComposer.PropertiesPanel = Ext.extend(Ext.FormPanel
             autoLoad: true,
             method: 'GET',
             root: 'properties',
-            fields:['name', 'value', 'label', 'required', 'description', 'docType', 'type', 'docLocation', 'allowCreation' ],
+            fields:['name', 'value', 'label', 'required', 'description', 'docType', 'type', 'docLocation', 'allowCreation', 'dropDownListValues', 'dropDownListDisplayValues'],
             url: this.composerRestMountUrl +'/'+ this.id + './parameters/' + this.locale + '?FORCE_CLIENT_HOST=true'
         });
 
