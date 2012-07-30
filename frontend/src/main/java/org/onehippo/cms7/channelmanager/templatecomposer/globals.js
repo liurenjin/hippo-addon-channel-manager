@@ -25,15 +25,6 @@
         }
     })(this);
 
-    String.prototype.format = function() {
-        var formatted = this;
-        for (var i = 0; i < arguments.length; i++) {
-            var regexp = new RegExp('\\{' + i + '\\}', 'gi');
-            formatted = formatted.replace(regexp, arguments[i]);
-        }
-        return formatted;
-    };
-
     if (typeof JSON === 'undefined') {
         window.JSON = {
             stringify : function() {
@@ -44,25 +35,6 @@
             }
         }
     };
-
-    if (typeof window.console === 'undefined') {
-        window.console = {
-            log : function() {
-            },
-            dir : function() {
-            },
-            info : function() {
-            },
-            warn : function() {
-            },
-            error : function() {
-            },
-            group : function() {
-            },
-            groupEnd : function() {
-            }
-        };
-    }
 
     HST = {
         COMPONENT       : 'COMPONENT',
