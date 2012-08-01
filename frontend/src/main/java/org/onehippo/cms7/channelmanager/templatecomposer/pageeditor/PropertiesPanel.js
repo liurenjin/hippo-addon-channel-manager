@@ -253,7 +253,18 @@ Hippo.ChannelManager.TemplateComposer.PropertiesPanel = Ext.extend(Ext.FormPanel
                     };
                     if (record.get('type') === 'checkbox') {
                         propertyFieldConfig.checked = (value === true || value === 'true' || value == '1' || String(value).toLowerCase() == 'on');
+                    } else if (record.get('type') == 'linkpicker') {
+                        propertyFieldConfig.renderStripValue = /^\/?(?:[^\/]+\/)*/g;
+                        propertyFieldConfig.pickerConfig = {
+                            configuration: record.get('pickerConfiguration'),
+                            remembersLastVisited: record.get('pickerRemembersLastVisited'),
+                            initialPath: record.get('pickerInitialPath'),
+                            isRelativePath: record.get('pickerPathIsRelative'),
+                            rootPath: record.get('pickerRootPath'),
+                            selectableNodeTypes: record.get('pickerSelectableNodeTypes')
+                        }
                     }
+
                     this.add(propertyFieldConfig);
                 }
 
@@ -302,7 +313,8 @@ Hippo.ChannelManager.TemplateComposer.PropertiesPanel = Ext.extend(Ext.FormPanel
             autoLoad: true,
             method: 'GET',
             root: 'properties',
-            fields:['name', 'value', 'label', 'required', 'description', 'docType', 'type', 'docLocation', 'allowCreation', 'dropDownListValues', 'dropDownListDisplayValues'],
+            fields:['name', 'value', 'label', 'required', 'description', 'docType', 'type', 'docLocation', 'allowCreation', 'dropDownListValues', 'dropDownListDisplayValues',
+                'pickerConfiguration', 'pickerInitialPath', 'pickerRemembersLastVisited', 'pickerPathIsRelative', 'pickerRootPath', 'pickerSelectableNodeTypes'],
             url: this.composerRestMountUrl +'/'+ this.id + './parameters/' + this.locale + '?FORCE_CLIENT_HOST=true'
         });
 

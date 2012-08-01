@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="documents-only">
+<sv:node sv:name="documents-only" xmlns:sv="http://www.jcp.org/jcr/sv/1.0">
   <sv:property sv:name="jcr:primaryType" sv:type="Name">
     <sv:value>frontend:plugincluster</sv:value>
   </sv:property>
-  <sv:property sv:name="frontend:properties" sv:type="String" sv:multiple="true">
+  <sv:property sv:multiple="true" sv:name="frontend:properties" sv:type="String">
     <sv:value>nodetypes</sv:value>
-    <sv:value>root.path</sv:value>
   </sv:property>
-  <sv:property sv:name="frontend:services" sv:type="String" sv:multiple="true">
+  <sv:property sv:multiple="true" sv:name="frontend:services" sv:type="String">
     <sv:value>wicket.id</sv:value>
     <sv:value>wicket.model</sv:value>
     <sv:value>model.folder</sv:value>
-  </sv:property>
-  <sv:property sv:name="root.path" sv:type="String">
-    <sv:value>/content/documents</sv:value>
   </sv:property>
   <sv:node sv:name="navigator">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
@@ -55,13 +51,16 @@
     <sv:property sv:name="section.images" sv:type="String">
       <sv:value>service.dialog.tree.images</sv:value>
     </sv:property>
-    <sv:property sv:name="sections" sv:type="String" sv:multiple="true">
+    <sv:property sv:multiple="true" sv:name="sections" sv:type="String">
       <sv:value>section.documents</sv:value>
       <sv:value>section.images</sv:value>
       <sv:value>section.files</sv:value>
     </sv:property>
     <sv:property sv:name="wicket.extensions" sv:type="String">
       <sv:value>extension.breadcrumb</sv:value>
+    </sv:property>
+    <sv:property sv:name="wicket.id" sv:type="String">
+      <sv:value>${wicket.id}</sv:value>
     </sv:property>
     <sv:node sv:name="browser.options">
       <sv:property sv:name="jcr:primaryType" sv:type="Name">
@@ -93,10 +92,13 @@
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
       <sv:value>frontend:plugin</sv:value>
     </sv:property>
+    <sv:property sv:name="model.folder" sv:type="String">
+      <sv:value>${model.folder}</sv:value>
+    </sv:property>
     <sv:property sv:name="plugin.class" sv:type="String">
       <sv:value>org.hippoecm.frontend.plugins.standards.browse.BreadcrumbPlugin</sv:value>
     </sv:property>
-    <sv:property sv:name="root.paths" sv:type="String" sv:multiple="true">
+    <sv:property sv:multiple="true" sv:name="root.paths" sv:type="String">
       <sv:value>/content/documents</sv:value>
       <sv:value>/content/gallery</sv:value>
       <sv:value>/content/assets</sv:value>
@@ -106,9 +108,6 @@
     </sv:property>
     <sv:property sv:name="wicket.id" sv:type="String">
       <sv:value>service.dialog.breadcrumb</sv:value>
-    </sv:property>
-    <sv:property sv:name="model.folder" sv:type="String">
-      <sv:value>${model.folder}</sv:value>
     </sv:property>
   </sv:node>
   <sv:node sv:name="documentsTreeLoader">
@@ -127,6 +126,9 @@
       </sv:property>
       <sv:property sv:name="bind.to.layout.unit" sv:type="Boolean">
         <sv:value>false</sv:value>
+      </sv:property>
+      <sv:property sv:name="nodetypes" sv:type="String">
+        <sv:value>${nodetypes}</sv:value>
       </sv:property>
       <sv:property sv:name="use.width.from.classname" sv:type="String">
         <sv:value>hippo-picker-tree</sv:value>

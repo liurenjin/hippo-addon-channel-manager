@@ -60,6 +60,7 @@ import org.hippoecm.hst.security.HstSubject;
 import org.hippoecm.hst.site.HstServices;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.onehippo.cms7.channelmanager.model.AbsoluteRelativePathModel;
 import org.onehippo.cms7.channelmanager.model.UuidFromPathModel;
 import org.onehippo.cms7.channelmanager.widgets.DropDownListWidget;
 import org.onehippo.cms7.channelmanager.widgets.ImageSetPathWidget;
@@ -226,8 +227,10 @@ public class ChannelPropertiesWindow extends ExtFormPanel {
         JcrPath jcrPath = propDef.getAnnotation(JcrPath.class);
         if (jcrPath != null && propType.equals(HstValueType.STRING)) {
             IModel<String> delegate = new StringModel(channel.getProperties(), key);
-            IModel<String> model = new UuidFromPathModel(delegate);
-            return new JcrPathWidget(context, WICKET_ID_VALUE, jcrPath, model);
+            final IModel<String> absToRelModel = new AbsoluteRelativePathModel(delegate, delegate.getObject(),
+                    jcrPath.isRelative(), channel.getContentRoot());
+            final IModel<String> uuidFromPathModel = new UuidFromPathModel(absToRelModel);
+            return new JcrPathWidget(context, WICKET_ID_VALUE, jcrPath, channel.getContentRoot(), uuidFromPathModel);
         }
 
         // render a drop-down list?
