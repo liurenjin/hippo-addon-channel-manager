@@ -171,9 +171,9 @@ Hippo.ChannelManager.TemplateComposer.PropertiesPanel = Ext.extend(Ext.FormPanel
             this.buttons[0].hide();
             this.buttons[1].hide();
         } else {
-            for (var i = 0; i < length; ++i) {
+            for (var i = 0; i < length; i++) {
                 var record = records[i];
-                if ('documentcombobox' === record.get('type')) {
+                if (record.get('type') === 'documentcombobox') {
                     var comboStore = new Ext.data.JsonStore({
                         root: 'data',
                         url: this.composerRestMountUrl +'/' + this.mountId + './documents/' + record.get('docType') + '?FORCE_CLIENT_HOST=true',
@@ -211,7 +211,7 @@ Hippo.ChannelManager.TemplateComposer.PropertiesPanel = Ext.extend(Ext.FormPanel
 						    comboId: field.id
 					     });
                     }
-                } else if ('combo' === record.get('type')) {
+                } else if (record.get('type') === 'combo') {
                     var comboBoxValues = record.get(
                         'dropDownListValues'
                     );
