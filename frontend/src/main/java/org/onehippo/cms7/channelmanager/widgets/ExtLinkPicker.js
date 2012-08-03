@@ -143,10 +143,11 @@ Hippo.ChannelManager.ExtLinkPicker = Ext.extend(Ext.form.TwinTriggerField,  {
             tag: 'input',
             type: 'text',
             readonly: 'readonly',
-            class: 'x-form-text x-form-field',
             value: value,
             width: this.el.getWidth()
         }, true);
+        this.renderTextField.addClass('x-form-text');
+        this.renderTextField.addClass('x-form-field');
     }
 
 });
