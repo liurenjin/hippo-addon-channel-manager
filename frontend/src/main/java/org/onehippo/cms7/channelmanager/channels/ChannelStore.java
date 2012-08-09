@@ -210,7 +210,11 @@ public class ChannelStore extends ExtGroupingStore<Object> {
             String fieldValue = ReflectionUtil.getStringValue(channel, field.getName());
             channelFieldValues.put(field.getName(), fieldValue);
         }
-        channelFieldValues.put("locale", channel.getLocale().toLowerCase());
+
+        final String locale = channel.getLocale();
+        if (locale != null) {
+            channelFieldValues.put("locale", locale.toLowerCase());
+        }
         return channelFieldValues;
     }
 
