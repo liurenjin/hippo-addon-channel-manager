@@ -12,7 +12,7 @@ import org.hippoecm.hst.site.HstServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-final class ChannelUtil {
+public final class ChannelUtil {
 
     private static Logger log = LoggerFactory.getLogger(ChannelUtil.class);
 
@@ -24,7 +24,7 @@ final class ChannelUtil {
      * @return the Channel Manager, or <code><null/code> if the channel manager cannot be loaded or is unavailable
      * (e.g. when the site is down).
      */
-    static ChannelManager getChannelManager() {
+    public static ChannelManager getChannelManager() {
         ComponentManager componentManager = HstServices.getComponentManager();
         if (componentManager == null) {
             return null;
@@ -38,7 +38,7 @@ final class ChannelUtil {
      * @return the ChannelInfo class for the given channel, or <code>null</code> if the channel does not have a
      * custom ChannelInfo class or the channel manager could not be loaded (e.g. because the site is down).
      */
-    static Class<? extends ChannelInfo> getChannelInfoClass(Channel channel) {
+    public static Class<? extends ChannelInfo> getChannelInfoClass(Channel channel) {
         ChannelManager channelManager = getChannelManager();
         try {
             return channelManager == null ? null : getChannelManager().getChannelInfoClass(channel);
@@ -53,7 +53,7 @@ final class ChannelUtil {
      * @return the resource bundle for the given channel, or <code>null</code> if the channel does not have a resource
      * bundle or the channel manager could not be loaded (e.g. because the site is down).
      */
-    static ResourceBundle getResourceBundle(Channel channel) {
+    public static ResourceBundle getResourceBundle(Channel channel) {
         ChannelManager channelManager = getChannelManager();
         return channelManager == null ? null : channelManager.getResourceBundle(channel, Session.get().getLocale());
     }

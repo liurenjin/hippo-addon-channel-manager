@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.markup.html.CSSPackageResource;
+import org.apache.wicket.markup.html.panel.Fragment;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
@@ -32,6 +33,7 @@ import org.hippoecm.frontend.plugins.yui.layout.WireframeBehavior;
 import org.hippoecm.frontend.plugins.yui.layout.WireframeSettings;
 import org.hippoecm.frontend.service.IRenderService;
 import org.hippoecm.frontend.service.IconSize;
+import org.onehippo.cms7.channelmanager.channels.ChannelUtil;
 import org.onehippo.cms7.channelmanager.service.IChannelManagerService;
 import org.onehippo.cms7.channelmanager.templatecomposer.PageEditor;
 
@@ -39,6 +41,7 @@ public class ChannelManagerPerspective extends Perspective implements IChannelMa
 
     private RootPanel rootPanel;
     private List<IRenderService> childservices = new LinkedList<IRenderService>();
+    private final boolean isSiteDown;
 
     public ChannelManagerPerspective(final IPluginContext context, final IPluginConfig config) {
         super(context, config);
@@ -50,9 +53,18 @@ public class ChannelManagerPerspective extends Perspective implements IChannelMa
         }
 
         add(CSSPackageResource.getHeaderContribution(ChannelManagerPerspective.class, "ChannelManagerPerspective.css"));
-
-        rootPanel = new RootPanel(context, config, "channel-root");
-        add(rootPanel);
+        // Check whether the site is down
+        isSiteDown = ChannelUtil.getChannelManager() == null;
+        if (isSiteDown) {
+            final Fragment dimmedRootPanelFragment= new Fragment("channel-root", "dimmed-root-panel", this);
+            dimmedRootPanelFragment.add(new DimmedRootPanel("dimmed-root-panel-div"));
+            add(dimmedRootPanelFragment);
+        } else {
+            rootPanel = new RootPanel(context, config, "root-panel-div");
+            final Fragment rootPanelFragment = new Fragment("channel-root", "root-panel", this);
+            rootPanelFragment.add(rootPanel);
+            add(rootPanelFragment);
+        }
 
         final String channelManagerServiceId = config.getString("channel.manager.service.id", IChannelManagerService.class.getName());
         context.registerService(this, channelManagerServiceId);
@@ -65,15 +77,21 @@ public class ChannelManagerPerspective extends Perspective implements IChannelMa
 
     @Override
     public ResourceReference getIcon(IconSize type) {
-        return new ResourceReference(ChannelManagerPerspective.class, "channel-manager-" + type.getSize() + ".png");
+        if (isSiteDown) {
+            return new ResourceReference(ChannelManagerPerspective.class, "channel-manager-dimmed-" + type.getSize() + ".png");
+        } else {
+            return new ResourceReference(ChannelManagerPerspective.class, "channel-manager-" + type.getSize() + ".png");
+        }
     }
 
     @Override
     public void render(final PluginRequestTarget target) {
         super.render(target);
-        rootPanel.render(target);
-        for (IRenderService child : childservices) {
-            child.render(target);
+        if (!isSiteDown) {
+            rootPanel.render(target);
+            for (IRenderService child : childservices) {
+                child.render(target);
+            }
         }
     }
 
@@ -87,15 +105,17 @@ public class ChannelManagerPerspective extends Perspective implements IChannelMa
 
     @Override
     public void viewChannel(final String channelId, String pathInfo, String contextPath, String cmsPreviewPrefix, String templateComposerContextPath) {
-        PageEditor pageEditor = rootPanel.getPageEditor();
-        pageEditor.setChannel(channelId);
-        pageEditor.setRenderPathInfo(pathInfo);
-        pageEditor.setRenderContextPath(contextPath);
-        pageEditor.setCmsPreviewPrefix(cmsPreviewPrefix);
-        pageEditor.setTemplateComposerContextPath(templateComposerContextPath);
-        pageEditor.setPreviewMode(true);
-        rootPanel.setActiveCard(RootPanel.CardId.TEMPLATE_COMPOSER);
-        focus(null);
+        if (!isSiteDown) {
+            PageEditor pageEditor = rootPanel.getPageEditor();
+            pageEditor.setChannel(channelId);
+            pageEditor.setRenderPathInfo(pathInfo);
+            pageEditor.setRenderContextPath(contextPath);
+            pageEditor.setCmsPreviewPrefix(cmsPreviewPrefix);
+            pageEditor.setTemplateComposerContextPath(templateComposerContextPath);
+            pageEditor.setPreviewMode(true);
+            rootPanel.setActiveCard(RootPanel.CardId.TEMPLATE_COMPOSER);
+            focus(null);
+        }
     }
 
 }
