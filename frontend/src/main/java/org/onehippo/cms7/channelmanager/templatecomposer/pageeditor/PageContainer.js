@@ -119,9 +119,10 @@ Hippo.ChannelManager.TemplateComposer.PageContainer = Ext.extend(Ext.util.Observ
 
     initComposer : function() {
         if (typeof this.contextPath === 'undefined'
-                || this.contextPath.trim() === ''
                 || typeof this.renderHost === 'undefined'
                 || this.renderHost.trim() === '') {
+            console.error(this.resources['error-init-composer']);
+            this.fireEvent('fatalIFrameException', { msg : this.resources['error-init-composer'] });
             return;
         }
 
