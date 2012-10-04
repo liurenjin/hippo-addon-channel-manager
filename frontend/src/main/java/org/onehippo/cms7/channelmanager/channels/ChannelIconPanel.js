@@ -72,7 +72,7 @@ Hippo.ChannelManager.ChannelIconDataView = Ext.extend(Ext.DataView, {
     },
 
     collectData : function(records, startIndex) {
-        var groups = [];
+        var groups = {};
 
         for (var i= 0, len=records.length; i < len; i++) {
             var data = this.prepareData(records[i].json, startIndex + i, records[i]);
@@ -99,17 +99,13 @@ Hippo.ChannelManager.ChannelIconDataView = Ext.extend(Ext.DataView, {
 
         // create non associative array
         var dataObject = [];
-        for (var key in groups) {
-            if (typeof groups[key] === 'function') {
-                continue;
-            }
 
-            groups[key].channels.sort(function(channel1, channel2) {
+        Ext.iterate(groups, function(groupId, group) {
+            group.channels.sort(function(channel1, channel2) {
                 return channel1.name > channel2.name;
             });
-
-            dataObject.push(groups[key]);
-        }
+            dataObject.push(group);
+        }, this);
 
         dataObject.sort(function(group1, group2) {
             return group1.name > group2.name;

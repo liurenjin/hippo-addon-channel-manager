@@ -175,10 +175,6 @@ public class ChannelStore extends ExtGroupingStore<Object> {
 
     private void populateChannelTypeAndRegion(final Channel channel, final JSONObject object) throws JSONException {
         String type = channel.getType();
-        if (StringUtils.isEmpty(type)) {
-            type = DEFAULT_TYPE;
-            channel.setType(DEFAULT_TYPE);
-        }
         object.put("channelType", type);
 
         final Map<String, String> channelFieldValues = getChannelFieldValues(channel);
@@ -470,7 +466,18 @@ public class ChannelStore extends ExtGroupingStore<Object> {
             channels = Collections.emptyMap();
         } else {
             try {
-                channels = channelManager.getChannels();
+                channels = new HashMap<String, Channel>();
+                for (Channel channel : channelManager.getChannels().values()) {
+                    // create a copy so we do not modify the global list of channels
+                    Channel copy = new Channel(channel);
+
+                    // use the default type when none is set
+                    if (StringUtils.isEmpty(copy.getType())) {
+                        copy.setType(DEFAULT_TYPE);
+                    }
+
+                    channels.put(copy.getId(), copy);
+                }
             } catch (ChannelException e) {
                 log.error("Failed to retrieve channels", e);
                 channels = Collections.emptyMap();
