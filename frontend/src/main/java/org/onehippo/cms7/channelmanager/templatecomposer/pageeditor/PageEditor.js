@@ -31,6 +31,8 @@ Hippo.ChannelManager.TemplateComposer.PageEditor = Ext.extend(Ext.Panel, {
 
         this.composerRestMountUrl = config.templateComposerContextPath + config.composerRestMountPath;
         this.pageContainer = new Hippo.ChannelManager.TemplateComposer.PageContainer(config);
+        this.perspectiveActive = false;
+        this.refreshIframeWhenPerspectiveActive = false;
 
         this.initUI(config);
 
@@ -263,6 +265,22 @@ Hippo.ChannelManager.TemplateComposer.PageEditor = Ext.extend(Ext.Panel, {
                 // The height of the yui layout div also includes the space for the toolbar, so subtract that.
                 Ext.getCmp('Iframe').setSize(arguments[0].body.w - 2, arguments[0].body.h - this.TOOLBAR_HEIGHT);
             }, true);
+
+            var perspectiveElement = this.el.findParent(".perspective");
+            if (perspectiveElement) {
+                var tabSelected = function(event) {
+                    this.perspectiveActive = event.active;
+                    if (event.active) {
+                        this.refreshIframe();
+                    }
+                }.createDelegate(this);
+
+                if (perspectiveElement.addEventListener) {
+                    perspectiveElement.addEventListener("readystatechange", tabSelected);
+                } else if (perspectiveElement.attachEvent) {
+                    perspectiveElement.attachEvent('onreadystatechange', tabSelected);
+                }
+            }
         }, this, {single: true});
 
         this.on('lock', function() {
@@ -352,7 +370,12 @@ Hippo.ChannelManager.TemplateComposer.PageEditor = Ext.extend(Ext.Panel, {
     },
 
     refreshIframe: function() {
-        this.pageContainer.refreshIframe.call(this.pageContainer);
+        if (this.perspectiveActive) {
+            this.refreshIframeWhenPerspectiveActive = false;
+            this.pageContainer.refreshIframe.call(this.pageContainer);
+        } else {
+            this.refreshIframeWhenPerspectiveActive = true;
+        }
     },
 
     initComposer: function() {
