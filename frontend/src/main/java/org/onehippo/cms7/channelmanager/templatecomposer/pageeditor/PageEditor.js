@@ -32,7 +32,6 @@ Hippo.ChannelManager.TemplateComposer.PageEditor = Ext.extend(Ext.Panel, {
         this.composerRestMountUrl = config.templateComposerContextPath + config.composerRestMountPath;
         this.pageContainer = new Hippo.ChannelManager.TemplateComposer.PageContainer(config);
         this.perspectiveActive = false;
-        this.refreshIframeWhenPerspectiveActive = false;
 
         this.initUI(config);
 
@@ -371,10 +370,7 @@ Hippo.ChannelManager.TemplateComposer.PageEditor = Ext.extend(Ext.Panel, {
 
     refreshIframe: function() {
         if (this.perspectiveActive) {
-            this.refreshIframeWhenPerspectiveActive = false;
             this.pageContainer.refreshIframe.call(this.pageContainer);
-        } else {
-            this.refreshIframeWhenPerspectiveActive = true;
         }
     },
 
