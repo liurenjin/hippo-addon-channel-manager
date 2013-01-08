@@ -18,6 +18,7 @@
 
     var jQuery = $;
     $.namespace('Hippo.ChannelManager.TemplateComposer.IFrame.UI');
+    $.namespace('Hippo.ChannelManager.TemplateComposer.IFrame.PageHostMessageHandler');
 
     var Main = Hippo.ChannelManager.TemplateComposer.IFrame.Main;
     var Factory = Hippo.ChannelManager.TemplateComposer.IFrame.UI.Factory;
@@ -38,13 +39,31 @@
             this.preview = data.previewMode;
             this.resources = data.resources;
 
-            onhostmessage(function(msg) {
+            var pageOnHostMessage = function() {
+                var func = arguments[0];
+                var scope = arguments[1];
+                var single = arguments[2];
+                var msg = arguments[3];
+
+                onhostmessage(function() {
+                    if (typeof Hippo.ChannelManager.TemplateComposer.IFrame.PageHostMessageHandler['pre'+msg] === 'function') {
+                        Hippo.ChannelManager.TemplateComposer.IFrame.PageHostMessageHandler['pre'+msg]();
+                    }
+                    var value = func.apply(scope, arguments);
+                    if (typeof Hippo.ChannelManager.TemplateComposer.IFrame.PageHostMessageHandler['post'+msg] === 'function') {
+                        Hippo.ChannelManager.TemplateComposer.IFrame.PageHostMessageHandler['post'+msg](value);
+                    }
+                    return value;
+                }, scope, single, msg);
+            };
+
+            pageOnHostMessage(function(msg) {
                 var facade = msg.data;
                 this.createContainers(facade);
                 return false;
             }, this, false, 'buildoverlay');
 
-            onhostmessage(function(msg) {
+            pageOnHostMessage(function(msg) {
                 this.getOverlay().show();
                 $('.empty-container-placeholder').show();
                 this.requestSync();
@@ -52,7 +71,7 @@
                 return false;
             }, this, false, 'showoverlay');
 
-            onhostmessage(function(msg) {
+            pageOnHostMessage(function(msg) {
                 this.getOverlay().hide();
                 $('.empty-container-placeholder').hide();
                 return false;
@@ -80,7 +99,7 @@
                 return false;
             }, this, false, 'unhighlight');
 
-            onhostmessage(function(msg) {
+            pageOnHostMessage(function(msg) {
                 this.requestSync();
                 this.sync();
                 return false;
