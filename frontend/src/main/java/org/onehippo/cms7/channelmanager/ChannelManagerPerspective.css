@@ -389,3 +389,12 @@
 .channel-manager #channel-grid-panel {
     overflow: auto;
 }
+
+#x-form-el-contentRoot .x-form-field-wrap {
+    display: inline;
+}
+
+#x-form-el-contentRoot .x-form-text {
+    width: 425px !important;
+}
+
