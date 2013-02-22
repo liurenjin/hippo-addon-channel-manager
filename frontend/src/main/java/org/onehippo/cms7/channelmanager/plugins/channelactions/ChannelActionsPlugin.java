@@ -106,12 +106,14 @@ public class ChannelActionsPlugin extends CompatibilityWorkflowPlugin<Workflow> 
         }
 
         try {
-            final List<ChannelDocument> channelDocuments = documentService.getChannels(documentUuid);
-            Collections.sort(channelDocuments, getChannelDocumentComparator());
-
             final Map<String, ChannelDocument> idToChannelMap = new LinkedHashMap<String, ChannelDocument>();
-            for (ChannelDocument channelDocument : channelDocuments) {
-                idToChannelMap.put(channelDocument.getChannelId(), channelDocument);
+
+            final List<ChannelDocument> channelDocuments = documentService.getChannels(documentUuid);
+            if (channelDocuments != null) {
+                Collections.sort(channelDocuments, getChannelDocumentComparator());
+                for (final ChannelDocument channelDocument : channelDocuments) {
+                    idToChannelMap.put(channelDocument.getChannelId(), channelDocument);
+                }
             }
 
             add(new ListView<String>("channels", new LoadableDetachableModel<List<String>>() {
