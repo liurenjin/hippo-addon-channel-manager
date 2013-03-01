@@ -79,8 +79,6 @@ public class PageEditor extends ExtPanel {
     // default initial connection timeout in milliseconds
     private static final long DEFAULT_INITIAL_CONNECTION_TIMEOUT = 60000L;
 
-    private static final String SELECT_ADMIN_GROUPS_QUERY = "SELECT * FROM hipposys:group WHERE jcr:primaryType='hipposys:group' AND fn:name() = 'admin' AND hipposys:members='{}'";
-
     @ExtProperty
     private Boolean debug = false;
 
@@ -146,21 +144,21 @@ public class PageEditor extends ExtPanel {
             if (config.containsKey("initializeHstConfigEditorWithPreviewContext")) {
                 this.initializeHstConfigEditorWithPreviewContext = config.getBoolean("initializeHstConfigEditorWithPreviewContext");
             }
+        }
 
-            // Check whether user can unlock channels or not
-            try {
-                final String unlocckChannelPrivilege = config.getString("channel.unlock.privileges", "hippo:admin");
-                final String unlocckChannelPathToCheck = config.getString("channel.unlock.privileges.path", "/hst:hst/hst:channels");
-                UserSession.get().getJcrSession().checkPermission(unlocckChannelPathToCheck, unlocckChannelPrivilege);
-                this.canUnlockChannels = true;
-            } catch(AccessControlException ex) {
-                log.info("User '{}' is not allowed to unlock channels.", this.cmsUser);
-            } catch (RepositoryException ex) {
-                if (log.isDebugEnabled()) {
-                    log.warn("Problems while checking if user '" + this.cmsUser + "' can unlock channels or not", ex);
-                } else {
-                    log.warn("Problems while checking if user '{}' can unlock channels or not. {}", this.cmsUser, ex);
-                }
+        // Check whether user can unlock channels or not
+        try {
+            final String unlocckChannelPrivilege = (config == null) ? "hippo:admin" : config.getString("channel.unlock.privileges", "hippo:admin");
+            final String unlocckChannelPathToCheck = (config == null) ? "/hst:hst/hst:channels" : config.getString("channel.unlock.privileges.path", "/hst:hst/hst:channels");
+            UserSession.get().getJcrSession().checkPermission(unlocckChannelPathToCheck, unlocckChannelPrivilege);
+            this.canUnlockChannels = true;
+        } catch(AccessControlException ex) {
+            log.info("User '{}' is not allowed to unlock channels.", this.cmsUser);
+        } catch (RepositoryException ex) {
+            if (log.isDebugEnabled()) {
+                log.warn("Problems while checking if user '" + this.cmsUser + "' can unlock channels or not", ex);
+            } else {
+                log.warn("Problems while checking if user '{}' can unlock channels or not. {}", this.cmsUser, ex);
             }
         }
 
