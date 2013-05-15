@@ -70,10 +70,6 @@
         constructor: function(config) {
             Hippo.ChannelManager.TemplateComposer.API.superclass.constructor.call(this, config);
             this.pageContainer = config.pageContainer;
-        },
-
-        initComponent: function() {
-            Hippo.ChannelManager.TemplateComposer.API.superclass.initComponent.apply(this, arguments);
             this.addEvents('variantselected');
         },
 
@@ -83,6 +79,10 @@
 
         refreshIFrame: function() {
             this.pageContainer.refreshIframe();
+        },
+
+        isPreviewMode: function() {
+            return this.pageContainer.previewMode;
         }
 
     });
@@ -463,7 +463,8 @@
                         console.log("Adding " + mode + " toolbar plugin '" + plugin.xtype + "' " + plugin.positions[mode]);
                         pluginInstance = Hippo.ExtWidgets.create(plugin.xtype, {
                             templateComposer: this.templateComposerApi,
-                            toolbarMode: mode
+                            toolbarMode: mode,
+                            channel: this.channel
                         });
                         toolbar.insert(insertIndex, pluginInstance);
                     }
@@ -509,7 +510,7 @@
         },
 
         enableUI: function(pageContext) {
-            var hostToIFrame, toolkitGrid;
+            var hostToIFrame, toolkitGrid, toolbar;
 
             hostToIFrame = Hippo.ChannelManager.TemplateComposer.IFramePanel.Instance.hostToIFrame;
 
@@ -565,7 +566,11 @@
                 Ext.getCmp('icon-toolbar-window').hide();
             }
 
-            Ext.getCmp('pageEditorToolbar').doLayout();
+            toolbar = Ext.getCmp('pageEditorToolbar');
+            toolbar.on('afterrender', function() {
+                Hippo.ChannelManager.TemplateComposer.IFramePanel.Instance.show();
+            });
+            toolbar.doLayout();
         },
 
         disableUI: function() {
@@ -786,14 +791,34 @@
                 this.channelId = data.channelId || this.channelId;
                 var record = config.store.getById(this.channelId);
                 this.title = record.get('name');
+                this.channel = record.data;
                 this.hstMountPoint = record.get('hstMountPoint');
                 this.hstPreviewMountPoint = record.get('hstPreviewMountPoint');
                 this.pageContainer.contextPath = record.get('contextPath') || data.contextPath || this.contextPath;
                 this.pageContainer.cmsPreviewPrefix = record.get('cmsPreviewPrefix') || data.cmsPreviewPrefix || this.cmsPreviewPrefix;
                 this.pageContainer.renderPathInfo = data.renderPathInfo || this.renderPathInfo || record.get('mountPath');
                 this.pageContainer.renderHost = record.get('hostname');
+                Hippo.ChannelManager.TemplateComposer.IFramePanel.Instance.hide();
                 this.initComposer();
             }.createDelegate(this));
+        },
+
+        mask: function() {
+            var iframe = Hippo.ChannelManager.TemplateComposer.IFramePanel.Instance;
+            if (iframe.isVisible()) {
+                iframe.mask();
+            } else {
+                this.body.addClass(['channel-manager-mask', 'ext-el-mask']);
+            }
+        },
+
+        unmask: function() {
+            var iframe = Hippo.ChannelManager.TemplateComposer.IFramePanel.Instance;
+            if (iframe.isVisible()) {
+                iframe.unmask();
+            } else {
+                this.body.removeClass(['channel-manager-mask', 'ext-el-mask']);
+            }
         },
 
         selectVariant: function(id, variant) {

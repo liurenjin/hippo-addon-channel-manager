@@ -35,8 +35,8 @@
     <!-- use root project name for all project modules NOTICE files, should be the same as in the root NOTICE file -->
     <notice.project.name>Hippo Addon Channel Manager</notice.project.name>
 
-    <hippo.cms.version>2.24.01</hippo.cms.version>
-    <hippo.hst.version>2.26.01</hippo.hst.version>
+    <hippo.cms.version>2.24.03-SNAPSHOT</hippo.cms.version>
+    <hippo.hst.version>2.26.03-SNAPSHOT</hippo.hst.version>
     <hippo.repository.version>2.24.02</hippo.repository.version>
     <hippo.addon-hst-configuration-editor.version>1.11.01</hippo.addon-hst-configuration-editor.version>
     <commons-lang.version>2.1</commons-lang.version>
@@ -184,6 +184,7 @@
                 <!-- 3rd-party licenses -->
                 <exclude>frontend/src/main/java/org/onehippo/cms7/channelmanager/templatecomposer/plugins/colorfield/*</exclude>
                 <exclude>frontend/src/main/java/org/onehippo/cms7/channelmanager/templatecomposer/plugins/vtabs/*</exclude>
+                <exclude>frontend/src/main/java/org/onehippo/cms7/channelmanager/templatecomposer/deviceskins/devices/device-skins.txt</exclude>
                 <!-- repository content XML -->
                 <exclude>repository/src/main/resources/**/*.xml</exclude>
               </excludes>

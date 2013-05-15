@@ -257,6 +257,13 @@
     margin: 0 0 5px;
 }
 
+.channel-manager-mask {
+    background: url(loading.gif) no-repeat center;
+    -moz-opacity: 1;
+    opacity: 1;
+    filter: none;
+}
+
 #Iframe .ext-el-mask {
     background: url(loading.gif) no-repeat center;
     -moz-opacity: 0.9;

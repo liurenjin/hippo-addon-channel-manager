@@ -101,6 +101,7 @@
 
                 Hippo.ChannelManager.TemplateComposer.IFramePanel.superclass.constructor.call(this, Ext.apply(config, {
                     border: false,
+                    hidden: true,
                     layout: 'fit',
                     items: {
                         xtype: 'box',
@@ -133,6 +134,10 @@
 
             getElement: function(id) {
                 return getFrameDocument().getElementById(id);
+            },
+
+            getFrameElement: function() {
+                return Ext.getCmp(frameId).el;
             },
 
             reload: function() {
