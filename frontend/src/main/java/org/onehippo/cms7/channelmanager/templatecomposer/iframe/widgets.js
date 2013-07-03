@@ -54,7 +54,8 @@
                 overlay : {
                     base: 'hst-overlay',
                     hover : 'hst-overlay-hover',
-                    inherited : 'hst-overlay-inherited',
+                    disabled : 'hst-overlay-disabled',
+                    locked : 'hst-overlay-locked',
                     inner: 'hst-overlay-inner',
                     mark : null,
                     custom : null
@@ -83,7 +84,7 @@
         },
 
         render : function(parent) {
-            var parentOverlay, overlay, self = this;
+            var parentOverlay, overlay, self = this, formattedDate;
             if (this.rendered) {
                 return;
             }
@@ -97,9 +98,24 @@
             if (this.cls.overlay.custom !== null) {
                 overlay.addClass(this.cls.overlay.custom);
             }
-            if (this.el.attr(HST.ATTR.INHERITED)) {
-                overlay.addClass(this.cls.overlay.inherited);
+            if (this.el.attr(HST.ATTR.HST_CONTAINER_DISABLED) === "true") {
+                 overlay.addClass(this.cls.overlay.disabled);
+                if (this.el.attr(HST.ATTR.TYPE) === HST.CONTAINER) {
+                    if (this.el.attr(HST.ATTR.HST_CONTAINER_COMPONENT_LOCKED_BY) &&
+                           (this.el.attr(HST.ATTR.HST_CONTAINER_COMPONENT_LOCKED_BY_CURRENT_USER) === "false")) {
+                       overlay.addClass(this.cls.overlay.locked);
+                        if (this.el.attr(HST.ATTR.HST_CONTAINER_COMPONENT_LOCKED_ON)) {
+                            formattedDate = new Date(parseInt(this.el.attr(HST.ATTR.HST_CONTAINER_COMPONENT_LOCKED_ON), 10));
+                        }
+                        if (formattedDate) {
+                            overlay.attr("title", "Locked by  '" + this.el.attr(HST.ATTR.HST_CONTAINER_COMPONENT_LOCKED_BY) + "' on " + formattedDate);
+                        } else {
+                            overlay.attr("title", "Locked by  '" + this.el.attr(HST.ATTR.HST_CONTAINER_COMPONENT_LOCKED_BY));
+                        }
+                    }
+                }
             }
+
             overlay.css('position', 'absolute');
             overlay.attr(HST.ATTR.ID, this.id);
             overlay.attr('id', this.overlayId);
@@ -233,6 +249,7 @@
             this.cls.emptyContainer = 'hst-empty-container';
             this.cls.emptyItem      = 'hst-empty-container-item';
             this.cls.overlay.item   = 'hst-overlay-container-item';
+            this.cls.locked         = 'hst-container-locked';
 
             this.sel.container      = this.sel.self;
             this.sel.itemWrapper    = this.sel.self + ' .' + this.cls.item;
@@ -333,7 +350,7 @@
 
         _createSortable : function() {
             //instantiate jquery.UI sortable
-            if (this.el.attr(HST.ATTR.INHERITED)) {
+            if (this.el.attr(HST.ATTR.HST_CONTAINER_DISABLED) === "true") {
                 return;
             }
             $(this.sel.sortable).sortable({
@@ -455,16 +472,16 @@
         },
 
         highlight : function() {
-            if (this.el.attr(HST.ATTR.INHERITED)) {
-                this.overlay.removeClass(this.cls.overlay.inherited);
+            if (this.el.attr(HST.ATTR.HST_CONTAINER_DISABLED)) {
+                this.overlay.removeClass(this.cls.overlay.disabled);
             } else {
                 this.overlay.addClass(this.cls.highlight);
             }
         },
 
         unhighlight : function() {
-            if (this.el.attr(HST.ATTR.INHERITED)) {
-                this.overlay.addClass(this.cls.overlay.inherited);
+            if (this.el.attr(HST.ATTR.HST_CONTAINER_DISABLED)) {
+                this.overlay.addClass(this.cls.overlay.disabled);
             } else {
                 this.overlay.removeClass(this.cls.highlight);
             }
@@ -727,7 +744,7 @@
             this.menu = $('<div/>').addClass('hst-overlay-menu');
 
             element = this.element;
-            if (!this.el.attr(HST.ATTR.INHERITED)) {
+            if (!this.el.attr(HST.ATTR.HST_CONTAINER_DISABLED)) {
                 deleteButton = $('<div/>').addClass('hst-overlay-menu-button');
                 deleteButton.click(function(e) {
                     e.stopPropagation();
@@ -735,7 +752,6 @@
                 });
                 this.menu.append(deleteButton);
             }
-          
             this.overlay.append(this.menu);
          },
 
@@ -790,17 +806,17 @@
         },
 
         onClick : function() {
-            var id, variant, inherited;
+            var id, variant, containerDisabled;
             if (this.isTemporary) {
                 iframeToHost.publish('refresh');
             } else {
                 id = this.element.getAttribute('id');
                 variant = this.el.attr(HST.ATTR.VARIANT);
-                inherited = Hippo.Util.getBoolean(this.el.attr(HST.ATTR.INHERITED));
+                containerDisabled = Hippo.Util.getBoolean(this.el.attr(HST.ATTR.HST_CONTAINER_DISABLED));
                 iframeToHost.publish('onclick', {
                     elementId: id,
                     variant: variant,
-                    inherited: inherited
+                    containerDisabled: containerDisabled
                 });
             }
         },               

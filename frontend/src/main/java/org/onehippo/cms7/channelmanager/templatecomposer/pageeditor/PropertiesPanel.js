@@ -77,6 +77,10 @@
             this.componentId = componentId;
         },
 
+        setLastModifiedTimestamp: function(lastModifiedTimestamp) {
+            this.lastModifiedTimestamp = lastModifiedTimestamp;
+        },
+
         setPageRequestVariants: function(pageRequestVariants) {
             this.pageRequestVariants = pageRequestVariants;
         },
@@ -223,6 +227,7 @@
                         composerRestMountUrl: this.composerRestMountUrl,
                         locale: this.locale,
                         componentId: this.componentId,
+                        lastModifiedTimestamp: this.lastModifiedTimestamp,
                         bubbleEvents: ['cancel'],
                         margins: {
                             top: 0,
@@ -244,6 +249,7 @@
                     tabComponent = this._createPropertiesEditor(variant, propertiesEditorCount, propertiesForm);
                 }
                 this.relayEvents(tabComponent, ['cancel']);
+                this.relayEvents(propertiesForm, ['save', 'delete']);
                 this.add(tabComponent);
             }, this);
         },
@@ -355,7 +361,9 @@
                     method: 'POST',
                     url: this.composerRestMountUrl + '/' + this.componentId + './' + '?FORCE_CLIENT_HOST=true',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'FORCE_CLIENT_HOST': 'true',
+                        'Content-Type': 'application/json',
+                        'lastModifiedTimestamp': this.lastModifiedTimestamp
                     },
                     params: Ext.util.JSON.encode(variantIds),
                     scope: this
@@ -381,6 +389,7 @@
             this.composerRestMountUrl = config.composerRestMountUrl;
             this.locale = config.locale;
             this.componentId = config.componentId;
+            this.lastModifiedTimestamp = config.lastModifiedTimestamp;
 
             Hippo.ChannelManager.TemplateComposer.PropertiesForm.superclass.constructor.call(this, Ext.apply(config, {
                 cls: 'templateComposerPropertiesForm'
@@ -455,7 +464,6 @@
 
         _submitForm: function() {
             var uncheckedValues = {};
-            this.fireEvent('save');
 
             this.getForm().items.each(function(item) {
                 if (item instanceof Ext.form.Checkbox) {
@@ -467,15 +475,26 @@
 
             this.getForm().submit({
                 headers: {
-                    'FORCE_CLIENT_HOST': 'true'
+                    'FORCE_CLIENT_HOST': 'true',
+                    'lastModifiedTimestamp': this.lastModifiedTimestamp
                 },
                 params: uncheckedValues,
                 url: this.composerRestMountUrl + '/' + this.componentId + './' + encodeURIComponent(this.variant.id) + '/rename/' + encodeURIComponent(this.newVariantId) + '?FORCE_CLIENT_HOST=true',
                 method: 'POST',
                 success: function() {
+                    this.fireEvent('save');
                     Hippo.ChannelManager.TemplateComposer.Instance.selectVariant(this.componentId, this.variant.id);
                     Ext.getCmp('componentPropertiesPanel').load(this.newVariantId);
-                }.bind(this)
+                }.bind(this),
+                failure: function(form, action) {
+                    Hippo.Msg.alert(Hippo.ChannelManager.TemplateComposer.PropertiesPanel.Resources['toolkit-store-error-message-title'],
+                            Hippo.ChannelManager.TemplateComposer.PropertiesPanel.Resources['toolkit-store-error-message'], function (id) {
+
+                                Ext.getCmp('Hippo.ChannelManager.TemplateComposer.Instance').pageContainer.pageContext = null;
+                                // reload channel manager
+                                Ext.getCmp('Hippo.ChannelManager.TemplateComposer.Instance').pageContainer.refreshIframe();
+                            });
+                }
             });
         },
 

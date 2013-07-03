@@ -68,7 +68,7 @@
             this.locked = false;
             this.lockedBy = "";
             this.lockedOn = 0;
-
+            this.changedBySet = config.changedBySet;
             this.internalLinkUrlPrefix = document.location.protocol + '//' + document.location.host;
             this.internalLinkUrlPrefix = appendPathFragment(this.internalLinkUrlPrefix, config.templateComposerContextPath);
             this.internalLinkUrlPrefix = appendPathFragment(this.internalLinkUrlPrefix, config.cmsPreviewPrefix);
@@ -76,7 +76,6 @@
             this.iframeResourceCache = cache;
 
             Hippo.ChannelManager.TemplateComposer.PageContext.superclass.constructor.call(this, config);
-
             this.addEvents('mountChanged',
                     'pageContextInitialized');
 
@@ -145,7 +144,7 @@
             }.createDelegate(this));
         },
 
-        _initPageModelStore: function(mountId, pageId) {
+        _initPageModelStore: function(mountId, pageId, finegrainedLocking) {
             if (this.ids.pageId === pageId) {
                 return new Hippo.Future(function(onSuccess) {
                     onSuccess(this.stores.pageModel);
@@ -153,7 +152,7 @@
             }
 
             this.ids.pageId = pageId;
-            this.stores.pageModel = this._createPageModelStore(mountId, pageId);
+            this.stores.pageModel = this._createPageModelStore(mountId, pageId, finegrainedLocking);
             this.stores.pageModel.on('exception', function(dataProxy, type, action, options, response) {
                 if (type === 'response') {
                     console.error('Server returned status ' + response.status + " for the page store.");
@@ -180,7 +179,6 @@
             // IE stores document.location.href unencoded, which causes the Ajax call to fail when the URL contains
             // special unicode characters. Encode the URL to avoid this.
             var encodedUrl = Ext.isIE ? encodeURI(url) : url;
-            console.log('_requestHstMetaData ' + encodedUrl);
 
             return new Hippo.Future(function(onSuccess, onFail) {
                 var self = this;
@@ -189,6 +187,7 @@
                     var pageId, mountId, lockedBy, pageRequestVariantsHeader, futures;
                     pageId = response.getResponseHeader('HST-Page-Id');
                     mountId = response.getResponseHeader('HST-Mount-Id');
+
                     if (pageId === undefined || mountId === undefined) {
                         onFail('No page and/or mount information found');
                         return;
@@ -199,6 +198,13 @@
                     if (!self.hasPreviewHstConfig || !canEdit) {
                         self.previewMode = true;
                     }
+                    if (response.getResponseHeader('HST-Changed-By-Set')) {
+                        self.changedBySet = Ext.util.JSON.decode(response.getResponseHeader('HST-Changed-By-Set'));
+                    } else {
+                        self.changedBySet = [];
+                    }
+
+                    self.fineGrainedLocking = self._getBoolean(response.getResponseHeader('HST-Mount-FineGrainedLocking'));
 
                     lockedBy = response.getResponseHeader('HST-Mount-LockedBy');
                     if (lockedBy !== undefined) {
@@ -220,12 +226,10 @@
                         self.pageRequestVariants = [];
                     }
 
-                    console.log('hstMetaDataResponse: url:' + encodedUrl + ', pageId:' + pageId + ', mountId:' + mountId);
-
                     if (canEdit) {
                         futures = [
                             self._initToolkitStore.call(self, mountId),
-                            self._initPageModelStore.apply(self, [mountId, pageId])
+                            self._initPageModelStore.apply(self, [mountId, pageId, self.fineGrainedLocking])
                         ];
                         Hippo.Future.join(futures).when(function() {
                             onSuccess();
@@ -312,18 +316,17 @@
             });
         },
 
-        _createPageModelStore: function(mountId, pageId) {
+        _createPageModelStore: function(mountId, pageId, finegrainedLocking) {
             return new Hippo.ChannelManager.TemplateComposer.PageModelStore({
-                rootComponentIdentifier: this.rootComponentIdentifier,
                 mountId: mountId,
                 pageId: pageId,
+                finegrainedLocking : finegrainedLocking,
                 composerRestMountUrl: this.composerRestMountUrl,
                 resources: this.resources
             });
         },
 
         _buildOverlay: function() {
-            console.log('_buildOverlay');
             Hippo.ChannelManager.TemplateComposer.IFramePanel.Instance.hostToIFrame.publish('buildoverlay');
         }
 

@@ -36,7 +36,7 @@
     <notice.project.name>Hippo Addon Channel Manager</notice.project.name>
 
     <hippo.cms.version>2.24.03</hippo.cms.version>
-    <hippo.hst.version>2.26.03</hippo.hst.version>
+    <hippo.hst.version>2.26.04-SNAPSHOT</hippo.hst.version>
     <hippo.repository.version>2.24.04</hippo.repository.version>
     <hippo.addon-hst-configuration-editor.version>1.11.01</hippo.addon-hst-configuration-editor.version>
     <commons-lang.version>2.1</commons-lang.version>

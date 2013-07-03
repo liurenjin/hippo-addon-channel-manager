@@ -32,6 +32,37 @@
         });
     }
 
+    function swapElements(array, firstIndex, secondIndex) {
+        var tmp = array[firstIndex];
+        array[firstIndex] = array[secondIndex];
+        array[secondIndex] = tmp;
+    }
+
+    function moveFirstIfExists(array, element) {
+        var index = array.indexOf(element);
+        if (index > 0) {
+            swapElements(array, 0, index);
+        }
+    }
+
+    function createChangesForUsersNotificationMessage(userIds, cmsUser, resources) {
+        if (userIds.length === 1) {
+            if (userIds[0] === cmsUser) {
+                return String.format(resources['notification-unpublished-changes-of-cms-user']);
+            }
+            return String.format(resources['notification-unpublished-changes-of-other-user'], userIds[0]);
+        } else {
+            if (userIds[0] === cmsUser) {
+                userIds[0] = resources['notification-unpublished-changes-cms-user'];
+            }
+            if (userIds.length === 2) {
+                return String.format(resources['notification-unpublished-changes-of-two-users'], userIds[0], userIds[1]);
+            }
+            return String.format(resources['notification-unpublished-changes-of-comma-separated-users-and-last-one'],
+                userIds.slice(0, userIds.length - 1).join(', '), userIds[userIds.length - 1]);
+        }
+    }
+
     Hippo.ChannelManager.TemplateComposer.GlobalVariantsStore = Ext.extend(Hippo.ChannelManager.TemplateComposer.RestStore, {
 
         constructor: function(config) {
@@ -127,6 +158,8 @@
             }
 
             this.title = config.title;
+            this.resources = config.resources;
+            this.cmsUser = config.cmsUser;
             config.header = false;
 
             this.composerRestMountUrl = config.templateComposerContextPath + config.composerRestMountPath;
@@ -135,6 +168,7 @@
             this.locale = config.locale;
 
             this.canUnlockChannels = config.canUnlockChannels;
+            this.canManageChanges = config.canManageChanges;
             this.toolbarPlugins = config.toolbarPlugins;
 
             this.templateComposerApi = new Hippo.ChannelManager.TemplateComposer.API({
@@ -183,6 +217,10 @@
                 this.title = title;
             });
 
+            this.on('activate', function () {
+                this.refreshIframe();
+            }, this);
+
             this.relayEvents(this.pageContainer, [
                 'mountChanged',
                 'selectItem',
@@ -211,10 +249,10 @@
                         }
                     },
                     {
-                        id: 'previousLiveNotification',
+                        id: 'channelChangesNotification',
                         xtype: 'Hippo.ChannelManager.TemplateComposer.Notification',
                         alignToElementId: 'pageEditorToolbar',
-                        message: config.resources['previous-live-msg']
+                        message: ''
                     },
                     {
                         id: 'icon-toolbar-window',
@@ -348,6 +386,7 @@
                         toolbarButtons.edit,
                         toolbarButtons.publish,
                         toolbarButtons.discard,
+                        toolbarButtons.manageChanges,
                         toolbarButtons.unlock,
                         toolbarButtons.label,
                         ' ',
@@ -364,11 +403,43 @@
             }
         },
 
+        showOrHideButtons: function (button1, button2) {
+
+            var show = false;
+            if (this.channel.previewHstConfigExists === "true") {
+                if (this.channel.fineGrainedLocking === "true") {
+                    if (this.channel.changedBySet.indexOf(this.cmsUser) > -1) {
+                        show = true;
+                    }
+                } else {
+                    show = true;
+                }
+            }
+
+            if (show) {
+                if (button1) {
+                    button1.show();
+                }
+                if (button2) {
+                    button2.show();
+                }
+            } else {
+                if (button1) {
+                    button1.hide();
+                }
+                if (button2) {
+                    button2.hide();
+                }
+            }
+        },
+
         createEditToolbar: function() {
             var toolbar = Ext.getCmp('pageEditorToolbar'),
                     variantsComboBoxLabel = this.createVariantLabel(),
                     variantsComboBox = this.createVariantsComboBox(),
                     toolboxVisible = Ext.get('icon-toolbar-window').isVisible();
+
+
 
             toolbar.removeAll();
             toolbar.add(
@@ -387,10 +458,11 @@
                     },
                     {
                         id: 'template-composer-toolbar-discard-button',
-                        text: this.initialConfig.resources['discard-button'],
+                        text: this.channel.fineGrainedLocking === "true" ?  this.initialConfig.resources['discard-my-button'] : this.initialConfig.resources['discard-button'],
                         iconCls: 'discard-channel',
                         allowDepress: false,
                         width: 120,
+                        hidden: true,
                         listeners: {
                             click: {
                                 fn: this.pageContainer.discardChanges,
@@ -481,6 +553,8 @@
             if (toolbar.rendered) {
                 toolbar.doLayout();
             }
+
+            this.showOrHideButtons(Ext.getCmp('template-composer-toolbar-discard-button'));
         },
 
         addToolbarPlugins: function(toolbar, mode) {
@@ -572,7 +646,7 @@
                 toolkitGrid = Ext.getCmp('ToolkitGrid');
                 toolkitGrid.reconfigure(pageContext.stores.toolkit, toolkitGrid.getColumnModel());
 
-                Ext.getCmp('previousLiveNotification').hide();
+                this.hideChannelChangesNotification();
             } else {
                 this.createViewToolbar();
 
@@ -588,15 +662,52 @@
                 }
 
                 if (!this.fullscreen && this.pageContainer.pageContext.hasPreviewHstConfig) {
-                    Ext.getCmp('previousLiveNotification').show();
+                    this.showChannelChangesNotification(pageContext);
                 } else {
-                    Ext.getCmp('previousLiveNotification').hide();
+                    this.hideChannelChangesNotification();
                 }
 
                 Ext.getCmp('icon-toolbar-window').hide();
             }
 
+
             Hippo.ChannelManager.TemplateComposer.IFramePanel.Instance.show();
+        },
+
+        showChannelChangesNotification: function(pageContext) {
+            var notification = Ext.getCmp('channelChangesNotification');
+            if (pageContext.fineGrainedLocking) {
+                this.updateAndShowChangesForUsersNotification(notification, pageContext.ids.mountId);
+            } else {
+                notification.setMessage(this.resources['previous-live-msg']);
+                notification.show();
+            }
+        },
+
+        updateAndShowChangesForUsersNotification: function(notification, mountId) {
+            var self = this;
+            Ext.Ajax.request({
+                url: this.composerRestMountUrl + '/' + mountId + './userswithchanges/?FORCE_CLIENT_HOST=true',
+                success: function(response) {
+                    var userObjects = Ext.decode(response.responseText).data,
+                        userIds = Ext.pluck(userObjects, 'id').sort();
+                    if (Ext.isEmpty(userIds)) {
+                        notification.hide();
+                    } else {
+                        moveFirstIfExists(userIds, self.cmsUser);
+                        notification.setMessage(createChangesForUsersNotificationMessage(userIds, self.cmsUser, self.resources));
+                        notification.show();
+                    }
+                },
+                failure: function() {
+                    notification.setMessage(self.resources['notification-unpublished-changes-error']);
+                    notification.show();
+                }.createDelegate(this)
+            });
+        },
+
+        hideChannelChangesNotification: function() {
+            Ext.getCmp('channelChangesNotification').hide();
         },
 
         disableUI: function() {
@@ -694,7 +805,6 @@
             }, this, {single: true});
 
             this.on('lock', function() {
-                console.log('lock');
                 this.disableUI();
             }, this);
 
@@ -705,8 +815,8 @@
                 this.enableUI(pageContext);
             }, this);
 
-            this.on('selectItem', function(record, variant, inherited) {
-                if (record.get('type') === HST.CONTAINERITEM && inherited !== true) {
+            this.on('selectItem', function(record, variant, containerDisabled) {
+                if (record.get('type') === HST.CONTAINERITEM && containerDisabled !== true) {
                     this.showProperties(record, variant);
                 }
             }, this);
@@ -724,6 +834,21 @@
                 }.createDelegate(this));
             }, this);
 
+            this.on('channelChanged', function() {
+                this.channelStoreFuture.when(function(config) {
+                    config.store.reload();
+                    config.store.on('load', function() {
+                        var channelRecord = config.store.getById(this.channelId);
+
+                        this.channel = channelRecord.data;
+                        if (this.pageContainer.previewMode) {
+                            this.createViewToolbar();
+                        } else {
+                            this.createEditToolbar();
+                        }
+                    }, this);
+                }.createDelegate(this));
+            }, this);
         },
 
         createPropertiesWindow: function(mountId) {
@@ -740,10 +865,16 @@
                 globalVariantsStoreFuture: this.globalVariantsStoreFuture,
                 mountId: mountId,
                 listeners: {
-                    cancel: function() {
+                    'cancel': function() {
                         window.hide();
                     },
-                    variantChange: function(id, variantId) {
+                    'save': function() {
+                        this.fireEvent('channelChanged');
+                    },
+                    'delete': function() {
+                        this.fireEvent('channelChanged');
+                    },
+                    'variantChange': function(id, variantId) {
                         if (id !== null) {
                             this.selectVariant(id, variantId);
                         }
@@ -787,13 +918,13 @@
             window.on('enddrag', function() {
                 Hippo.ChannelManager.TemplateComposer.IFramePanel.Instance.hostToIFrame.publish('disablemouseevents');
             });
-
             return window;
         },
 
         showProperties: function(record, variant) {
             var componentPropertiesPanel = Ext.getCmp('componentPropertiesPanel');
             componentPropertiesPanel.setComponentId(record.get('id'));
+            componentPropertiesPanel.setLastModifiedTimestamp(record.get('lastModifiedTimestamp'));
             componentPropertiesPanel.setPageRequestVariants(this.pageContainer.pageContext.pageRequestVariants);
             componentPropertiesPanel.load(variant);
             if (this.propertiesWindow) {
@@ -804,6 +935,7 @@
 
         refreshIframe: function() {
             this.pageContainer.refreshIframe.call(this.pageContainer);
+            this.fireEvent('channelChanged');
         },
 
         initComposer: function() {
@@ -853,13 +985,18 @@
         },
 
         getToolbarButtons: function() {
-            var editButton, publishButton, discardButton, unlockButton, lockLabel, lockedOn;
+            var editButton, publishButton, discardButton, manageChangesButton, unlockButton, lockLabel, lockedOn, locked;
+            if (this.channel.lockedBy && this.channel.fineGrainedLocking !== "true") {
+                locked = this.channel.lockedBy !== this.cmsUser;
+            } else {
+                locked = false;
+            }
+
             editButton = new Ext.Toolbar.Button({
                 id: 'template-composer-toolbar-edit-button',
                 text: this.initialConfig.resources['edit-button'],
                 iconCls: 'edit-channel',
-                allowDepress: false,
-                disabled: this.pageContainer.pageContext.locked,
+                disabled: locked,
                 width: 120,
                 listeners: {
                     click: {
@@ -870,12 +1007,11 @@
             });
             publishButton = new Ext.Toolbar.Button({
                 id: 'template-composer-toolbar-publish-button',
-                text: this.initialConfig.resources['publish-button'],
+                text: this.channel.fineGrainedLocking  === "true" ? this.initialConfig.resources['publish-my-button'] : this.initialConfig.resources['publish-button'] ,
                 iconCls: 'publish-channel',
-                allowDepress: false,
-                disabled: this.pageContainer.pageContext.locked,
+                disabled: locked,
                 width: 120,
-                hidden: !this.pageContainer.pageContext.hasPreviewHstConfig,
+                hidden: true,
                 listeners: {
                     click: {
                         fn: this.pageContainer.publishHstConfiguration,
@@ -885,15 +1021,27 @@
             });
             discardButton = new Ext.Toolbar.Button({
                 id: 'template-composer-toolbar-discard-button',
-                text: this.initialConfig.resources['discard-button'],
+                text: this.channel.fineGrainedLocking  === "true" ?  this.initialConfig.resources['discard-my-button'] : this.initialConfig.resources['discard-button'],
                 iconCls: 'discard-channel',
-                allowDespress: false,
-                disabled: this.pageContainer.pageContext.locked,
+                disabled: locked,
                 width: 120,
-                hidden: !this.pageContainer.pageContext.hasPreviewHstConfig,
+                hidden: true,
                 listeners: {
                     click: {
                         fn: this.pageContainer.discardChanges,
+                        scope: this.pageContainer
+                    }
+                }
+            });
+            manageChangesButton = new Ext.Toolbar.Button({
+                id: 'template-composer-toolbar-manage-changes-button',
+                text: this.initialConfig.resources['manage-changes-button'],
+                iconCls: 'publish-channel',
+                width: 120,
+                hidden: !this.canManageChanges || this.channel.fineGrainedLocking === "false"  || this.channel.changedBySet.length === 0,
+                listeners: {
+                    click: {
+                        fn: this.pageContainer.manageChanges,
                         scope: this.pageContainer
                     }
                 }
@@ -902,8 +1050,7 @@
                 id: 'template-composer-toolbar-unlock-button',
                 text: this.initialConfig.resources['unlock-button'],
                 iconCls: 'remove-lock',
-                allowDepress: false,
-                hidden: !this.pageContainer.pageContext.locked || !this.canUnlockChannels,
+                hidden: !locked || !this.canUnlockChannels,
                 width: 120,
                 listeners: {
                     click: {
@@ -915,11 +1062,26 @@
             lockLabel = new Ext.Toolbar.TextItem({
                 id: 'template-composer-toolbar-lock-label'
             });
-            if (this.pageContainer.pageContext.locked) {
-                lockedOn = new Date(this.pageContainer.pageContext.lockedOn).format(this.initialConfig.resources['mount-locked-format']);
-                lockLabel.setText(this.initialConfig.resources['mount-locked-toolbar'].format(this.pageContainer.pageContext.lockedBy, lockedOn));
+            if (locked) {
+                if (this.channel.lockedOn) {
+                    lockedOn = new Date(this.channel.lockedOn).format(this.initialConfig.resources['mount-locked-format']);
+                } else {
+                    lockedOn = "";
+                }
+                lockLabel.setText(this.initialConfig.resources['mount-locked-toolbar'].format(this.channel.lockedBy, lockedOn));
             }
-            return {'edit': editButton, 'publish': publishButton, 'discard': discardButton, 'unlock': unlockButton, 'label': lockLabel};
+
+            this.showOrHideButtons(Ext.getCmp('template-composer-toolbar-publish-button'),
+                    Ext.getCmp('template-composer-toolbar-discard-button'));
+
+            return {
+                edit: editButton,
+                publish: publishButton,
+                discard: discardButton,
+                manageChanges: manageChangesButton,
+                unlock: unlockButton,
+                label: lockLabel
+            };
         }
 
     });
