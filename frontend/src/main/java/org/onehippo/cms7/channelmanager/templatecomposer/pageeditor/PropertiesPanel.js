@@ -29,7 +29,7 @@ Hippo.ChannelManager.TemplateComposer.PropertiesPanel = Ext.extend(Ext.FormPanel
                 width: 170,
                 anchor: '100%'
             },
-
+            cls: 'templateComposerPropertiesForm',
             buttons:[
                 {
                     text: this.resources['properties-panel-button-save'],
@@ -161,7 +161,7 @@ Hippo.ChannelManager.TemplateComposer.PropertiesPanel = Ext.extend(Ext.FormPanel
 
     loadProperties:function(store, records, options) {
         var length = records.length;
-        if (length == 0) {
+        if (length === 0) {
             this.add({
                 html: "<div style='padding:5px' align='center'>"+this.resources['properties-panel-no-properties']+"</div>",
                 xtype: "panel",
@@ -276,6 +276,11 @@ Hippo.ChannelManager.TemplateComposer.PropertiesPanel = Ext.extend(Ext.FormPanel
 
         this.doLayout(false, true);
         this.getForm().clearInvalid();
+
+        try {
+            var propertiesFormHeight = new Ext.Element(Ext.query('.templateComposerPropertiesForm')[0]).getHeight();
+            Ext.getCmp('componentPropertiesWindow').setHeight(propertiesFormHeight+50);
+        } catch (e) { }
     },
 
     loadException:function(proxy, type, actions, options, response) {
