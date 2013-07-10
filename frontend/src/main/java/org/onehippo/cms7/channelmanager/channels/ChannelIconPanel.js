@@ -77,11 +77,11 @@
 
         collectData: function(records, startIndex) {
             var groups = {}, i, len, data, lockedDate, groupId, dataObject, changedByCurrentUser, k, klen;
-
             for (i = 0, len = records.length; i < len; i++) {
                 data = this.prepareData(records[i].json, startIndex + i, records[i]);
                 if (data.fineGrainedLocking === "true" && data.changedBySet.length > 0) {
                     data.lockedDetail = data.changedBySet.join();
+                    changedByCurrentUser = false;
                     for (k = 0, klen = data.changedBySet.length; k < klen; k++ ) {
                         if (data.changedBySet[k] === this.userId) {
                             changedByCurrentUser = true;
