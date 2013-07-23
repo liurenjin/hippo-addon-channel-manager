@@ -20,6 +20,7 @@ Hippo.ChannelManager.TemplateComposer.PageEditor = Ext.extend(Ext.Panel, {
 
     // height of the toolbar (in pixels)
     TOOLBAR_HEIGHT: 28,
+    PROPERTIES_PANEL_BUTTONS_HEIGHT: 70,
 
     constructor : function(config) {
         if (config.debug) {
@@ -99,13 +100,19 @@ Hippo.ChannelManager.TemplateComposer.PageEditor = Ext.extend(Ext.Panel, {
             return;
         }
 
-		    this.toolbarButtons = this.getToolbarButtons();
+        this.toolbarButtons = this.getToolbarButtons();
 
         if (!this.pageContainer.previewMode) {
             if (this.propertiesWindow) {
                 this.propertiesWindow.destroy();
             }
             this.propertiesWindow = this.createPropertiesWindow(pageContext.ids.mountId);
+            this.propertiesWindow.on('propertiesLoaded', function(propertiesPanel) {
+                propertiesPanel.on('afterlayout', function () {
+                    this.propertiesWindow.setHeight(propertiesPanel.getHeight() + this.PROPERTIES_PANEL_BUTTONS_HEIGHT);
+                }, this, {single: true});
+                propertiesPanel.doLayout(false, true);
+            }, this);
 
             var toolkitGrid = Ext.getCmp('ToolkitGrid');
             toolkitGrid.reconfigure(pageContext.stores.toolkit, toolkitGrid.getColumnModel());
@@ -315,7 +322,24 @@ Hippo.ChannelManager.TemplateComposer.PageEditor = Ext.extend(Ext.Panel, {
     },
 
     createPropertiesWindow : function(mountId) {
-        var window1 = new Hippo.ux.window.FloatingWindow({
+        var window, propertiesPanel;
+
+        propertiesPanel = new Hippo.ChannelManager.TemplateComposer.PropertiesPanel({
+            id: 'componentPropertiesPanel',
+            region: 'center',
+            split: true,
+            resources: this.resources,
+            locale: this.locale,
+            composerRestMountUrl: this.composerRestMountUrl,
+            mountId: mountId,
+            listeners: {
+                cancel: function() {
+                    window.hide();
+                }
+            }
+        });
+
+        window = new Hippo.ux.window.FloatingWindow({
             id: 'componentPropertiesWindow',
             title: this.resources['properties-window-default-title'],
             x:10, y: 120,
@@ -337,25 +361,12 @@ Hippo.ChannelManager.TemplateComposer.PageEditor = Ext.extend(Ext.Panel, {
                 },
                 scope: this
             },
-            items: [
-                {
-                    id: 'componentPropertiesPanel',
-                    xtype:'h_properties_panel',
-                    region: 'center',
-                    split: true,
-                    resources: this.resources,
-                    locale: this.locale,
-                    composerRestMountUrl: this.composerRestMountUrl,
-                    mountId: mountId,
-                    listeners: {
-                        cancel: function() {
-                            window1.hide();
-                        }
-                    }
-                }
-            ]
+            items: [propertiesPanel]
         });
-        return window1;
+
+        window.relayEvents(propertiesPanel, ['propertiesLoaded']);
+
+        return window;
     },
 
     showProperties : function(record) {

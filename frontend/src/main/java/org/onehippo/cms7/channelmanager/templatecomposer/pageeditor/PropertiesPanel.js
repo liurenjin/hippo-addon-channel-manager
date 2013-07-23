@@ -159,7 +159,7 @@ Hippo.ChannelManager.TemplateComposer.PropertiesPanel = Ext.extend(Ext.FormPanel
 
     },
 
-    loadProperties:function(store, records, options) {
+    loadProperties: function(store, records, options) {
         var length = records.length;
         if (length === 0) {
             this.add({
@@ -274,17 +274,9 @@ Hippo.ChannelManager.TemplateComposer.PropertiesPanel = Ext.extend(Ext.FormPanel
             this.buttons[1].show();
         }
 
-        this.on('afterlayout', function() {
-            try {
-                var propertiesFormHeight = new Ext.Element(Ext.query('.templateComposerPropertiesForm')[0]).getHeight();
-                Ext.getCmp('componentPropertiesWindow').setHeight(propertiesFormHeight+70);
-            } catch (e) { }
-        }, this, {single: true});
-        this.doLayout(false, true);
-
         this.getForm().clearInvalid();
 
-
+        this.fireEvent('propertiesLoaded', this);
     },
 
     loadException:function(proxy, type, actions, options, response) {
