@@ -108,7 +108,9 @@
                     futures.push(item.load());
                 }, this);
 
-                Hippo.Future.join(futures).when(this.endUpdate.createDelegate(this)).otherwise(this.endUpdate.createDelegate(this));
+                callback = this.endUpdate.createDelegate(this);
+
+                Hippo.Future.join(futures).when(callback).otherwise(callback);
             }.createDelegate(this);
 
             if (typeof(this.variantsUuid) === 'undefined' || this.variantsUuid === null) {
@@ -245,7 +247,7 @@
                     tabComponent = this._createPropertiesEditor(variant, propertiesEditorCount, propertiesForm);
                 }
                 this.relayEvents(tabComponent, ['cancel']);
-                this.relayEvents(propertiesForm, ['save', 'delete']);
+                this.relayEvents(propertiesForm, ['save', 'delete', 'propertiesLoaded']);
                 this.add(tabComponent);
             }, this);
         },
@@ -618,13 +620,7 @@
                 this.saveButton.show();
             }
 
-            this.on('afterlayout', function() {
-                try {
-                    var propertiesFormHeight = new Ext.Element(Ext.query('.templateComposerPropertiesForm')[0]).getHeight();
-                    Ext.getCmp('componentPropertiesWindow').setHeight(propertiesFormHeight+70);
-                } catch (e) { }
-            }, this, {single: true});
-            this.doLayout(false, true);
+            this.fireEvent('propertiesLoaded', this);
         },
 
         addDocumentComboBox: function(record, defaultValue, value) {
