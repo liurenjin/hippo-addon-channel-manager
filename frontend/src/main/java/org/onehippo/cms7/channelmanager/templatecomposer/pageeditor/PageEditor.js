@@ -355,6 +355,7 @@ Hippo.ChannelManager.TemplateComposer.PageEditor = Ext.extend(Ext.Panel, {
             renderTo: Ext.getCmp('Iframe').getEl(),
             constrain: true,
             hidden: true,
+            autoScroll: true,
             listeners: {
                 hide: function() {
                     this.pageContainer.deselectComponents();
