@@ -354,7 +354,6 @@
                 return;
             }
             $(this.sel.sortable).sortable({
-                //revert: 100,
                 items: this.sel.sort.itemsRel,
                 connectWith: '.' + this.cls.overlay.base,
                 start   : $.proxy(this.ddOnStart, this),
@@ -381,12 +380,21 @@
             this.draw.reset();
         },
 
+        _disableClick: function(uiItem) {
+            // workaround for CMS7-7271: disable the click event since FF >= 15 triggers it on drag
+            uiItem.unbind("click");
+            uiItem.bind("click", function(event) {
+                event.stopImmediatePropagation();
+            });
+        },
+
         ddOnStart : function(event, ui) {
             var id, item;
             id = $(ui.item).attr(HST.ATTR.ID);
             item = this.items.get(id);
             this.parent.onDragStart(ui, this);
             item.onDragStart(event, ui);
+            this._disableClick(ui.item);
         },
 
         ddOnStop: function(event, ui) {
@@ -402,6 +410,7 @@
 
         ddOnUpdate : function(event, ui) {
             this.state.syncItemsWithOverlayOrder = true;
+            this._disableClick(ui.item);
         },
 
         ddOnOver : function(event, ui) {
