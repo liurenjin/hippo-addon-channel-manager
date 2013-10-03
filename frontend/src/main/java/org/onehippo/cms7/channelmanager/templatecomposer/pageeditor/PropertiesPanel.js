@@ -236,9 +236,6 @@
                             left: 0
                         },
                         listeners: {
-                            'save': function() {
-                                this._cleanupVariants();
-                            },
                             'delete': function() {
                                 this._cleanupVariants();
                                 this.load();
