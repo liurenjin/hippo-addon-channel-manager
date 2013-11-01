@@ -54,8 +54,14 @@ public class BlueprintStore extends ExtJsonStore<Object> {
 
     @Override
     protected long getTotal() {
+        List<Blueprint> blueprintList = getBlueprints();
         if (this.total == null) {
-            this.total = (long) getBlueprints().size();
+            if (blueprintList != null){
+                this.total = (long) blueprintList.size();
+            } else {
+                log.warn("Unable to retrieve blueprints.");
+                this.total = 0l;
+            }
         }
         return this.total;
     }
