@@ -51,8 +51,8 @@ public class BlueprintStore extends ExtJsonStore<Object> {
 
     @Override
     protected long getTotal() {
-        List<Blueprint> blueprintList = getBlueprints();
         if (this.total == null) {
+            List<Blueprint> blueprintList = getBlueprints();
             if (blueprintList != null){
                 this.total = (long) blueprintList.size();
             } else {
@@ -105,7 +105,7 @@ public class BlueprintStore extends ExtJsonStore<Object> {
             log.info("Cannot load the channel manager: no blueprints will be shown.", ChannelManager.class.getName());
             return Collections.emptyList();
         }
-        
+
         try {
             return channelManager.getBlueprints();
         } catch (ChannelException e) {
