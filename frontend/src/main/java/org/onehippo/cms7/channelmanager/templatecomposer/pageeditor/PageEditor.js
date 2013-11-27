@@ -153,10 +153,10 @@
         fullscreen: false,
 
         constructor: function(config) {
-            if (config.debug) {
-                Ext.Ajax.timeout = 90000; // this changes the 30 second default to 90 seconds
+            if (config.extAjaxTimeout) {
+                Ext.Ajax.timeout = config.extAjaxTimeout;
+                console.log("Set Ext.Ajax.timeout to " + config.extAjaxTimeout + " ms.");
             }
-
             this.title = config.title;
             this.resources = config.resources;
             this.cmsUser = config.cmsUser;
