@@ -199,6 +199,10 @@ Ext.ux.tot2ivn.VrTabPanel = Ext.extend(Ext.Panel,  {
             deferredRender: this.deferredRender
         }, this.layoutConfig)));
 
+        // accessing as private marked configuration-variable,
+        // box-component doesn't apply the height from FitLayout otherwise
+        this.deferHeight = false;
+
         if (this.tabPosition === 'top') {
             this.elements += ',header';
             this.stripTarget = 'header';

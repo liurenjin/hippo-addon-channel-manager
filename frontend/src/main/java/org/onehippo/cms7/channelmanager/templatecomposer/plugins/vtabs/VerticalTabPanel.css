@@ -14,6 +14,8 @@
 /* Left Panel */
 .x-tot2ivn-vr-tab-panel-header {
     float: left;
+    height: 100%;
+    overflow-y: scroll;
 }
 
 .x-tot2ivn-vr-tab-panel .x-tot2ivn-vr-tab-strip-spacer {
