@@ -380,24 +380,28 @@
                         variantsComboBox,
                         this.getFullScreenButtonConfig(false)
                 );
-            } else if (this.pageContainer.canEdit) {
+            } else {
                 toolbarButtons = this.getToolbarButtons();
+                if (this.pageContainer.canEdit) {
+                    toolbar.add(
+                            toolbarButtons.edit,
+                            toolbarButtons.publish,
+                            toolbarButtons.discard,
+                            toolbarButtons.manageChanges,
+                            ' '
+                    );
+                }
                 toolbar.add(
-                        toolbarButtons.edit,
-                        toolbarButtons.publish,
-                        toolbarButtons.discard,
-                        toolbarButtons.manageChanges,
+
                         toolbarButtons.unlock,
                         toolbarButtons.label,
-                        ' ',
                         variantsComboBoxLabel,
                         variantsComboBox,
                         this.getFullScreenButtonConfig(true)
                 );
             }
-            if (this.fullscreen || this.pageContainer.canEdit) {
-                this.addToolbarPlugins(toolbar, 'view');
-            }
+            this.addToolbarPlugins(toolbar, 'view');
+
             if (toolbar.rendered) {
                 toolbar.doLayout();
             }
