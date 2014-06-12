@@ -388,13 +388,12 @@
                             toolbarButtons.publish,
                             toolbarButtons.discard,
                             toolbarButtons.manageChanges,
+                            toolbarButtons.unlock,
+                            toolbarButtons.label,
                             ' '
                     );
                 }
                 toolbar.add(
-
-                        toolbarButtons.unlock,
-                        toolbarButtons.label,
                         variantsComboBoxLabel,
                         variantsComboBox,
                         this.getFullScreenButtonConfig(true)
