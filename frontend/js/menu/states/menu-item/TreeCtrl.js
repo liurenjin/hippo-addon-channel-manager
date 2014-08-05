@@ -46,6 +46,23 @@
                     });
                 }
 
+                function selectItem(itemId) {
+                    if (FormStateService.isDirty()) {
+                        if (FormStateService.isValid()) {
+                            MenuService.saveMenuItem($scope.$parent.selectedMenuItem).then(function() {
+                                    editItem(itemId);
+                                },
+                                function (error) {
+                                    setErrorFeedback(error);
+                                    FormStateService.setValid(false);
+                                }
+                            );
+                        }
+                    } else {
+                        editItem(itemId);
+                    }
+                }
+
                 $scope.callbacks = {
                     accept: function(sourceNodeScope, destNodesScope, destIndex) {
                         // created an issue for the Tree component, to add a disabled state
@@ -54,21 +71,8 @@
                         return FormStateService.isValid();
                     },
                     dragStart: function(event) {
-                        var clickedItemId = event.source.nodeScope.$modelValue.id;
-                        if (FormStateService.isDirty()) {
-                            if (FormStateService.isValid()) {
-                                MenuService.saveMenuItem($scope.$parent.selectedMenuItem).then(function() {
-                                            editItem(clickedItemId);
-                                        },
-                                        function (error) {
-                                            setErrorFeedback(error);
-                                            FormStateService.setValid(false);
-                                        }
-                                );
-                            }
-                        } else {
-                            editItem(clickedItemId);
-                        }
+                        var draggedItemId = event.source.nodeScope.$modelValue.id;
+                        selectItem(draggedItemId);
                     },
                     dropped: function(event) {
                         var source = event.source,
@@ -81,6 +85,8 @@
                         if (source.nodesScope !== destNodesScope || source.index !== dest.index) {
                             MenuService.moveMenuItem(sourceId, destId, dest.index);
                         }
+
+                        selectItem(sourceId);
                     }
                 };
             }
