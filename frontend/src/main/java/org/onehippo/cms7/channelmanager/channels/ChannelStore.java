@@ -30,12 +30,14 @@ import java.util.Set;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 
+import org.apache.commons.lang.LocaleUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.protocol.http.WicketURLEncoder;
+import org.apache.wicket.util.resource.IResourceStream;
 import org.apache.wicket.util.string.interpolator.MapVariableInterpolator;
 import org.hippoecm.frontend.plugins.standards.ClassResourceModel;
 import org.hippoecm.frontend.service.IRestProxyService;
@@ -66,6 +68,7 @@ public class ChannelStore extends ExtGroupingStore<Object> {
 
     public static final String DEFAULT_TYPE = "website";
     public static final String DEFAULT_CHANNEL_ICON_PATH = "/content/gallery/channels/${name}.png/${name}.png/hippogallery:original";
+    public static final String UNKNOWN_COUNTRYCODE = "No country information";
 
     // the names are used to access
     // the getters of Channel via reflection
@@ -233,11 +236,28 @@ public class ChannelStore extends ExtGroupingStore<Object> {
         object.put("channelTypeImg", channelIconUrl);
 
         if (StringUtils.isNotEmpty(channel.getLocale())) {
-            object.put("channelRegion", channel.getLocale());
+            String countryCode = ChannelStore.getCountryCode(channel.getLocale());
+            object.put("channelRegion", countryCode);
+
+            //Search in repository for the region icon
             String regionIconUrl = getChannelRegionIconUrl(channelFieldValues);
+
+            //If it isn't found, then for backwards compatibility try to get the icon by locale instead of country code)
+            if (StringUtils.isEmpty(regionIconUrl)) {
+                channelFieldValues.put("region", channelFieldValues.get("locale"));
+                regionIconUrl = getChannelRegionIconUrl(channelFieldValues);
+            }
+
+            //Last attempt, try to find the icon in filesystem by country code
+            if (StringUtils.isEmpty(regionIconUrl)) {
+                regionIconUrl = getIconResourceReferenceUrl(countryCode + ".png");
+            }
+
+            //Backwards compatibility, try to find the icon in filesystem by locale
             if (StringUtils.isEmpty(regionIconUrl)) {
                 regionIconUrl = getIconResourceReferenceUrl(channel.getLocale() + ".png");
             }
+
             if (StringUtils.isNotEmpty(regionIconUrl)) {
                 object.put("channelRegionImg", regionIconUrl);
             }
@@ -257,6 +277,8 @@ public class ChannelStore extends ExtGroupingStore<Object> {
         final String locale = channel.getLocale();
         if (locale != null) {
             channelFieldValues.put("locale", locale.toLowerCase());
+            String countryCode = ChannelStore.getCountryCode(locale);
+            channelFieldValues.put("region", countryCode.toLowerCase());
         }
         return channelFieldValues;
     }
@@ -323,6 +345,9 @@ public class ChannelStore extends ExtGroupingStore<Object> {
         if (requestCycle != null) {
             ResourceReference iconResource = new ResourceReference(getClass(), resource);
             iconResource.bind(requestCycle.getApplication());
+            if (!ChannelStore.resourceExists(iconResource)){
+                return null;
+            }
             CharSequence typeImgUrl = requestCycle.urlFor(iconResource);
             return typeImgUrl.toString();
         }
@@ -588,4 +613,39 @@ public class ChannelStore extends ExtGroupingStore<Object> {
         return new ActionFailedException(getResourceValue("error.cannot.create.channel", newChannel.getName()));
     }
 
+    private static String getCountryCode(String localeString) {
+        try {
+            Locale locale = LocaleUtils.toLocale(localeString);
+            String countryCode = locale.getCountry();
+            return StringUtils.isEmpty(countryCode) ? UNKNOWN_COUNTRYCODE : countryCode;
+
+        } catch (IllegalArgumentException e){
+            log.warn("Argument '{}' is not a valid locale", localeString, e);
+
+            //Hippo can use any string as a locale, for example 7_9, even if it isn't a valid java locale
+            //So we have to do some more, manual processing
+            if(StringUtils.isEmpty(localeString) || localeString.indexOf('_') == -1){
+                return UNKNOWN_COUNTRYCODE;
+            }
+            String countryCode = localeString.substring(localeString.indexOf('_') + 1);
+            return StringUtils.isEmpty(countryCode) ? UNKNOWN_COUNTRYCODE : countryCode;
+        }
+    }
+
+    private static boolean resourceExists(final ResourceReference iconResource) {
+        IResourceStream resourceStream = null;
+        try {
+            resourceStream = iconResource.getResource().getResourceStream();
+            return true;
+        } catch (Exception e) {
+            return false;
+        } finally {
+            try {
+                if(resourceStream != null) {
+                    resourceStream.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+    }
 }
