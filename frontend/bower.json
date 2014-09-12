@@ -7,7 +7,7 @@
     "angular-route": "1.2.18",
     "angular-translate": "2.1.0",
     "angular-translate-loader-static-files": "2.1.0",
-    "angular-ui-router": "0.2.7",
+    "angular-ui-router": "0.2.11",
     "angular-ui-tree": "2.1.5",
     "hippo-theme": "./target/dependency/hippo-theme.zip",
     "hippo-plugins": "./target/dependency/hippo-plugins.zip",
