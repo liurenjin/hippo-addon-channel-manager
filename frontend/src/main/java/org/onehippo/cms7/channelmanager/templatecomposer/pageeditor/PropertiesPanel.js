@@ -423,6 +423,9 @@
                     text: Hippo.ChannelManager.TemplateComposer.PropertiesPanel.Resources['properties-panel-button-delete'],
                     handler: function() {
                         Ext.Ajax.request({
+                            headers: {
+                                'lastModifiedTimestamp': this.lastModifiedTimestamp
+                            },
                             method: 'DELETE',
                             url: this.composerRestMountUrl + '/' + this.componentId + './' +
                                     encodeURIComponent(this.variant.id) + '?FORCE_CLIENT_HOST=true',
