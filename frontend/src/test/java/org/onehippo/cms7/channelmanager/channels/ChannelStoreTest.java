@@ -105,7 +105,7 @@ public class ChannelStoreTest {
         replay(mockedChannelService);
 
         final List<ExtDataField> fields = Arrays.asList(new ExtDataField("id"), new ExtDataField("locale"), new ExtDataField("hostname"));
-        ChannelStore store = new ChannelStore("testStoreId", fields, "dummySortName", ChannelStore.SortOrder.ascending,
+        ChannelStore store = new CountryGroupingChannelStore("testStoreId", fields, "dummySortName", ChannelStore.SortOrder.ascending,
                 createNiceMock(LocaleResolver.class), mockedProxyServices, new BlueprintStore(mockedProxyServices));
 
         JSONArray json = store.getData();
