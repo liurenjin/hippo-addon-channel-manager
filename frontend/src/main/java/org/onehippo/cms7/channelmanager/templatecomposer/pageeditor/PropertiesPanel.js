@@ -311,8 +311,7 @@
         },
 
         _initTabs: function(variants) {
-            var propertiesEditorCount, i, tabComponent, propertiesForm;
-            propertiesEditorCount = variants.length - 1;
+            var tabComponent, propertiesForm;
             Ext.each(variants, function(variant) {
                 if ('plus' === variant.id) {
                     tabComponent = this._createVariantAdder(variant, Ext.pluck(variants, 'id'));
@@ -337,7 +336,7 @@
                             scope: this
                         }
                     });
-                    tabComponent = this._createPropertiesEditor(variant, propertiesEditorCount, propertiesForm);
+                    tabComponent = this._createPropertiesEditor(variant, propertiesForm, variants);
                 }
                 this.add(tabComponent);
             }, this);
@@ -382,13 +381,13 @@
             });
         },
 
-        _createPropertiesEditor: function(variant, variantCount, propertiesForm) {
+        _createPropertiesEditor: function(variant, propertiesForm, variants) {
             var editor = Hippo.ExtWidgets.create('Hippo.ChannelManager.TemplateComposer.PropertiesEditor', {
                 cls: 'component-properties-editor',
                 autoScroll: true,
                 componentId: this.componentId,
                 variant: variant,
-                variantCount: variantCount,
+                allVariants: variants.slice(0, variants.length - 1),
                 title: variant.name,
                 propertiesForm: propertiesForm
             });
@@ -467,7 +466,7 @@
             existingTab = this._getTab(existingVariant);
             if (Ext.isDefined(existingTab) && existingTab instanceof Hippo.ChannelManager.TemplateComposer.PropertiesEditor) {
                 newPropertiesForm = existingTab.propertiesForm.copy(newVariant);
-                newTab = this._createPropertiesEditor(newVariant, this.items.length, newPropertiesForm);
+                newTab = this._createPropertiesEditor(newVariant, newPropertiesForm, Ext.pluck(this.items.getRange(), "variant"));
                 newTabIndex = this.items.length - 1;
                 this.insert(newTabIndex, newTab);
                 this.setActiveTab(newTabIndex);
