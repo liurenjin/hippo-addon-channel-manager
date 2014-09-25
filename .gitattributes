@@ -210,6 +210,7 @@ frontend/src/test/java/org/onehippo/cms7/channelmanager/widgets/JsonUtilTest.jav
 /pom.xml eol=lf
 repository/pom.xml eol=lf
 repository/src/main/resources/channel-manager-cluster.xml eol=lf
+repository/src/main/resources/channel-manager-override-channelRegionIconPath.xml eol=lf
 repository/src/main/resources/cms-pickers-documents-only.xml -text
 repository/src/main/resources/document-url-service.xml -text
 repository/src/main/resources/hippoecm-extension.xml eol=lf
