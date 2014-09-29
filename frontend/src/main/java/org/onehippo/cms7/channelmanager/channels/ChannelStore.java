@@ -622,19 +622,13 @@ public class ChannelStore extends ExtGroupingStore<Object> {
         try {
             Locale locale = LocaleUtils.toLocale(localeString);
             String countryCode = locale.getCountry();
-            return StringUtils.isEmpty(countryCode) ? UNKNOWN_COUNTRYCODE : countryCode;
-
+            if (StringUtils.isNotBlank(countryCode)){
+                return countryCode;
+            }
         } catch (IllegalArgumentException e){
             log.warn("Argument '{}' is not a valid locale", localeString, e);
-
-            //Hippo can use any string as a locale, for example 7_9, even if it isn't a valid java locale
-            //So we have to do some more, manual processing
-            if(StringUtils.isEmpty(localeString) || localeString.indexOf('_') == -1){
-                return UNKNOWN_COUNTRYCODE;
-            }
-            String countryCode = localeString.substring(localeString.indexOf('_') + 1);
-            return StringUtils.isEmpty(countryCode) ? UNKNOWN_COUNTRYCODE : countryCode;
         }
+        return UNKNOWN_COUNTRYCODE;
     }
 
     private static boolean resourceExists(final ResourceReference iconResource) {
