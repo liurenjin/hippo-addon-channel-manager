@@ -625,7 +625,7 @@ public class ChannelStore extends ExtGroupingStore<Object> {
             return StringUtils.isEmpty(countryCode) ? UNKNOWN_COUNTRYCODE : countryCode;
 
         } catch (IllegalArgumentException e){
-            log.warn("Argument '{}' is not a valid locale", localeString, e);
+            log.info("Argument '{}' is not a valid locale", localeString, e);
 
             //Hippo can use any string as a locale, for example 7_9, even if it isn't a valid java locale
             //So we have to do some more, manual processing
