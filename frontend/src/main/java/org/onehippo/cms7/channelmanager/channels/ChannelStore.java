@@ -236,7 +236,7 @@ public class ChannelStore extends ExtGroupingStore<Object> {
         object.put("channelTypeImg", channelIconUrl);
 
         if (StringUtils.isNotEmpty(channel.getLocale())) {
-            String countryCode = ChannelStore.getCountryCode(channel.getLocale());
+            String countryCode = getCountryCode(channel.getLocale());
             object.put("channelRegion", countryCode);
 
             //Search in repository for the region icon
@@ -282,7 +282,7 @@ public class ChannelStore extends ExtGroupingStore<Object> {
         final String locale = channel.getLocale();
         if (locale != null) {
             channelFieldValues.put("locale", locale.toLowerCase());
-            String countryCode = ChannelStore.getCountryCode(locale);
+            String countryCode = getCountryCode(locale);
             channelFieldValues.put("region", countryCode.toLowerCase());
         }
         return channelFieldValues;
