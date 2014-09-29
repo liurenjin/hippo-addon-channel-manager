@@ -68,7 +68,7 @@ public class ChannelStore extends ExtGroupingStore<Object> {
 
     public static final String DEFAULT_TYPE = "website";
     public static final String DEFAULT_CHANNEL_ICON_PATH = "/content/gallery/channels/${name}.png/${name}.png/hippogallery:original";
-    public static final String UNKNOWN_COUNTRYCODE = "No country information";
+    public static final String UNKNOWN_COUNTRYCODE = "unknown_countrycode";
 
     // the names are used to access
     // the getters of Channel via reflection
@@ -256,6 +256,11 @@ public class ChannelStore extends ExtGroupingStore<Object> {
             //Backwards compatibility, try to find the icon in filesystem by locale
             if (StringUtils.isEmpty(regionIconUrl)) {
                 regionIconUrl = getIconResourceReferenceUrl(channel.getLocale() + ".png");
+            }
+
+            //else, show the default "unknown" country icon, this is loaded from filesystem and it always exists
+            if (StringUtils.isEmpty(regionIconUrl)) {
+                regionIconUrl = getIconResourceReferenceUrl(UNKNOWN_COUNTRYCODE + ".png");
             }
 
             if (StringUtils.isNotEmpty(regionIconUrl)) {

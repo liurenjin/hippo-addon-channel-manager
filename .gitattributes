@@ -87,6 +87,7 @@ frontend/src/main/java/org/onehippo/cms7/channelmanager/channels/list-view.png -
 frontend/src/main/java/org/onehippo/cms7/channelmanager/channels/mobile.png -text
 frontend/src/main/java/org/onehippo/cms7/channelmanager/channels/triangle-collapsed.png -text
 frontend/src/main/java/org/onehippo/cms7/channelmanager/channels/triangle-expanded.png -text
+frontend/src/main/java/org/onehippo/cms7/channelmanager/channels/unknown_countrycode.png -text svneol=unset#image/png
 frontend/src/main/java/org/onehippo/cms7/channelmanager/channels/util/rest/RestClientProxyFactory.java -text
 frontend/src/main/java/org/onehippo/cms7/channelmanager/channels/util/rest/mappers/exceptions/ResponseToChannelExceptionMapper.java -text
 frontend/src/main/java/org/onehippo/cms7/channelmanager/channels/website.png -text
