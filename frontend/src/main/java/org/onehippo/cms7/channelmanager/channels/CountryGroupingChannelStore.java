@@ -65,7 +65,7 @@ public class CountryGroupingChannelStore extends ChannelStore {
         String countryIconUrl = getChannelIconUrl(channelFieldValues, getChannelRegionIconPath());
 
         //else, try finding it in the repository but now using the channel's locale property (for backwards compatibility)
-        if (StringUtils.isEmpty(countryIconUrl) && !UNKNOWN_COUNTRYCODE.equals(countryCode)) {
+        if (StringUtils.isEmpty(countryIconUrl)) {
             //Fallback: we now consider the region field to have the same value as the locale
             String locale = channel.getLocale();
             if (StringUtils.isNotBlank(locale)) {
@@ -75,17 +75,17 @@ public class CountryGroupingChannelStore extends ChannelStore {
         }
 
         //else, try finding it as a resource in the filesystem, using again that country property
-        if (StringUtils.isEmpty(countryIconUrl) && !UNKNOWN_COUNTRYCODE.equals(countryCode)) {
+        if (StringUtils.isEmpty(countryIconUrl)) {
             countryIconUrl = getIconResourceReferenceUrl(countryCode + ".png");
         }
 
         //else, try finding it as a resource in the filesystem, using again channel's locale property (for backwards compatibility)
-        if (StringUtils.isEmpty(countryIconUrl) && !UNKNOWN_COUNTRYCODE.equals(countryCode)) {
+        if (StringUtils.isEmpty(countryIconUrl)) {
             countryIconUrl = getIconResourceReferenceUrl(channel.getLocale() + ".png");
         }
 
         //else, show the default "unknown" country icon, this is loaded from filesystem and it always exists
-        if (StringUtils.isEmpty(countryIconUrl) && !UNKNOWN_COUNTRYCODE.equals(countryCode)) {
+        if (StringUtils.isEmpty(countryIconUrl)) {
             countryIconUrl = getIconResourceReferenceUrl(UNKNOWN_COUNTRYCODE + ".png");
         }
 
@@ -97,22 +97,12 @@ public class CountryGroupingChannelStore extends ChannelStore {
         try{
             Locale locale = LocaleUtils.toLocale(channelLocaleAsString);
             String countryCode = locale.getCountry();
-            return StringUtils.isEmpty(countryCode) ? UNKNOWN_COUNTRYCODE : countryCode;
-
+            if (StringUtils.isNotBlank(countryCode)) {
+                return countryCode;
+            }
         } catch (IllegalArgumentException e){
             log.warn("Channel locale is not a legal locale. Channel name: {}, id: {}, locale: {}", new String[]{channel.getName(), channel.getId(), channel.getLocale()});
-
-            //Hippo can use any string as a locale, for example 7_9, even if it isn't a valid java locale
-            //So we have to do some more, manual processing
-            if(StringUtils.isBlank(channelLocaleAsString) || channelLocaleAsString.indexOf('_') == -1){
-                return UNKNOWN_COUNTRYCODE;
-            }
-            String countryCode = channelLocaleAsString.substring(channelLocaleAsString.indexOf('_') + 1);
-            return StringUtils.isBlank(countryCode) ? UNKNOWN_COUNTRYCODE : countryCode;
         }
+        return UNKNOWN_COUNTRYCODE;
     }
-
-
-
-
 }
