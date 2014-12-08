@@ -174,7 +174,7 @@
         componentId: null,
         forcedVariantId: null,
         initialForcedVariantId: null,
-        pageRequestVariants: [],
+        pageRequestVariants: {},
         componentVariants: null,
         lastModifiedTimestamp: null,
 
@@ -428,7 +428,7 @@
         },
 
         _getBestMatchingTabIndex: function(forcedVariantId, variants) {
-            var tabIndex, i, len;
+            var tabIndex, variant;
 
             // first check if any tab matches the forced variant
             tabIndex = this._getTabIndexByVariant(forcedVariantId, variants);
@@ -436,12 +436,10 @@
                 return tabIndex;
             }
 
-            // second, find tab with the best-matching page request variant
-            for (i = 0, len = this.pageRequestVariants.length; i < len; i++) {
-                tabIndex = this._getTabIndexByVariant(this.pageRequestVariants[i], variants);
-                if (tabIndex >= 0) {
-                    return tabIndex;
-                }
+            variant = this.pageRequestVariants[this.componentId];
+            tabIndex = this._getTabIndexByVariant(variant, variants);
+            if (tabIndex >= 0) {
+                return tabIndex;
             }
 
             // third, return the first tab
