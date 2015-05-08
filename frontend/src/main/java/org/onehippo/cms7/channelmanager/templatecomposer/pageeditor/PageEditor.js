@@ -995,7 +995,7 @@
                 lastModifiedTimestamp = record.get('lastModifiedTimestamp');
             componentPropertiesPanel.load(componentId, forcedVariant, pageRequestVariants, lastModifiedTimestamp);
             if (this.propertiesWindow) {
-                this.propertiesWindow.setTitle(record.get('name'));
+                this.propertiesWindow.setTitle(record.json.label ? record.json.label : record.get('name'));
                 this.propertiesWindow.show();
             }
         },
