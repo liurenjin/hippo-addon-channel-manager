@@ -78,13 +78,18 @@
         },
 
         _getFrameLocation: function() {
-            var frameDocument, href;
+            var frameDocument, href, hash;
 
             frameDocument = this._getFrameDocument();
 
             if (frameDocument !== undefined && frameDocument.location !== undefined) {
                 href = frameDocument.location.href;
                 if (href !== undefined && href !== '' && href !== 'about:blank') {
+                    // ie fails on anchor (#links)
+                    hash = frameDocument.location.hash;
+                    if (Ext.isIE && hash) {
+                        return href.replace(hash, '');
+                    }
                     return href;
                 }
             }
