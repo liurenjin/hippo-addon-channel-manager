@@ -238,7 +238,7 @@ Ext.ux.tot2ivn.VrTabPanel = Ext.extend(Ext.Panel,  {
         st.createChild({cls:'x-tab-strip-spacer x-tot2ivn-vr-tab-strip-spacer'}, beforeEl);
         this.strip = new Ext.Element(this.stripWrap.dom.firstChild);
 
-        // create an empty span with class x-tab-strip-text to force the height of the header element when there's no tabs.        
+        // create an empty span with class x-tab-strip-text to force the height of the header element when there's no tabs.
         this.strip.createChild({cls:'x-clear'});
 
         this.body.addClass('x-tab-panel-body-'+this.tabPosition);
@@ -438,7 +438,7 @@ Ext.ux.tot2ivn.VrTabPanel = Ext.extend(Ext.Panel,  {
 
         return {
             id: this.id + this.idDelimiter + item.getItemId(),
-            text: item.title,
+            text: Ext.util.Format.htmlEncode(item.title),
             cls: cls,
             iconCls: item.iconCls || ''
         };
@@ -538,7 +538,7 @@ Ext.ux.tot2ivn.VrTabPanel = Ext.extend(Ext.Panel,  {
     onItemTitleChanged : function(item) {
         var el = this.getTabEl(item);
         if (el) {
-            Ext.fly(el).child('span.x-tab-strip-text', true).innerHTML = item.title;
+            Ext.fly(el).child('span.x-tab-strip-text', true).innerHTML = Ext.util.Format.htmlEncode(item.title);
         }
     },
 
@@ -809,7 +809,7 @@ Ext.ux.tot2ivn.VrTabPanel = Ext.extend(Ext.Panel,  {
         }
     },
 
-    // private	
+    // private
     createScrollers : function() {
         var w, sw, sl, sr;
         w = this.tabWidth;
