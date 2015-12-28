@@ -25,7 +25,7 @@
 
 
   <artifactId>hippo-addon-channel-manager</artifactId>
-  <version>3.1.2-page-copy-SNAPSHOT</version>
+  <version>3.1.2-page-copy</version>
   <packaging>pom</packaging>
   <inceptionYear>2011</inceptionYear>
 
@@ -141,9 +141,9 @@
   </modules>
 
   <scm>
-    <connection>scm:svn:http://svn.onehippo.org/repos/hippo/hippo-cms7/addons/addon-channel-manager/branches/channel-manager-3.1.x-page-copy</connection>
-    <developerConnection>scm:svn:https://svn.onehippo.org/repos/hippo/hippo-cms7/addons/addon-channel-manager/branches/channel-manager-3.1.x-page-copy</developerConnection>
-    <url>http://svn.onehippo.org/repos/hippo/hippo-cms7/addons/addon-channel-manager/branches/channel-manager-3.1.x-page-copy</url>
+    <connection>scm:svn:http://svn.onehippo.org/repos/hippo/hippo-cms7/addons/addon-channel-manager/tags/hippo-addon-channel-manager-3.1.2-page-copy</connection>
+    <developerConnection>scm:svn:https://svn.onehippo.org/repos/hippo/hippo-cms7/addons/addon-channel-manager/tags/hippo-addon-channel-manager-3.1.2-page-copy</developerConnection>
+    <url>http://svn.onehippo.org/repos/hippo/hippo-cms7/addons/addon-channel-manager/tags/hippo-addon-channel-manager-3.1.2-page-copy</url>
   </scm>
 
   <build>
