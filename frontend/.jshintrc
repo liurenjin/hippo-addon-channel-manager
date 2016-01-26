@@ -26,7 +26,7 @@
         "it": true,
         "spyOn": true
     },
-    "globalstrict": true,
+    "strict": true,
     "immed": true,
     "indent": 4,
     "laxbreak": true,

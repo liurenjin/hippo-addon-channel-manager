@@ -14,104 +14,105 @@
  * limitations under the License.
  */
 
-module.exports = function(config) {
+module.exports = function karmaConfig(config) {
 
-    var build = require( './build.config.js' );
+  var build = require('./build.config.js');
 
-    config.set({
+  config.set({
 
-        // base path, that will be used to resolve files and exclude
-        basePath: build.source,
+    // base path, that will be used to resolve files and exclude
+    basePath: build.source,
 
-        // frameworks to use
-        frameworks: ['jasmine'],
+    // frameworks to use
+    frameworks: ['jasmine'],
 
-        // list of files / patterns to load in the browser
-        files: [
-            // dependencies
-            'components/jquery/dist/jquery.js',
-            'components/underscore/underscore.js',
-            'components/angular/angular.js',
-            'components/angular-route/angular-route.js',
-            'components/hippo-plugins/dist/js/main.js',
-            'components/hippo-theme/dist/js/main.js',
-            'components/angular-translate/angular-translate.js',
-            'components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
-            'components/angular-ui-router/release/angular-ui-router.min.js',
-            'components/angular-ui-tree/dist/angular-ui-tree.js',
+    // list of files / patterns to load in the browser
+    files: [
 
-            // testing dependencies
-            'components/jasmine-jquery/lib/jasmine-jquery.js',
-            'components/angular-mocks/angular-mocks.js',
+      // dependencies
+      'components/jquery/dist/jquery.js',
+      'components/underscore/underscore.js',
+      'components/angular/angular.js',
+      'components/angular-route/angular-route.js',
+      'components/hippo-plugins/dist/js/main.js',
+      'components/hippo-theme/dist/js/main.js',
+      'components/angular-translate/angular-translate.js',
+      'components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+      'components/angular-ui-router/release/angular-ui-router.min.js',
+      'components/angular-ui-tree/dist/angular-ui-tree.js',
 
-            // shared sources
-            'shared/shared-dependencies.js',
-            'shared/services/*.js',
-            'shared/filters/**/*.js',
-            'shared/directives/**/*.js',
+      // testing dependencies
+      'components/jasmine-jquery/lib/jasmine-jquery.js',
+      'components/angular-mocks/angular-mocks.js',
 
-            // apps sources
-            'menu/menu-dependencies.js',
-            'menu/services/*.js',
-            'menu/states/**/*.js',
+      // shared sources
+      'shared/shared-dependencies.js',
+      'shared/services/*.js',
+      'shared/filters/**/*.js',
+      'shared/directives/**/*.js',
 
-            'page/page-dependencies.js',
-            'page/states/**/*.js',
+      // apps sources
+      'menu/menu-dependencies.js',
+      'menu/services/*.js',
+      'menu/states/**/*.js',
 
-            'pages/pages-dependencies.js',
-            'pages/filters/*.js',
-            'pages/states/**/*.js',
+      'page/page-dependencies.js',
+      'page/states/**/*.js',
 
-            // tests
-            {
-                pattern: '**/*.spec.js',
-                included: false
-            }
-        ],
+      'pages/pages-dependencies.js',
+      'pages/filters/*.js',
+      'pages/states/**/*.js',
 
-        // list of files to exclude
-        exclude: [],
+      // tests
+      {
+        pattern: '**/*.spec.js',
+        included: false,
+      },
+    ],
 
-        // test results reporter to use
-        // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-        reporters: ['dots'],
+    // list of files to exclude
+    exclude: [],
 
-        // web server port
-        port: 9876,
+    // test results reporter to use
+    // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
+    reporters: ['dots'],
 
-        // enable / disable colors in the output (reporters and logs)
-        colors: true,
+    // web server port
+    port: 9876,
 
-        // level of logging
-        // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-        logLevel: config.LOG_INFO,
+    // enable / disable colors in the output (reporters and logs)
+    colors: true,
 
-        // enable / disable watching file and executing tests whenever any file changes
-        autoWatch: false,
+    // level of logging
+    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+    logLevel: config.LOG_INFO,
 
-        // Start these browsers, currently available:
-        // - Chrome
-        // - ChromeCanary
-        // - Firefox
-        // - Opera (has to be installed with `npm install karma-opera-launcher`)
-        // - Safari (only Mac; has to be installed with `npm install karma-safari-launcher`)
-        // - PhantomJS
-        // - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
-        browsers: ['PhantomJS'],
+    // enable / disable watching file and executing tests whenever any file changes
+    autoWatch: false,
 
-        // If browser does not capture in given timeout [ms], kill it
-        captureTimeout: 60000,
+    // Start these browsers, currently available:
+    // - Chrome
+    // - ChromeCanary
+    // - Firefox
+    // - Opera (has to be installed with `npm install karma-opera-launcher`)
+    // - Safari (only Mac; has to be installed with `npm install karma-safari-launcher`)
+    // - PhantomJS
+    // - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
+    browsers: ['PhantomJS'],
 
-        // Continuous Integration mode
-        // if true, it captures browsers, runs tests and exits
-        singleRun: false,
+    // If browser does not capture in given timeout [ms], kill it
+    captureTimeout: 60000,
 
-        preprocessors: {
-            'menu/**/!(*spec).js': ['coverage'],
-            'page/**/!(*spec).js': ['coverage'],
-            'pages/**/!(*spec).js': ['coverage'],
-            'shared/**/!(*spec).js': ['coverage']
-        }
+    // Continuous Integration mode
+    // if true, it captures browsers, runs tests and exits
+    singleRun: false,
 
-    });
+    preprocessors: {
+      'menu/**/!(*spec).js': ['coverage'],
+      'page/**/!(*spec).js': ['coverage'],
+      'pages/**/!(*spec).js': ['coverage'],
+      'shared/**/!(*spec).js': ['coverage'],
+    },
+
+  });
 };
