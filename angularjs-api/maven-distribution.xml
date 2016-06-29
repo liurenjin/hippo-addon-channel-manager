@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-  Copyright 2014 Hippo B.V. (http://www.onehippo.com)
+  Copyright 2014-2016 Hippo B.V. (http://www.onehippo.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -19,12 +19,13 @@
           xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
   <id>distribution</id>
   <formats>
-    <format>zip</format>
+    <format>tar.gz</format>
   </formats>
-  <includeBaseDirectory>false</includeBaseDirectory>
+  <includeBaseDirectory>true</includeBaseDirectory>
+  <baseDirectory>hippo-addon-channel-manager-angularjs-api</baseDirectory>
   <files>
     <file>
-      <source>bower.json</source>
+      <source>package.json</source>
     </file>
     <file>
       <!-- TODO (meggermont): add attributions for angular and jquery -->

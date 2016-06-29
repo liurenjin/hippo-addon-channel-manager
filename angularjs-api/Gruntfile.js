@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2015-2016 Hippo B.V. (http://www.onehippo.com)
 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -206,7 +206,7 @@ module.exports = function (grunt) {
     ngdocs: {
       options: {
         dest: '<%= buildConfig.docs_dir %>',
-        scripts: ['<%= buildConfig.components_dir %>/angular/angular.js'],
+        scripts: ['<%= buildConfig.npmDir %>/angular/angular.js'],
         title: 'API Docs'
       },
 
