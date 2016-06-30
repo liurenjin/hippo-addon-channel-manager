@@ -10,18 +10,12 @@ Prerequisites
  - NodeJS (http://nodejs.org/) 0.12+
  - Node Package Manager (comes with node or http://npmjs.org)
  - Grunt (http://gruntjs.org)
- - Bower (http://bower.io)
 
-Grunt and Bower can be installed with Node Package Manager:
+Grunt can be installed with Node Package Manager:
 
- $ sudo npm install -g grunt-cli bower
+ $ sudo npm install -g grunt-cli
 
-        npm install -g grunt-cli bower //WINDOWS USERS
-
-If Bower fails to download zipped dependencies, make sure it uses decompress-zip >= 0.0.4.
-(e.g. check the file /usr/lib/node_modules/bower/node_modules/decompress-zip/package.json,
-and reinstall Bower if decompress-zip is too old).
-
+        npm install -g grunt-cli //WINDOWS USERS
 
 -----
 Build

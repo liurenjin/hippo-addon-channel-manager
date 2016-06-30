@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2014-2016 Hippo B.V. (http://www.onehippo.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,21 +27,21 @@ module.exports = function karmaConfig(config) {
     files: [
 
       // dependencies
-      build.bower + '/jquery/dist/jquery.js',
-      build.bower + '/angular/angular.js',
-      build.bower + '/angular-bootstrap/ui-bootstrap.min.js',
-      build.bower + '/hippo-theme/dist/js/main.js',
-      build.bower + '/angular-translate/angular-translate.js',
-      build.bower + '/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
-      build.bower + '/angular-ui-router/release/angular-ui-router.min.js',
-      build.bower + '/angular-ui-tree/dist/angular-ui-tree.js',
-      build.bower + '/angular-chosen-localytics/chosen.js',
-      build.bower + '/angular-aria/angular-aria.js',
-      build.bower + '/hippo-addon-channel-manager-angularjs-api/dist/js/main.min.js',
+      build.npmDir + '/jquery/dist/jquery.min.js',
+      build.npmDir + '/angular/angular.min.js',
+      build.npmDir + '/angular-ui-bootstrap/ui-bootstrap.min.js',
+      build.npmDir + '/hippo-theme/dist/js/main.js',
+      build.npmDir + '/angular-translate/dist/angular-translate.min.js',
+      build.npmDir + '/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
+      build.npmDir + '/angular-ui-router/release/angular-ui-router.min.js',
+      build.npmDir + '/angular-ui-tree/dist/angular-ui-tree.min.js',
+      build.npmDir + '/angular-chosen-localytics/dist/angular-chosen.min.js',
+      build.npmDir + '/angular-aria/angular-aria.min.js',
+      build.npmDir + '/hippo-addon-channel-manager-angularjs-api/dist/js/main.min.js',
 
       // testing dependencies
-      build.bower + '/jasmine-jquery/lib/jasmine-jquery.js',
-      build.bower + '/angular-mocks/angular-mocks.js',
+      build.npmDir + '/jasmine-jquery/lib/jasmine-jquery.js',
+      build.npmDir + '/angular-mocks/angular-mocks.js',
 
       // apps sources
       build.ngsource + '/shared/services/ChannelService.js',

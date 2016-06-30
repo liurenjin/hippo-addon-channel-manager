@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright 2011-2015 Hippo B.V. (http://www.onehippo.com)
+  Copyright 2011-2016 Hippo B.V. (http://www.onehippo.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -136,7 +136,7 @@
       <artifactId>hippo-theme</artifactId>
       <version>${hippo.frontend.theme.version}</version>
       <classifier>distribution</classifier>
-      <type>zip</type>
+      <type>tar.gz</type>
       <scope>provided</scope>
     </dependency>
 
@@ -145,7 +145,7 @@
       <artifactId>hippo-addon-channel-manager-angularjs-api</artifactId>
       <version>${project.version}</version>
       <classifier>distribution</classifier>
-      <type>zip</type>
+      <type>tar.gz</type>
       <scope>provided</scope>
     </dependency>
 
@@ -300,7 +300,7 @@
         <version>${maven.plugin.dependency.version}</version>
         <executions>
           <execution>
-            <id>fetch-bower-dependencies</id>
+            <id>fetch-npm-dependencies</id>
             <phase>initialize</phase>
             <goals>
               <goal>copy-dependencies</goal>
@@ -330,17 +330,6 @@
             <configuration>
               <executable>npm</executable>
               <commandlineArgs>install</commandlineArgs>
-            </configuration>
-          </execution>
-          <execution>
-            <id>bower-install</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <executable>bower</executable>
-              <commandlineArgs>install ${commandline.offline} --no-color</commandlineArgs>
             </configuration>
           </execution>
           <execution>
