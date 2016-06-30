@@ -210,7 +210,6 @@
                 <exclude>frontend/dist/**/*</exclude>
                 <exclude>frontend/tmp/**/*</exclude>
                 <exclude>frontend/node_modules/**/*</exclude>
-                <exclude>frontend/bower_components/**/*</exclude>
                 <exclude>frontend/DIST_LICENSE</exclude>
 
                 <exclude>angularjs-api/.*</exclude>
@@ -218,7 +217,6 @@
                 <exclude>angularjs-api/dist/**/*</exclude>
                 <exclude>angularjs-api/tmp/**/*</exclude>
                 <exclude>angularjs-api/node_modules/**/*</exclude>
-                <exclude>angularjs-api/bower_components/**/*</exclude>
                 <exclude>angularjs-api/DIST_LICENSE</exclude>
 
                 <!-- repository content XML -->
