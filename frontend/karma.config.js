@@ -27,17 +27,17 @@ module.exports = function karmaConfig(config) {
     files: [
 
       // dependencies
-      build.npmDir + '/jquery/dist/jquery.min.js',
-      build.npmDir + '/angular/angular.min.js',
-      build.npmDir + '/angular-ui-bootstrap/ui-bootstrap.min.js',
+      build.npmDir + '/jquery/dist/jquery.js',
+      build.npmDir + '/angular/angular.js',
+      build.npmDir + '/angular-ui-bootstrap/ui-bootstrap.js',
       build.npmDir + '/hippo-theme/dist/js/main.js',
-      build.npmDir + '/angular-translate/dist/angular-translate.min.js',
-      build.npmDir + '/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
-      build.npmDir + '/angular-ui-router/release/angular-ui-router.min.js',
-      build.npmDir + '/angular-ui-tree/dist/angular-ui-tree.min.js',
-      build.npmDir + '/angular-chosen-localytics/dist/angular-chosen.min.js',
-      build.npmDir + '/angular-aria/angular-aria.min.js',
-      build.npmDir + '/hippo-addon-channel-manager-angularjs-api/dist/js/main.min.js',
+      build.npmDir + '/angular-translate/dist/angular-translate.js',
+      build.npmDir + '/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+      build.npmDir + '/angular-ui-router/release/angular-ui-router.js',
+      build.npmDir + '/angular-ui-tree/dist/angular-ui-tree.js',
+      build.npmDir + '/angular-chosen-localytics/dist/angular-chosen.js',
+      build.npmDir + '/angular-aria/angular-aria.js',
+      build.npmDir + '/hippo-addon-channel-manager-angularjs-api/dist/js/main.js',
 
       // testing dependencies
       build.npmDir + '/jasmine-jquery/lib/jasmine-jquery.js',
