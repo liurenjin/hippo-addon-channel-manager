@@ -3,6 +3,7 @@
   "version": "3.2.2-SNAPSHOT",
   "private": true,
   "devDependencies": {
+    "angular-mocks": "1.4.8",
     "grunt": "0.4.5",
     "grunt-contrib-clean": "0.7.0",
     "grunt-contrib-concat": "0.5.1",
@@ -15,6 +16,7 @@
     "grunt-newer": "1.1.1",
     "grunt-ngdocs": "0.2.9",
     "jasmine-core": "2.4.1",
+    "jasmine-jquery": "2.1.1",
     "jshint-stylish": "2.1.0",
     "karma": "0.13.19",
     "karma-jasmine": "0.3.6",
@@ -23,5 +25,9 @@
     "load-grunt-tasks": "3.4.0",
     "phantomjs": "1.9.19",
     "time-grunt": "1.3.0"
+  },
+  "dependencies": {
+    "angular": "1.4.8",
+    "jquery": "2.1.4"
   }
 }
