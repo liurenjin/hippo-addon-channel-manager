@@ -41,7 +41,7 @@
     <hippo.commons.version>2.2.0</hippo.commons.version>
     <hippo.addon-hst-configuration-editor.version>2.2.0</hippo.addon-hst-configuration-editor.version>
     <hippo.frontend.plugins.version>2.2.0</hippo.frontend.plugins.version>
-    <hippo.frontend.theme.version>2.2.0</hippo.frontend.theme.version>
+    <hippo.frontend.theme.version>2.2.1-SNAPSHOT</hippo.frontend.theme.version>
 
     <commons-lang.version>2.6</commons-lang.version>
     <lib.json.version>20090211</lib.json.version>
@@ -210,7 +210,6 @@
                 <exclude>frontend/dist/**/*</exclude>
                 <exclude>frontend/tmp/**/*</exclude>
                 <exclude>frontend/node_modules/**/*</exclude>
-                <exclude>frontend/bower_components/**/*</exclude>
                 <exclude>frontend/DIST_LICENSE</exclude>
 
                 <exclude>angularjs-api/.*</exclude>
@@ -218,7 +217,6 @@
                 <exclude>angularjs-api/dist/**/*</exclude>
                 <exclude>angularjs-api/tmp/**/*</exclude>
                 <exclude>angularjs-api/node_modules/**/*</exclude>
-                <exclude>angularjs-api/bower_components/**/*</exclude>
                 <exclude>angularjs-api/DIST_LICENSE</exclude>
 
                 <!-- repository content XML -->

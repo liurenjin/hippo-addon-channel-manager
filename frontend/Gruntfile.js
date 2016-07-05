@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2014-2016 Hippo B.V. (http://www.onehippo.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,25 +16,6 @@
 
 module.exports = function (grunt) {
   'use strict';
-
-  function readDeclutterConfig () {
-    return grunt.file.readJSON('declutter.config.json');
-  }
-
-  function readDeclutteredComponentFiles () {
-    var declutterConfig = readDeclutterConfig(),
-      components = Object.keys(declutterConfig),
-      declutteredFiles = [];
-
-    components.forEach(function (component) {
-      var componentRules = declutterConfig[component];
-      componentRules.forEach(function (rule) {
-        declutteredFiles.push(component + '/' + rule);
-      });
-    });
-
-    return declutteredFiles;
-  }
 
   // display execution time of each task
   require('time-grunt')(grunt);
@@ -134,9 +115,34 @@ module.exports = function (grunt) {
         files: [
           {
             expand: true,
-            cwd: '<%= build.bower %>',
+            cwd: '<%= build.npmDir %>',
             dest: '<%= build.ngtarget %>/components',
-            src: readDeclutteredComponentFiles()
+            src: [
+              'angular/angular.min.js',
+              'angular/angular.min.js.map',
+              'angular-ui-bootstrap/ui-bootstrap-tpls.min.js',
+              'angular-chosen-localytics/dist/angular-chosen.min.js',
+              'angular-translate/dist/angular-translate.min.js',
+              'angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
+              'angular-ui-router/release/angular-ui-router.min.js',
+              'angular-ui-tree/dist/angular-ui-tree.min.js',
+              'angular-tablesort/js/angular-tablesort.js',
+              'angular-animate/angular-animate.min.js',
+              'angular-aria/angular-aria.min.js',
+              'chosen-npm/public/chosen.jquery.min.js',
+              'google-code-prettify/src/prettify.js',
+              'hippo-theme/dist/css/main.min.css',
+              'hippo-theme/dist/js/main.min.js',
+              'hippo-theme/dist/images/*',
+              'hippo-theme/dist/fonts/*',
+              'hippo-addon-channel-manager-angularjs-api/dist/css/main.min.css',
+              'hippo-addon-channel-manager-angularjs-api/dist/js/main.min.js',
+              'hippo-addon-channel-manager-angularjs-api/dist/images/*',
+              'hippo-addon-channel-manager-angularjs-api/dist/fonts/*',
+              'jquery/dist/jquery.min.js',
+              'jquery/dist/jquery.min.map',
+              'underscore/underscore-min.js',
+            ]
           }
         ]
       },
@@ -170,16 +176,6 @@ module.exports = function (grunt) {
     usemin: {
       css: '<%= build.ngtarget %>/**/*.css',
       html: '<%= build.ngtarget %>/**/*.html'
-    },
-
-    // only use a sub-set of files in Bower components
-    declutter: {
-      options: {
-        rules: readDeclutterConfig()
-      },
-      files: [
-        '<%= build.bower %>/*'
-      ]
     },
 
     // validate source code with jslint
@@ -221,7 +217,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', 'Build everything', [
     'jshint:apps',
-    'declutter',
     'clean',
     'sass',
     'autoprefixer',

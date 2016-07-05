@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2014-2016 Hippo B.V. (http://www.onehippo.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,10 +31,10 @@ module.exports = function karmaConfig(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      buildConfig.components_dir + '/jquery/dist/jquery.js',
-      buildConfig.components_dir + '/jasmine-jquery/lib/jasmine-jquery.js',
-      buildConfig.components_dir + '/angular/angular.js',
-      buildConfig.components_dir + '/angular-mocks/angular-mocks.js',
+      buildConfig.npmDir + '/jquery/dist/jquery.js',
+      buildConfig.npmDir + '/jasmine-jquery/lib/jasmine-jquery.js',
+      buildConfig.npmDir + '/angular/angular.js',
+      buildConfig.npmDir + '/angular-mocks/angular-mocks.js',
       buildConfig.mainjs,
       buildConfig.jstpl,
       buildConfig.src_dir + '/angularjs/**/*.js',
