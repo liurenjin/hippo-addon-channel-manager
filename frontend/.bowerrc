@@ -1,9 +1,0 @@
-{
-  "directory": "js/components",
-  "storage" : {
-    "packages" : "target/.bower/packages",
-    "registry" : "target/.bower/registry"
-  },
-  "tmp" : "target/.bower/tmp"
-}
-

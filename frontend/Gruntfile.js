@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2014-2016 Hippo B.V. (http://www.onehippo.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,10 +32,6 @@ module.exports = function (grunt) {
             target: {
                 src: '<%= build.target %>'
             },
-
-            bower: {
-                src: '<%= build.source %>/components/**'
-            }
         },
 
         // copy files to target folder
@@ -63,20 +59,20 @@ module.exports = function (grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= build.source %>/components',
+                        cwd: '<%= build.npmDir %>',
                         dest: '<%= build.target %>/components',
                         src: [
                           'angular-route/angular-route.js',
                           'angular-translate-loader-static-files/angular-translate-loader-static-files.js',
-                          'angular-translate/angular-translate.js',
+                          'angular-translate/dist/angular-translate.js',
                           'angular-ui-router/release/angular-ui-router.js',
                           'angular-ui-tree/dist/angular-ui-tree.js',
                           'angular/angular.js',
                           'bootstrap/dist/js/bootstrap.js',
-                          'chosen/chosen.jquery.js',
+                          'chosen-js/chosen.jquery.js',
                           'hippo-theme/dist/**',
                           'jquery/dist/jquery.js',
-                          'respond/dest/respond.src.js',
+                          'respond.js/dest/respond.src.js',
                           'underscore/underscore.js',
                         ]
                     }
