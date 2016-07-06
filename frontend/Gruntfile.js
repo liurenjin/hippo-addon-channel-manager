@@ -17,25 +17,6 @@
 module.exports = function (grunt) {
     'use strict';
 
-    function readDeclutterConfig() {
-        return grunt.file.readJSON('declutter.config.json');
-    }
-
-    function readDeclutteredComponentFiles() {
-        var declutterConfig = readDeclutterConfig(),
-            components = Object.keys(declutterConfig),
-            declutteredFiles = [];
-
-        components.forEach(function(component) {
-            var componentRules = declutterConfig[component];
-            componentRules.forEach(function(rule) {
-                declutteredFiles.push(component + '/' + rule);
-            });
-        });
-
-        return declutteredFiles;
-    }
-
     // display execution time of each task
     require('time-grunt')(grunt);
 
@@ -84,7 +65,20 @@ module.exports = function (grunt) {
                         expand: true,
                         cwd: '<%= build.source %>/components',
                         dest: '<%= build.target %>/components',
-                        src: readDeclutteredComponentFiles()
+                        src: [
+                          'angular-route/angular-route.js',
+                          'angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+                          'angular-translate/angular-translate.js',
+                          'angular-ui-router/release/angular-ui-router.js',
+                          'angular-ui-tree/dist/angular-ui-tree.js',
+                          'angular/angular.js',
+                          'bootstrap/dist/js/bootstrap.js',
+                          'chosen/chosen.jquery.js',
+                          'hippo-theme/dist/**',
+                          'jquery/dist/jquery.js',
+                          'respond/dest/respond.src.js',
+                          'underscore/underscore.js',
+                        ]
                     }
                 ]
             }
@@ -135,16 +129,6 @@ module.exports = function (grunt) {
             }
         },
 
-        // only use a sub-set of files in Bower components
-        declutter: {
-            options: {
-                rules: readDeclutterConfig()
-            },
-            files: [
-                '<%= build.source %>/components/*'
-            ]
-        },
-
         // validate source code with jslint
         jshint: {
             options: {
@@ -186,7 +170,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', 'Build everything', [
         'jshint:apps',
-        'declutter',
         'clean:target',
         'copy',
         'filerev',
@@ -202,5 +185,4 @@ module.exports = function (grunt) {
         'jshint:tests',
         'karma:continuous'
     ]);
-
 };
