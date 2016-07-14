@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2014-2016 Hippo B.V. (http://www.onehippo.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,25 +17,6 @@
 module.exports = function (grunt) {
     'use strict';
 
-    function readDeclutterConfig() {
-        return grunt.file.readJSON('declutter.config.json');
-    }
-
-    function readDeclutteredComponentFiles() {
-        var declutterConfig = readDeclutterConfig(),
-            components = Object.keys(declutterConfig),
-            declutteredFiles = [];
-
-        components.forEach(function(component) {
-            var componentRules = declutterConfig[component];
-            componentRules.forEach(function(rule) {
-                declutteredFiles.push(component + '/' + rule);
-            });
-        });
-
-        return declutteredFiles;
-    }
-
     // display execution time of each task
     require('time-grunt')(grunt);
 
@@ -51,10 +32,6 @@ module.exports = function (grunt) {
             target: {
                 src: '<%= build.target %>'
             },
-
-            bower: {
-                src: '<%= build.source %>/components/**'
-            }
         },
 
         // copy files to target folder
@@ -82,9 +59,22 @@ module.exports = function (grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= build.source %>/components',
+                        cwd: '<%= build.npmDir %>',
                         dest: '<%= build.target %>/components',
-                        src: readDeclutteredComponentFiles()
+                        src: [
+                          'angular-route/angular-route.js',
+                          'angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+                          'angular-translate/dist/angular-translate.js',
+                          'angular-ui-router/release/angular-ui-router.js',
+                          'angular-ui-tree/dist/angular-ui-tree.js',
+                          'angular/angular.js',
+                          'bootstrap/dist/js/bootstrap.js',
+                          'chosen-js/chosen.jquery.js',
+                          'hippo-theme/dist/**',
+                          'jquery/dist/jquery.js',
+                          'respond.js/dest/respond.src.js',
+                          'underscore/underscore.js',
+                        ]
                     }
                 ]
             }
@@ -135,16 +125,6 @@ module.exports = function (grunt) {
             }
         },
 
-        // only use a sub-set of files in Bower components
-        declutter: {
-            options: {
-                rules: readDeclutterConfig()
-            },
-            files: [
-                '<%= build.source %>/components/*'
-            ]
-        },
-
         // validate source code with jslint
         jshint: {
             options: {
@@ -186,7 +166,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', 'Build everything', [
         'jshint:apps',
-        'declutter',
         'clean:target',
         'copy',
         'filerev',
@@ -202,5 +181,4 @@ module.exports = function (grunt) {
         'jshint:tests',
         'karma:continuous'
     ]);
-
 };

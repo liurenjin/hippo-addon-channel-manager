@@ -188,7 +188,7 @@ angular/components/angular-ui-tree/dist/angular-ui-tree.min.*.js
     CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------------------------------------------------------------------------------------------------------------------------
-angular/components/angular-translate/angular-translate.min.*.js
+angular/components/angular-translate/dist/angular-translate.min.*.js
 angular/components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.*.js
 
     The MIT License (MIT)
@@ -264,7 +264,7 @@ angular/components/bootstrap/dist/js/bootstrap.min.*.js
     THE SOFTWARE.
 
 ------------------------------------------------------------------------------------------------------------------------
-angular/components/chosen/chosen.jquery.min.*.js
+angular/components/chosen-js/chosen.jquery.min.*.js
 
     - by Patrick Filler for [Harvest](http://getharvest.com)
     - Copyright (c) 2011-2014 by Harvest
@@ -320,7 +320,6 @@ angular/components/font-awesome/fonts/*
     For general information about the SIL OFL License: http://scripts.sil.org/OFL
 
 ------------------------------------------------------------------------------------------------------------------------
-angular/components/hippo-plugins/dist/js/main.min.*.js
 angular/components/hippo-theme/dist/css/main.min.*.css
 angular/components/hippo-theme/dist/js/main.min.*.js
 
@@ -364,7 +363,7 @@ angular/components/jquery/*
     WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------------------------------------------------------------------------------------------------------------------------
-angular/components/respond/dest/respond.min.*.js
+angular/components/respond.js/dest/respond.min.*.js
 
     Copyright (c) 2012 Scott Jehl
 

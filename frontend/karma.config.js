@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2014-2016 Hippo B.V. (http://www.onehippo.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,9 +34,8 @@ module.exports = function karmaConfig(config) {
       'components/underscore/underscore.js',
       'components/angular/angular.js',
       'components/angular-route/angular-route.js',
-      'components/hippo-plugins/dist/js/main.js',
       'components/hippo-theme/dist/js/main.js',
-      'components/angular-translate/angular-translate.js',
+      'components/angular-translate/dist/angular-translate.js',
       'components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
       'components/angular-ui-router/release/angular-ui-router.min.js',
       'components/angular-ui-tree/dist/angular-ui-tree.js',
