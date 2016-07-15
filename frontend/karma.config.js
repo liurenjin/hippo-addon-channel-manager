@@ -15,7 +15,6 @@
  */
 
 module.exports = function karmaConfig(config) {
-
   var build = require('./build.config.js');
 
   config.set({
@@ -30,19 +29,22 @@ module.exports = function karmaConfig(config) {
     files: [
 
       // dependencies
-      'components/jquery/dist/jquery.js',
-      'components/underscore/underscore.js',
-      'components/angular/angular.js',
-      'components/angular-route/angular-route.js',
-      'components/hippo-theme/dist/js/main.js',
-      'components/angular-translate/dist/angular-translate.js',
-      'components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
-      'components/angular-ui-router/release/angular-ui-router.min.js',
-      'components/angular-ui-tree/dist/angular-ui-tree.js',
+      '../node_modules/jquery/dist/jquery.js',
+      '../node_modules/angular/angular.js',
+      '../node_modules/angular-route/angular-route.js',
+      '../node_modules/chosen-js/chosen.jquery.js',
+      '../node_modules/bootstrap/dist/js/bootstrap.js',
+      '../node_modules/hippo-theme/dist/js/main.js',
+      '../node_modules/angular-translate/dist/angular-translate.js',
+      '../node_modules/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+      '../node_modules/underscore/underscore.js',
+      '../node_modules/angular-ui-router/release/angular-ui-router.js',
+      '../node_modules/respond.js/dest/respond.src.js',
+      '../node_modules/angular-ui-tree/dist/angular-ui-tree.js',
 
       // testing dependencies
-      'components/jasmine-jquery/lib/jasmine-jquery.js',
-      'components/angular-mocks/angular-mocks.js',
+      '../node_modules/jasmine-jquery/lib/jasmine-jquery.js',
+      '../node_modules/angular-mocks/angular-mocks.js',
 
       // shared sources
       'shared/shared-dependencies.js',
