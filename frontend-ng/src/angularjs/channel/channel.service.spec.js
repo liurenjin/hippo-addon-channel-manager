@@ -305,8 +305,8 @@ describe('ChannelService', () => {
     channelMock.changedBySet = ['anotherUser'];
     HstService.doPost.and.returnValue($q.resolve());
     HstService.getChannel.and.returnValue($q.when(channelMock));
-    ChannelService.publishChanges();
-    expect(HstService.doPost).toHaveBeenCalledWith({ data: ['testUser'] }, 'mountId', 'userswithchanges/publish');
+    ChannelService.publishOwnChanges();
+    expect(HstService.doPost).toHaveBeenCalledWith(null, 'mountId', 'publish');
 
     $rootScope.$digest();
     expect(channelMock.changedBySet).toEqual(['anotherUser']);
@@ -320,8 +320,8 @@ describe('ChannelService', () => {
     channelMock.changedBySet = ['anotherUser'];
     HstService.doPost.and.returnValue($q.resolve());
     HstService.getChannel.and.returnValue($q.when(channelMock));
-    ChannelService.discardChanges();
-    expect(HstService.doPost).toHaveBeenCalledWith({ data: ['testUser'] }, 'mountId', 'userswithchanges/discard');
+    ChannelService.discardOwnChanges();
+    expect(HstService.doPost).toHaveBeenCalledWith(null, 'mountId', 'discard');
 
     $rootScope.$digest();
     expect(channelMock.changedBySet).toEqual(['anotherUser']);
@@ -332,10 +332,10 @@ describe('ChannelService', () => {
     ChannelService._load(channelMock);
     $rootScope.$digest();
 
-    ChannelService.publishChanges(['tester']);
+    ChannelService.publishChangesOf(['tester']);
     expect(HstService.doPost).toHaveBeenCalledWith({ data: ['tester'] }, 'mountId', 'userswithchanges/publish');
 
-    ChannelService.discardChanges(['tester']);
+    ChannelService.discardChangesOf(['tester']);
     expect(HstService.doPost).toHaveBeenCalledWith({ data: ['tester'] }, 'mountId', 'userswithchanges/discard');
   });
 
