@@ -132,16 +132,14 @@
         };
 
         EditMenuItemCtrl.updateLinkDestination = function (form) {
-          var formItem;
           if ($scope.MenuItemCtrl.selectedMenuItem.linkType === 'NONE') {
             EditMenuItemCtrl.saveSelectedMenuItem('linkType');
           } else {
+            var formItem;
             if ($scope.MenuItemCtrl.selectedMenuItem.linkType === 'SITEMAPITEM') {
               formItem = form.sitemapItem;
             } else if ($scope.MenuItemCtrl.selectedMenuItem.linkType === 'EXTERNAL') {
               formItem = form.url;
-              formItem.$pristine = false;
-              formItem.$dirty = true;
             }
             if (formItem.$dirty && formItem.$valid) {
               EditMenuItemCtrl.saveSelectedMenuItem('link');
