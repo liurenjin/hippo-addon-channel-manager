@@ -37,26 +37,24 @@ export class HippoIframeService {
   }
 
   load(renderPathInfo) {
-    if (renderPathInfo !== this.renderPathInfo) {
+    const targetPath = this.ChannelService.makePath(renderPathInfo);
+    if (targetPath !== this.loadedPath) {
       this.pageLoaded = false;
 
-      // navigate to a new page
-      const targetSrc = this.ChannelService.makePath(renderPathInfo);
-      if (targetSrc !== this.src) {
-        this.src = targetSrc;
-      } else if (this.iframeJQueryElement /* pro-forma-check */) {
-        // the src attribute of the iframe already has the desired value, and
-        // angular's 2-way binding won't trigger a reload, so use jQuery to achieve the desired effect
+      if (targetPath !== this.src) {
+        // setting the src attribute of the iframe makes us go to the desired page.
+        this.src = targetPath;
+      } else if (this.iframeJQueryElement /* pro-forma check */) {
+        // we may have set the src attribute of the iframe to the targetPath before,
+        // but then navigated away from that location by following site-internal links.
+        // In order to get back to the location that already matches the iframe's src attribute
+        // value, we use jQuery's attr() method, which triggers a load of the specified src.
         this.iframeJQueryElement.attr('src', this.src);
       }
     } else {
-      // we're already on the right page. We trigger a reload and forget about the src attribute
+      // we're already on the right page
       this.reload();
     }
-  }
-
-  _extractRenderPathInfo(path) {
-    this.renderPathInfo = this.ChannelService.extractRenderPathInfo(path);
   }
 
   getSrc() {
@@ -84,7 +82,8 @@ export class HippoIframeService {
 
   // called by the hippoIframe controller when the processing of the loaded page is completed.
   signalPageLoadCompleted() {
-    this._extractRenderPathInfo(this.iframeJQueryElement[0].contentWindow.location.pathname);
+    this.loadedPath = this.iframeJQueryElement[0].contentWindow.location.pathname;
+    this.renderPathInfo = this.ChannelService.extractRenderPathInfo(this.loadedPath);
     this.pageLoaded = true;
 
     const deferred = this.deferredReload;
