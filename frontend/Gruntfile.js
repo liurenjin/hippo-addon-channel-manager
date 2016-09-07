@@ -159,9 +159,9 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('default', 'Build and test', [
+    grunt.registerTask('server', 'Build and watch', [
         'build',
-        'test'
+        'watch'
     ]);
 
     grunt.registerTask('build', 'Build everything', [

@@ -317,20 +317,20 @@
             </configuration>
           </execution>
           <execution>
-            <id>grunt-build</id>
+            <id>npm-build</id>
             <phase>generate-sources</phase>
             <goals><goal>exec</goal></goals>
             <configuration>
-              <executable>grunt</executable>
-              <commandlineArgs>build</commandlineArgs>
+              <executable>npm</executable>
+              <commandlineArgs>run build</commandlineArgs>
             </configuration>
           </execution>
           <execution>
-            <id>grunt-test</id>
+            <id>npm-test</id>
             <phase>test</phase>
             <goals><goal>exec</goal></goals>
             <configuration>
-              <executable>grunt</executable>
+              <executable>npm</executable>
               <commandlineArgs>test</commandlineArgs>
               <skip>${skipTests}</skip>
             </configuration>
