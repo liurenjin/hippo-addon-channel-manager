@@ -192,12 +192,12 @@
                 <exclude>frontend/src/main/java/org/onehippo/cms7/channelmanager/templatecomposer/deviceskins/devices/device-skins.txt</exclude>
 
                 <exclude>frontend/.*</exclude>
-                <exclude>frontend/*.md</exclude>
                 <exclude>frontend/dist/**/*</exclude>
                 <exclude>frontend/tmp/**/*</exclude>
                 <exclude>frontend/node_modules/**/*</exclude>
                 <exclude>frontend/bower_components/**/*</exclude>
                 <exclude>frontend/DIST_LICENSE</exclude>
+                <exclude>**/*.md</exclude>
 
                 <exclude>angularjs-api/.*</exclude>
                 <exclude>angularjs-api/*.md</exclude>
