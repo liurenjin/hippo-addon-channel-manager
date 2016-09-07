@@ -237,13 +237,6 @@ module.exports = function (grunt) {
   /*
    * Register extra grunt tasks.
    */
-  grunt.registerTask('default', [
-    'build',
-    'ngdocs',
-    'karma:continuous:start',
-    'watch'
-  ]);
-
   grunt.registerTask('build', 'Build the distribution', [
     'clean',
     'html2js',

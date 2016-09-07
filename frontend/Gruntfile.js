@@ -210,11 +210,6 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('default', 'Build and test', [
-    'build',
-    'test'
-  ]);
-
   grunt.registerTask('build', 'Build everything', [
     'jshint:apps',
     'clean',
@@ -223,6 +218,11 @@ module.exports = function (grunt) {
     'copy',
     'filerev',
     'usemin'
+  ]);
+
+  grunt.registerTask('server', 'Build and watch the assets', [
+    'build',
+    'watch'
   ]);
 
   grunt.registerTask('test', 'Test the source code', [
