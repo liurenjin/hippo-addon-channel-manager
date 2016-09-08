@@ -20,7 +20,7 @@
     "dom-autoscroller": "1.2.4",
     "dragula": "git://github.com/onehippo/dragula.git#hippo",
     "es6-shim": "0.35.0",
-    "jquery": "2.2.0",
+    "jquery": "3.1.0",
     "ng-device-detector": "3.0.1",
     "ng-focus-if": "1.0.5",
     "open-sans-fontface": "git+https://github.com/FontFaceKit/open-sans.git#1.4.2",

@@ -3634,9 +3634,9 @@
       "resolved": "https://maven.onehippo.com/content/groups/npm-all/jpegtran-bin/-/jpegtran-bin-3.1.0.tgz"
     },
     "jquery": {
-      "version": "2.2.0",
-      "from": "jquery@2.2.0",
-      "resolved": "https://maven.onehippo.com/content/groups/npm-all/jquery/-/jquery-2.2.0.tgz"
+      "version": "3.1.0",
+      "from": "jquery@3.1.0",
+      "resolved": "https://maven.onehippo.com/content/groups/npm-all/jquery/-/jquery-3.1.0.tgz"
     },
     "js-base64": {
       "version": "2.1.9",
