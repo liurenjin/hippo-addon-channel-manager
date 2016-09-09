@@ -5101,6 +5101,11 @@
       "from": "multipipe@>=0.1.2 <0.2.0",
       "resolved": "https://maven.onehippo.com/content/groups/npm-all/multipipe/-/multipipe-0.1.2.tgz"
     },
+    "mutation-summary": {
+      "version": "0.0.0",
+      "from": "mutation-summary@0.0.0",
+      "resolved": "https://maven.onehippo.com/content/groups/npm-all/mutation-summary/-/mutation-summary-0.0.0.tgz"
+    },
     "mute-stdout": {
       "version": "1.0.0",
       "from": "mute-stdout@>=1.0.0 <2.0.0",
