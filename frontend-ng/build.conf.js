@@ -66,6 +66,8 @@ const customConfig = {
       'dom-autoscroller': `${npmDir}/dom-autoscroller/index.js`,
       'pointer-point': `${npmDir}/pointer-point/index.js`,
       'more-events': `${npmDir}/more-events/index.js`,
+      'lodash.debounce': `${npmDir}/lodash.debounce/index.js`,
+      'mutation-summary': `${npmDir}/mutation-summary/src/mutation-summary.js`,
     },
   },
 };

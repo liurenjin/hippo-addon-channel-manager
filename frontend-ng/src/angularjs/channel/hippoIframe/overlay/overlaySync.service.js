@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
+import debounce from 'lodash.debounce';
+import MutationSummary from 'mutation-summary';
+
 export class OverlaySyncService {
 
-  constructor($rootScope, $window, ThrottleService, DomService) {
+  constructor($rootScope, $window, DomService) {
     'ngInject';
 
     this.$rootScope = $rootScope;
@@ -24,7 +27,13 @@ export class OverlaySyncService {
     this.DomService = DomService;
 
     this.overlayElements = [];
-    this.observer = new MutationObserver(ThrottleService.throttle(() => this.syncIframe(), 100));
+
+    this.syncIframeDebounced = debounce(() => this.syncIframe(), 250, {
+      maxWait: 1000,
+      leading: true,
+      trailing: true,
+    });
+
     this.viewPortWidth = 0;
   }
 
@@ -54,12 +63,13 @@ export class OverlaySyncService {
     this.syncIframe();
 
     const iframeWindow = this._getIframeWindow();
-    this.observer.observe(iframeWindow.document, {
-      childList: true,
-      attributes: true,
-      characterData: true,
-      subtree: true,
+    this.observer = new MutationSummary({
+      callback: () => this.onDOMChanged(),
+      rootNode: iframeWindow.document,
+      observeOwnChanges: true,
+      queries: [{ all: true }],
     });
+
     $(iframeWindow).on('unload', () => this._onUnLoad());
     $(this.$window).on('resize.overlaysync', () => this.syncIframe());
   }
@@ -70,6 +80,10 @@ export class OverlaySyncService {
       this.observer.disconnect();
       $(this.$window).off('.overlaysync');
     });
+  }
+
+  onDOMChanged() {
+    this.syncIframeDebounced();
   }
 
   syncIframe() {
