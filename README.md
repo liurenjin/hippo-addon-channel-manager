@@ -23,19 +23,16 @@ Build with snapshot dependencies:
 
 1. Compile channel manager with JRebel
 
-
-    $ mvn clean install -Djrebel
+        $ mvn clean install -Djrebel
 
 2. Start up your project with JRebel and wicket development mode enabled
 
-
-    $ cd <your project>
-    $ mvn -Pcargo.run -Dcargo.jvm.args='-Dwicket.configuration=development' -Djrebel
+        $ cd <your project>
+        $ mvn -Pcargo.run -Dcargo.jvm.args='-Dwicket.configuration=development' -Djrebel
 
 3. Start up frontend build system in frontend module
 
-
-    $ npm start
+        $ npm start
 
 # Useful commands to run
 The following commands can be run from the frontend module
@@ -50,4 +47,3 @@ The following commands can be run from the frontend module
 ### Serve and watch files for development
 
     $ npm start
-
