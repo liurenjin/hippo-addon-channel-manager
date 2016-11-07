@@ -177,5 +177,9 @@ describe('DomService', () => {
   it('can calculate the bottom of the lowest element in a document', () => {
     expect(DomService.getLowestElementBottom(document)).toBe(1050);
   });
-});
 
+  it('can calculate the bottom margin of an element', () => {
+    const bottomEl = $j('#bottomEl')[0];
+    expect(DomService.getBottomMargin(bottomEl)).toBe(6);
+  });
+});
