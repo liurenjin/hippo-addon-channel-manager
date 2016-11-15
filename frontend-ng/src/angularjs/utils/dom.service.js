@@ -157,4 +157,27 @@ export class DomService {
     }
     return isVisible;
   }
+
+  getBottom(element) {
+    const rectBottom = element.getBoundingClientRect().bottom;
+    const marginBottomPx = element.ownerDocument.defaultView.getComputedStyle(element).marginBottom;
+    const marginBottom = parseInt(marginBottomPx, 10);
+    return rectBottom + marginBottom;
+  }
+
+  getLowestElementBottom(document) {
+    const allElements = document.querySelectorAll('body *');
+    const count = allElements.length;
+    let lowest = 0;
+
+    // use plain for-loop for performance
+    for (let i = 0; i < count; i += 1) {
+      const bottom = this.getBottom(allElements[i]);
+      if (bottom > lowest) {
+        lowest = bottom;
+      }
+    }
+
+    return lowest;
+  }
 }
