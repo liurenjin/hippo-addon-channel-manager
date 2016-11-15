@@ -135,16 +135,6 @@ describe('OverlaySyncService', () => {
     });
   });
 
-  it('should not allow the iframe to show inner scroll bars', (done) => {
-    loadIframeFixture((iframeWindow) => {
-      const $html = $(iframeWindow.document.documentElement);
-      expect($html).toHaveCss({
-        overflow: 'hidden',
-      });
-      done();
-    });
-  });
-
   it('should not constrain the viewport by default', (done) => {
     spyOn(OverlaySyncService, 'onDOMChanged');
 
