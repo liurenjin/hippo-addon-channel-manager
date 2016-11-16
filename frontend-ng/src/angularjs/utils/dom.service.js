@@ -157,4 +157,34 @@ export class DomService {
     }
     return isVisible;
   }
+
+  getBottom(element) {
+    const rectBottom = element.getBoundingClientRect().bottom;
+    const marginBottom = this.getBottomMargin(element);
+    return rectBottom + marginBottom;
+  }
+
+  getBottomMargin(element) {
+    const computedStyle = window.getComputedStyle(element);
+    if (computedStyle && computedStyle.marginBottom) {
+      return parseInt(computedStyle.marginBottom, 10);
+    }
+    return 0;
+  }
+
+  getLowestElementBottom(document) {
+    const allElements = document.querySelectorAll('body *');
+    const count = allElements.length;
+    let lowest = 0;
+
+    // use plain for-loop for performance
+    for (let i = 0; i < count; i += 1) {
+      const bottom = this.getBottom(allElements[i]);
+      if (bottom > lowest) {
+        lowest = bottom;
+      }
+    }
+
+    return lowest;
+  }
 }

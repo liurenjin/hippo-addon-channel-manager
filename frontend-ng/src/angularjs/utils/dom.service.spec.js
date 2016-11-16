@@ -184,5 +184,18 @@ describe('DomService', () => {
   it('can check whether the body is visible', () => {
     expect(DomService.isVisible($j(document.body))).toBe(true);
   });
-});
 
+  it('can calculate the bottom of an element', () => {
+    const bottomEl = $j('#bottomEl')[0];
+    expect(DomService.getBottom(bottomEl)).toBe(76);
+  });
+
+  it('can calculate the bottom of the lowest element in a document', () => {
+    expect(DomService.getLowestElementBottom(document)).toBe(1050);
+  });
+
+  it('can calculate the bottom margin of an element', () => {
+    const bottomEl = $j('#bottomEl')[0];
+    expect(DomService.getBottomMargin(bottomEl)).toBe(6);
+  });
+});
