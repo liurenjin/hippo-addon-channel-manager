@@ -187,7 +187,7 @@
         <h4>{{ 'COPY_PAGE_DESCRIPTION' | translate }}</h4>
         <div ng-if="crossChannelPageCopySupported" class="form-group has-feedback">
           <label for="channel">{{ 'COPY_PAGE_CHANNEL' | translate }}</label>
-          <select id="channel" name="channel" class="form-control" disabled
+          <select id="channel" name="channel" class="form-control"
                   data-chosen
                   data-ng-model="copy.mountId"
                   data-ng-options="channel.mountId as channel.name for channel in availableChannelsForPageCopy"
