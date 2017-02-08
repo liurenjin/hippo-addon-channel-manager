@@ -25,7 +25,7 @@ const WIDGET_TYPES = {
 const BINARIES_PATH = 'binaries';
 const DEFAULT_IMAGE_VARIANT = 'hippogallery:thumbnail';
 
-class ChannelPropertyCtrl {
+export class ChannelPropertyCtrl {
   constructor($log, $scope, ChannelService, CmsService, ConfigService, PathService) {
     'ngInject';
 
@@ -134,5 +134,3 @@ class ChannelPropertyCtrl {
     return `qa-field-${this.field.replace(/(\s|")+/g, '-')}`;
   }
 }
-
-export default ChannelPropertyCtrl;

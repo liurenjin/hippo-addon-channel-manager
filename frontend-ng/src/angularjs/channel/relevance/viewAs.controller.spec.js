@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-import angular from 'angular';
-import 'angular-mocks';
-
 describe('ViewAsCtrl', () => {
+  'use strict';
+
   let ViewAsCtrl;
   let $element;
   let $q;
@@ -33,7 +32,7 @@ describe('ViewAsCtrl', () => {
   };
 
   beforeEach(() => {
-    angular.mock.module('hippo-cm');
+    module('hippo-cm');
 
     inject((_$q_, _$controller_, _$rootScope_, _SessionService_, _HstService_, _HippoIframeService_,
             _FeedbackService_) => {

@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-import angular from 'angular';
-import 'angular-mocks';
-
 describe('SubpageToolbar', () => {
+  'use strict';
+
   let $element;
   let $scope;
   let $rootScope;
@@ -26,7 +25,7 @@ describe('SubpageToolbar', () => {
   let mode;
 
   beforeEach(() => {
-    angular.mock.module('hippo-cm');
+    module('hippo-cm');
 
     inject((_$rootScope_, _$compile_, _$translate_) => {
       $rootScope = _$rootScope_;
@@ -34,7 +33,7 @@ describe('SubpageToolbar', () => {
       $translate = _$translate_;
     });
 
-    spyOn($translate, 'instant').and.callFake(key => key);
+    spyOn($translate, 'instant').and.callFake((key) => key);
   });
 
   function compileDirectiveAndGetController() {
@@ -46,7 +45,7 @@ describe('SubpageToolbar', () => {
     $compile($element)($scope);
     $scope.$digest();
 
-    return $element.controller('subpageToolbar');
+    return $element.controller('subpage-toolbar');
   }
 
   it('displays the passed-in page title', () => {

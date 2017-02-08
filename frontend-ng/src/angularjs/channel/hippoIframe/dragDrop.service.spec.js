@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-import angular from 'angular';
-import 'angular-mocks';
-
 describe('DragDropService', () => {
+  'use strict';
+
   let $q;
   let DragDropService;
   let ScalingService;
@@ -36,7 +35,7 @@ describe('DragDropService', () => {
   let container2;
 
   beforeEach(() => {
-    angular.mock.module('hippo-cm.channel.hippoIframe');
+    module('hippo-cm.channel.hippoIframe');
 
     inject((_$q_,
             _DragDropService_,
@@ -92,7 +91,7 @@ describe('DragDropService', () => {
   }
 
   function componentIds(container) {
-    return container.getComponents().map(component => component.getId());
+    return container.getComponents().map((component) => component.getId());
   }
 
   function loadIframeFixture(callback) {
@@ -120,7 +119,7 @@ describe('DragDropService', () => {
 
   function boundEventHandlerCount(jqueryElement, event) {
     const eventHandlers = $._data(jqueryElement[0], 'events');
-    return eventHandlers && {}.hasOwnProperty.call(eventHandlers, event) ? eventHandlers[event].length : 0;
+    return eventHandlers && eventHandlers.hasOwnProperty(event) ? eventHandlers[event].length : 0;
   }
 
   it('is not dragging initially', () => {

@@ -17,7 +17,7 @@
 import debounce from 'lodash.debounce';
 import MutationSummary from 'mutation-summary';
 
-class OverlaySyncService {
+export class OverlaySyncService {
 
   constructor($rootScope, $log, $window, DomService) {
     'ngInject';
@@ -172,7 +172,7 @@ class OverlaySyncService {
   }
 
   _syncOverlayElements() {
-    this.overlayElements.forEach(element => this._syncElement(element));
+    this.overlayElements.forEach((element) => this._syncElement(element));
   }
 
   _syncElement(structureElement) {
@@ -213,5 +213,3 @@ class OverlaySyncService {
   }
 
 }
-
-export default OverlaySyncService;

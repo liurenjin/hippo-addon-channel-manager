@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-class ComponentAdderService {
+export class ComponentAdderService {
   constructor() {
     'ngInject';
   }
@@ -35,5 +35,3 @@ class ComponentAdderService {
     return domElement.classList.contains(this.catalogContainerItemClass);
   }
 }
-
-export default ComponentAdderService;

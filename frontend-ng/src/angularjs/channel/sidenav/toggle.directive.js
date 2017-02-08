@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-import template from './toggle.html';
-
-function channelSidenavToggleDirective() {
+export function channelSidenavToggleDirective() {
   'ngInject';
 
   return {
@@ -24,10 +22,8 @@ function channelSidenavToggleDirective() {
     bindToController: {
       disabled: '=',
     },
-    template,
+    templateUrl: 'channel/sidenav/toggle.html',
     controller: 'ChannelSidenavToggleCtrl',
     controllerAs: 'toggle',
   };
 }
-
-export default channelSidenavToggleDirective;

@@ -16,7 +16,7 @@
 
 const CHANNEL_SIDENAV_ID = 'channel-sidenav'; // must match with directive mark-up
 
-class ChannelSidenavService {
+export class ChannelSidenavService {
   constructor($mdSidenav, ScalingService) {
     'ngInject';
 
@@ -45,4 +45,3 @@ class ChannelSidenavService {
   }
 }
 
-export default ChannelSidenavService;

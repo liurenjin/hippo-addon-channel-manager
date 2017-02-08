@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-class PickerCtrl {
+export class PickerCtrl {
   constructor($mdDialog, $filter, PickerService) {
     'ngInject';
 
@@ -33,12 +33,12 @@ class PickerCtrl {
     this.pickerType = this.pickerTypes[0];
     this.PickerService.loadDataForLink(this.pickerTypes[0].id, this.initialLink)
       .then((pickerType) => {
-        this.pickerType = this.pickerTypes.find(pt => pt.type === pickerType);
+        this.pickerType = this.pickerTypes.find((pt) => pt.type === pickerType);
         this._navigateToSelectedOrRoot();
       });
 
     this.treeOptions = {
-      displayItem: item => item.type === 'folder' || item.type === 'page',
+      displayItem: (item) => item.type === 'folder' || item.type === 'page',
       selectItem: (item) => {
         PickerService.getData(item);
         this.selectedDocument = item.selectable ? item : null;
@@ -93,5 +93,3 @@ class PickerCtrl {
     });
   }
 }
-
-export default PickerCtrl;

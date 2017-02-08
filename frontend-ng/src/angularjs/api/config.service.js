@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-class ConfigService {
+export class ConfigService {
 
   constructor(CmsService) {
     'ngInject';
@@ -34,5 +34,3 @@ class ConfigService {
     this.contextPath = contextPath;
   }
 }
-
-export default ConfigService;

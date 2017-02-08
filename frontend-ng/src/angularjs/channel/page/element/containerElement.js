@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-import HstConstants from '../../../api/hst.constants';
-import PageStructureElement from './pageStructureElement';
+/* eslint-disable prefer-const */
 
-class ContainerElement extends PageStructureElement {
+import { HstConstants } from '../../../api/hst.constants';
+import { PageStructureElement } from './pageStructureElement';
+
+export class ContainerElement extends PageStructureElement {
   constructor(startCommentDomElement, metaData, commentProcessor) {
-    const elements = commentProcessor.locateComponent(metaData.uuid, startCommentDomElement);
-    const endCommentDomElement = elements[1];
-    let boxDomElement = elements[0];
+    let [boxDomElement, endCommentDomElement] = commentProcessor.locateComponent(metaData.uuid, startCommentDomElement);
 
     if (PageStructureElement.isXTypeNoMarkup(metaData)) {
       boxDomElement = startCommentDomElement.parentNode;
@@ -77,11 +77,11 @@ class ContainerElement extends PageStructureElement {
   }
 
   getComponent(componentId) {
-    return this.items.find(item => item.getId() === componentId);
+    return this.items.find((item) => item.getId() === componentId);
   }
 
   getComponentByIframeElement(iframeElement) {
-    return this.items.find(item => item.getBoxElement().is(iframeElement));
+    return this.items.find((item) => item.getBoxElement().is(iframeElement));
   }
 
   replaceComponent(oldComponent, newComponent) {
@@ -99,9 +99,7 @@ class ContainerElement extends PageStructureElement {
     return {
       id: this.getId(),
       lastModifiedTimestamp: this.getLastModified(),
-      children: this.items.map(item => item.getId()),
+      children: this.items.map((item) => item.getId()),
     };
   }
 }
-
-export default ContainerElement;

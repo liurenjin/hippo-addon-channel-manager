@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-class MaskService {
+export class MaskService {
   constructor() {
     'ngInject';
   }
@@ -35,5 +35,3 @@ class MaskService {
     }
   }
 }
-
-export default MaskService;

@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-import template from './channelActions.html';
-
-function channelActionsDirective() {
+export function channelActionsDirective() {
   'ngInject';
 
   return {
@@ -24,10 +22,8 @@ function channelActionsDirective() {
     bindToController: {
       onActionSelected: '&',
     },
-    template,
+    templateUrl: 'channel/actions/channelActions.html',
     controller: 'ChannelActionsCtrl',
     controllerAs: 'channelActions',
   };
 }
-
-export default channelActionsDirective;

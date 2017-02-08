@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-class ChannelSidenavToggleCtrl {
+export class ChannelSidenavToggleCtrl {
   constructor(ChannelSidenavService, ChannelService) {
     'ngInject';
 
@@ -31,4 +31,3 @@ class ChannelSidenavToggleCtrl {
   }
 }
 
-export default ChannelSidenavToggleCtrl;

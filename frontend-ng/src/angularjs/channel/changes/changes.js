@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-import changesMenuDirective from './changesMenu.directive';
-import ChangesMenuCtrl from './changesMenu.controller';
-import changeManagementDirective from './manageChanges.directive';
-import ChangeManagementCtrl from './manageChanges.controller';
+import { changesMenuDirective } from './changesMenu.directive';
+import { ChangesMenuCtrl } from './changesMenu.controller';
+import { changeManagementDirective } from './manageChanges.directive';
+import { ChangeManagementCtrl } from './manageChanges.controller';
 
-const channelChangesModule = angular
+export const channelChangesModule = angular
   .module('hippo-cm.channel.changes', [])
   .controller('ChangesMenuCtrl', ChangesMenuCtrl)
   .directive('changesMenu', changesMenuDirective)
   .controller('ChangeManagementCtrl', ChangeManagementCtrl)
   .directive('changeManagement', changeManagementDirective);
-
-export default channelChangesModule;

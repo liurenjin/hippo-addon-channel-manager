@@ -16,10 +16,9 @@
 
 /* eslint-disable prefer-const */
 
-import angular from 'angular';
-import 'angular-mocks';
-
 describe('MenuEditor', () => {
+  'use strict';
+
   let $q;
   let $element;
   let $scope;
@@ -39,7 +38,7 @@ describe('MenuEditor', () => {
   dialog.cancel.and.returnValue(dialog);
 
   beforeEach(() => {
-    angular.mock.module('hippo-cm');
+    module('hippo-cm');
 
     inject((_$q_, _$rootScope_, _$compile_, _SiteMenuService_, _DialogService_, _FeedbackService_, _HippoIframeService_,
             _ChannelService_, _ConfigService_) => {
@@ -57,7 +56,7 @@ describe('MenuEditor', () => {
     menu = { items: [] };
 
     spyOn(SiteMenuService, 'deleteMenuItem').and.returnValue($q.when());
-    spyOn(SiteMenuService, 'getEditableMenuItem').and.callFake(id => $q.when({ id }));
+    spyOn(SiteMenuService, 'getEditableMenuItem').and.callFake((id) => $q.when({ id }));
     spyOn(SiteMenuService, 'loadMenu').and.returnValue($q.when(menu));
     spyOn(SiteMenuService, 'saveMenuItem').and.returnValue($q.when());
     spyOn(ChannelService, 'recordOwnChange');
@@ -76,7 +75,7 @@ describe('MenuEditor', () => {
     $compile($element)($scope);
     $scope.$digest();
 
-    return $element.controller('menuEditor');
+    return $element.controller('menu-editor');
   }
 
   it('initializes correctly', () => {

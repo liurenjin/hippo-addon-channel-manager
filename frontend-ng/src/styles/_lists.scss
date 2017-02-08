@@ -13,21 +13,17 @@
 // limitations under the License.
 
 //TODO: This should be doable with just Material?
-md-list-item {
-  .component-icon {
-    padding-right: 4px;
-    width: 40px;
+md-list-item .component-icon {
+  width: 40px;
+  padding-right: 4px;
 
-    img {
-      max-width: 100%;
-    }
+  img {
+    max-width: 100%;
   }
 }
 
-md-sidenav {
-  md-list {
-    padding: 0;
-  }
+md-sidenav md-list {
+  padding: 0;
 }
 
 .hippo-listing {
@@ -41,9 +37,8 @@ md-sidenav {
     }
   }
 
-  .active {
+  md-list-item.active {
     background-color: $blue-500;
-
     p,
     md-icon {
       color: $white;

@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-import angular from 'angular';
-import 'angular-mocks';
-
 describe('ExtJsHandlerService', () => {
+  'use strict';
+
   let PageStructureService;
 
   beforeEach(() => {
-    angular.mock.module('hippo-cm.channel.page');
+    module('hippo-cm.channel.page');
 
     inject((_PageStructureService_) => {
       PageStructureService = _PageStructureService_;

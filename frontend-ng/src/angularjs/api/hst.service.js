@@ -17,7 +17,7 @@
 let q;
 let http;
 
-class HstService {
+export class HstService {
   constructor($q, $http, CmsService, ConfigService, PathService) {
     'ngInject';
 
@@ -31,12 +31,7 @@ class HstService {
 
   initializeSession(hostname, mountId) {
     return this.doGet(this.config.rootUuid, 'composermode', hostname, mountId)
-      .then((response) => {
-        if (response) {
-          return response.data;
-        }
-        return null;
-      });
+      .then((response) => response ? response.data : null);
   }
 
   getChannel(id) {
@@ -48,7 +43,7 @@ class HstService {
 
   getSiteMap(id) {
     return this.doGet(id, 'pages')
-      .then(response => response.data.pages);
+      .then((response) => response.data.pages);
   }
 
   doGet(uuid, ...pathElements) {
@@ -94,8 +89,8 @@ class HstService {
 
     return q((resolve, reject) => {
       http({ method, url, headers, data })
-        .success(response => resolve(response))
-        .error(error => reject(error));
+        .success((response) => resolve(response))
+        .error((error) => reject(error));
     });
   }
 
@@ -119,7 +114,7 @@ class HstService {
 
   _serializeParams(params) {
     const str = Object.keys(params)
-      .map(param => `${encodeURIComponent(param)}=${encodeURIComponent(params[param])}`);
+      .map((param) => `${encodeURIComponent(param)}=${encodeURIComponent(params[param])}`);
     return str.join('&');
   }
 
@@ -143,5 +138,3 @@ class HstService {
     return this._callHst('PUT', containerId, [], containerRepresentation);
   }
 }
-
-export default HstService;

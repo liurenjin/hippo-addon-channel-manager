@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-function illegalCharactersDirective() {
+export function illegalCharactersDirective() {
   'ngInject';
 
   return {
@@ -44,5 +44,3 @@ function illegalCharactersDirective() {
     },
   };
 }
-
-export default illegalCharactersDirective;

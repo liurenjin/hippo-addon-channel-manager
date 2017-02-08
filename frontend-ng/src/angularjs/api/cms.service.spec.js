@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-import angular from 'angular';
-import 'angular-mocks';
-
 describe('CmsService', () => {
+  'use strict';
+
   let $window;
   let CmsService;
 
@@ -26,7 +25,7 @@ describe('CmsService', () => {
     spyOn(window.CMS_TO_APP, 'subscribe').and.callThrough();
     spyOn(window.CMS_TO_APP, 'subscribeOnce').and.callThrough();
 
-    angular.mock.module('hippo-cm-api');
+    module('hippo-cm-api');
 
     inject((_$window_, _CmsService_) => {
       $window = _$window_;

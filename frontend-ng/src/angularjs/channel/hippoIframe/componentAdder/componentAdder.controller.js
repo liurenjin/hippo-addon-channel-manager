@@ -16,7 +16,7 @@
 
 import autoScrollerFactory from 'dom-autoscroller';
 
-class ComponentAdderCtrl {
+export class ComponentAdderCtrl {
   constructor($scope, $log, $element, ComponentAdderService, PageStructureService, CatalogService, DragDropService,
               HippoIframeService) {
     'ngInject';
@@ -25,9 +25,9 @@ class ComponentAdderCtrl {
 
     const drake = window.dragula({
       ignoreInputTextSelection: false,
-      isContainer: el => this._isEnabledOverlayContainer(el) || ComponentAdderService.isCatalogContainer(el),
+      isContainer: (el) => this._isEnabledOverlayContainer(el) || ComponentAdderService.isCatalogContainer(el),
       copy: true,
-      moves: el => ComponentAdderService.isCatalogContainerItem(el),
+      moves: (el) => ComponentAdderService.isCatalogContainerItem(el),
       accepts: (el, target) => this._isEnabledOverlayContainer(target),
     });
 
@@ -37,7 +37,7 @@ class ComponentAdderCtrl {
         $element.addClass('add-mode');
 
         // prevent IE11 from dragging the image
-        this.selectedCatalogItem.catalogJQueryElement.find('img').on('dragstart', event => event.preventDefault());
+        this.selectedCatalogItem.catalogJQueryElement.find('img').on('dragstart', (event) => event.preventDefault());
       });
     });
 
@@ -115,5 +115,3 @@ class ComponentAdderCtrl {
     return container && !container.isDisabled();
   }
 }
-
-export default ComponentAdderCtrl;

@@ -16,7 +16,7 @@
 
 // TODO: Rename this to ExtApiService
 
-class CmsService {
+export class CmsService {
 
   constructor($window, $log) {
     'ngInject';
@@ -32,7 +32,7 @@ class CmsService {
     if (search.length > 0) {
       const parameters = search.substring(1).split('&');
 
-      for (let i = 0, length = parameters.length; i < length; i += 1) {
+      for (let i = 0, length = parameters.length; i < length; i++) {
         const keyValue = parameters[i].split('=');
         if (keyValue[0] === 'parentExtIFramePanelId') {
           return keyValue[1];
@@ -55,7 +55,7 @@ class CmsService {
 
   publish(...args) {
     const iframeToHost = this.getParentIFramePanel().iframeToHost;
-    return iframeToHost.publish(...args);
+    return iframeToHost.publish.apply(iframeToHost, args);
   }
 
   subscribe(topic, callback, scope) {
@@ -84,5 +84,3 @@ class CmsService {
     return config;
   }
 }
-
-export default CmsService;

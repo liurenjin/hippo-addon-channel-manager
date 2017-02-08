@@ -20,7 +20,9 @@
       <div class="channel-iframe-scroll-x" flex layout="row">
         <iframe class="qa-view"
                 flex="noshrink"
-                ng-src="{{ iframe.getSrc() }}"></iframe>
+                ng-src="{{ iframe.getSrc() }}"
+                scrolling="no"></iframe>
+
         <div class="overlay qa-overlay" component-adder>
           <div ng-repeat="container in iframe.getContainers()" class="qa-container">
             <overlay-element class="overlay-element-container"
@@ -32,6 +34,7 @@
                              }"
                              structure-element="container">
             </overlay-element>
+
             <div ng-repeat="component in container.getComponents()" class="qa-component">
               <overlay-element class="overlay-element-component"
                                layout="row"
@@ -67,6 +70,7 @@
             </overlay-element>
           </div>
         </div>
+
       </div>
     </div>
     <div class="channel-dragula-mirror cm-scale"></div>

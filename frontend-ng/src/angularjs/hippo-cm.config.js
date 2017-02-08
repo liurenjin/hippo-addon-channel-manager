@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-import template from './hippo-cm.html';
-
-function config($mdThemingProvider, $stateProvider, $urlRouterProvider, $translateProvider) {
+export function config($mdThemingProvider, $stateProvider, $urlRouterProvider, $translateProvider) {
   'ngInject';
 
   $urlRouterProvider.otherwise('/');
 
   $stateProvider.state('hippo-cm', {
     url: '/',
-    template,
+    templateUrl: 'hippo-cm.html',
     resolve: {
       translations: ($translate, ConfigService) => {
         $translateProvider.useStaticFilesLoader({
@@ -125,5 +123,3 @@ function config($mdThemingProvider, $stateProvider, $urlRouterProvider, $transla
     .backgroundPalette('hippo-grey');
 }
 
-
-export default config;

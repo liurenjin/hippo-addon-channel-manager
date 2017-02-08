@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-import template from './viewportToggle.html';
-
-function viewportToggleDirective() {
+export function viewportToggleDirective() {
   return {
     restrict: 'E',
-    template,
+    templateUrl: 'channel/viewports/viewportToggle.html',
     bindToController: {
       disabled: '=',
     },
@@ -27,5 +25,3 @@ function viewportToggleDirective() {
     controllerAs: 'toggleCtrl',
   };
 }
-
-export default viewportToggleDirective;

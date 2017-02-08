@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-import template from './move.html';
-
-function pageMoveDirective() {
+export function pageMoveDirective() {
   'ngInject';
 
   return {
@@ -24,10 +22,8 @@ function pageMoveDirective() {
     bindToController: {
       onDone: '&',
     },
-    template,
+    templateUrl: 'channel/page/actions/move/move.html',
     controller: 'PageMoveCtrl',
     controllerAs: 'pageMove',
   };
 }
-
-export default pageMoveDirective;

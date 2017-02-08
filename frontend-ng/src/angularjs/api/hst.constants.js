@@ -15,7 +15,7 @@
  */
 
 // Should match HST's org.hippoecm.hst.core.channelmanager.ChannelManagerConstants.
-const HstConstants = {
+export const HstConstants = {
   TYPE: 'HST-Type',
   TYPE_PAGE: 'PAGE-META-DATA',
   TYPE_CONTAINER: 'CONTAINER_COMPONENT',
@@ -43,5 +43,3 @@ const HstConstants = {
   XTYPE_SPAN: 'HST.Span',
   END_MARKER: 'HST-End',
 };
-
-export default HstConstants;

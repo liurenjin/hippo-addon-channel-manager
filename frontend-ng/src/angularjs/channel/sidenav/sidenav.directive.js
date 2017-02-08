@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-import template from './sidenav.html';
-
-function channelSidenavDirective() {
+export function channelSidenavDirective() {
   'ngInject';
 
   return {
@@ -24,10 +22,8 @@ function channelSidenavDirective() {
     bindToController: {
       editMode: '=',
     },
-    template,
+    templateUrl: 'channel/sidenav/sidenav.html',
     controller: 'ChannelSidenavCtrl',
     controllerAs: 'sidenav',
   };
 }
-
-export default channelSidenavDirective;

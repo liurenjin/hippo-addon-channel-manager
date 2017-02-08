@@ -14,10 +14,4 @@
  * limitations under the License.
  */
 
-import './vendor.scss';
-import './index.scss';
-import './angularjs/hippo-cm';
-
-if (module.hot) {
-  module.hot.decline();
-}
+export { hippoCmng } from './angularjs/hippo-cm.js';

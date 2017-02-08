@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-class DialogService {
+export class DialogService {
   constructor($mdDialog, CmsService) {
     'ngInject';
 
@@ -59,5 +59,3 @@ class DialogService {
     return this.$mdDialog.hide();
   }
 }
-
-export default DialogService;

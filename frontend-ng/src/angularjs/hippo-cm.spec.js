@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-import angular from 'angular';
-import 'angular-mocks';
-
 describe('The hippo-cm module', () => {
+  'use strict';
+
   let configService;
   let $httpBackend;
   let $rootScope;
@@ -34,7 +33,7 @@ describe('The hippo-cm module', () => {
   };
 
   beforeEach(() => {
-    angular.mock.module('hippo-cm', ($stateProvider, $translateProvider) => {
+    module('hippo-cm', ($stateProvider, $translateProvider) => {
       $stateProvider.state('hippo-cm.dummy-child-state', {});
       $translateProvider.translations('en', MOCK_TRANSLATIONS.en);
       $translateProvider.translations('nl', MOCK_TRANSLATIONS.nl);
@@ -47,6 +46,8 @@ describe('The hippo-cm module', () => {
       $state = _$state_;
       $translate = _$translate_;
     });
+
+    $httpBackend.whenGET('i18n/no-such-locale.json?antiCache=123').respond(404);
   });
 
   it('uses English translations by default', () => {
@@ -67,7 +68,6 @@ describe('The hippo-cm module', () => {
 
   it('falls back to English translations for unknown locales', () => {
     configService.locale = 'no-such-locale';
-    $httpBackend.whenGET('i18n/no-such-locale.json?antiCache=123').respond(404);
 
     $state.go('hippo-cm.dummy-child-state');
     $httpBackend.flush();

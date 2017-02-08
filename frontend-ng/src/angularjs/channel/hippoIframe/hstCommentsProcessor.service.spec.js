@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-import angular from 'angular';
-import 'angular-mocks';
-
 describe('HstCommentsProcessorService', () => {
+  'use strict';
+
   let hstCommentsProcessorService;
   function NOOP() { }
 
   beforeEach(() => {
-    angular.mock.module('hippo-cm.channel.hippoIframe');
+    module('hippo-cm.channel.hippoIframe');
 
     inject((_hstCommentsProcessorService_) => {
       hstCommentsProcessorService = _hstCommentsProcessorService_;

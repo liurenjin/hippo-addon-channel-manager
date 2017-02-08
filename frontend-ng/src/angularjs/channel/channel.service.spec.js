@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-import angular from 'angular';
-import 'angular-mocks';
-
 describe('ChannelService', () => {
+  'use strict';
+
   let $q;
   let $log;
   let $rootScope;
@@ -33,7 +32,7 @@ describe('ChannelService', () => {
   let $state;
 
   beforeEach(() => {
-    angular.mock.module('hippo-cm');
+    module('hippo-cm');
 
     channelMock = {
       contextPath: '/testContextPath',
@@ -53,7 +52,7 @@ describe('ChannelService', () => {
     };
     ConfigServiceMock.setContextPathForChannel = jasmine.createSpy('setContextPathForChannel');
 
-    angular.mock.module(($provide) => {
+    module(($provide) => {
       $provide.value('ConfigService', ConfigServiceMock);
     });
 

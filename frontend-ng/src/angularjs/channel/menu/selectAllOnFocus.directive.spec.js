@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-import angular from 'angular';
-import 'angular-mocks';
-
 describe('selectAllOnFocusDirective', () => {
+  'use strict';
+
   let $rootScope;
   let $compile;
 
   beforeEach(() => {
-    angular.mock.module('hippo-cm.channel.menu');
+    module('hippo-cm.channel.menu');
 
     inject((_$rootScope_, _$compile_) => {
       $rootScope = _$rootScope_;

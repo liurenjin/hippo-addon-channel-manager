@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-function componentAdderDirective() {
+export function componentAdderDirective() {
   'ngInject';
 
   return {
@@ -22,5 +22,3 @@ function componentAdderDirective() {
     controller: 'ComponentAdderCtrl',
   };
 }
-
-export default componentAdderDirective;

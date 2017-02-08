@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-import angular from 'angular';
-import 'angular-mocks';
-
 describe('LinkProcessorService', () => {
+  'use strict';
+
   let linkProcessorService;
   let $document;
   const previewUrl = ['http://localhost:8080/site'];
 
   beforeEach(() => {
-    angular.mock.module('hippo-cm.channel.hippoIframe');
+    module('hippo-cm.channel.hippoIframe');
 
     inject((_$document_, _linkProcessorService_) => {
       $document = _$document_;

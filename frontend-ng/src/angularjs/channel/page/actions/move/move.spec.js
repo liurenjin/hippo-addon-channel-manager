@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-import angular from 'angular';
-import 'angular-mocks';
-
 describe('PageActionMove', () => {
+  'use strict';
+
   let $element;
   let $q;
   let $scope;
@@ -48,7 +47,7 @@ describe('PageActionMove', () => {
   };
 
   beforeEach(() => {
-    angular.mock.module('hippo-cm');
+    module('hippo-cm');
 
     inject((_$q_, _$rootScope_, _$compile_, _$translate_, _ChannelService_, _FeedbackService_,
             _HippoIframeService_, _SiteMapService_, _SiteMapItemService_) => {
@@ -71,7 +70,7 @@ describe('PageActionMove', () => {
       name: 'name',
     };
 
-    spyOn($translate, 'instant').and.callFake(key => key);
+    spyOn($translate, 'instant').and.callFake((key) => key);
     spyOn(ChannelService, 'getNewPageModel').and.returnValue($q.when(pageModel));
     spyOn(ChannelService, 'getSiteMapId').and.returnValue('siteMapId');
     spyOn(ChannelService, 'recordOwnChange');
@@ -90,7 +89,7 @@ describe('PageActionMove', () => {
     $compile($element)($scope);
     $scope.$digest();
 
-    return $element.controller('pageMove');
+    return $element.controller('page-move');
   }
 
   it('initializes correctly', () => {

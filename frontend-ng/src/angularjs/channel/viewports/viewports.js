@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-import viewportToggleDirective from './viewportToggle.directive';
-import ViewportToggleCtrl from './viewportToggle.controller';
+import { viewportToggleDirective } from './viewportToggle.directive';
+import { ViewportToggleCtrl } from './viewportToggle.controller';
 
-const channelViewportsModule = angular
+export const channelViewportsModule = angular
   .module('hippo-cm.channel.viewports', [])
   .controller('ViewportToggleCtrl', ViewportToggleCtrl)
   .directive('viewportToggle', viewportToggleDirective);
 
-
-export default channelViewportsModule;

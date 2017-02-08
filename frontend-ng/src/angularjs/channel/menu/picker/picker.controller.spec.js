@@ -16,10 +16,9 @@
 
 /* eslint-disable prefer-const */
 
-import angular from 'angular';
-import 'angular-mocks';
-
 describe('PickerCtrl', () => {
+  'use strict';
+
   let $rootScope;
   let $mdDialog;
   let PickerService;
@@ -43,7 +42,7 @@ describe('PickerCtrl', () => {
   ];
 
   beforeEach(() => {
-    angular.mock.module('hippo-cm');
+    module('hippo-cm');
 
     inject(($controller, _$q_, _$rootScope_, _$mdDialog_) => {
       $rootScope = _$rootScope_;

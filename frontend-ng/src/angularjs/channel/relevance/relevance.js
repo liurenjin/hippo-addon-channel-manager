@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-import ViewAsDirective from './viewAs.directive';
-import ViewAsCtrl from './viewAs.controller';
-import ExperimentStateService from './experimentState.service';
+import { ViewAsDirective } from './viewAs.directive';
+import { ViewAsCtrl } from './viewAs.controller';
+import { ExperimentStateService } from './experimentState.service';
 
-const channelRelevanceModule = angular
+export const channelRelevanceModule = angular
   .module('hippo-cm.channel.relevance', [
     'hippo-cm-api',
   ])
   .controller('ViewAsCtrl', ViewAsCtrl)
   .directive('relevanceViewAs', ViewAsDirective)
   .service('ExperimentStateService', ExperimentStateService);
-
-export default channelRelevanceModule;

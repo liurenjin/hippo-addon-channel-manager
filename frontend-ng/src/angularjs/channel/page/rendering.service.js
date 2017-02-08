@@ -16,7 +16,7 @@
  *
  */
 
-class RenderingService {
+export class RenderingService {
 
   constructor($http, $log) {
     'ngInject';
@@ -32,14 +32,20 @@ class RenderingService {
       header: {
         Accept: 'text/html',
       },
-    }).then(response => response.data);
+    }).then((response) => response.data);
   }
 
   fetchComponentMarkup(component, propertiesMap) {
     function toUrlEncodedFormData(json) {
-      return Object.keys(json)
-                   .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(json[key])}`)
-                   .join('&');
+      const keyValuePairs = [];
+      for (const property in json) {
+        if (json.hasOwnProperty(property)) {
+          const key = encodeURIComponent(property);
+          const value = encodeURIComponent(json[property]);
+          keyValuePairs.push(`${key}=${value}`);
+        }
+      }
+      return keyValuePairs.join('&');
     }
 
     return this.$http({
@@ -55,5 +61,3 @@ class RenderingService {
   }
 
 }
-
-export default RenderingService;

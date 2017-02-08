@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-import channelPageModule from '../../page/page';
-import componentAdderDirective from './componentAdder.directive';
-import ComponentAdderCtrl from './componentAdder.controller';
-import ComponentAdderService from './componentAdder.service';
+import { channelPageModule } from '../../page/page';
+import { componentAdderDirective } from './componentAdder.directive';
+import { ComponentAdderCtrl } from './componentAdder.controller';
+import { ComponentAdderService } from './componentAdder.service';
 
-const componentAdderModule = angular
+export const componentAdderModule = angular
   .module('hippo-cm.channel.hippoIframe.componentAdder', [
     channelPageModule.name,
   ])
   .directive('componentAdder', componentAdderDirective)
   .controller('ComponentAdderCtrl', ComponentAdderCtrl)
   .service('ComponentAdderService', ComponentAdderService);
-
-export default componentAdderModule;

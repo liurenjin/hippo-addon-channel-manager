@@ -16,15 +16,14 @@
  *
  */
 
-import angular from 'angular';
-import 'angular-mocks';
-
 describe('RenderingService', () => {
+  'use strict';
+
   let RenderingService;
   let $httpBackend;
 
   beforeEach(() => {
-    angular.mock.module('hippo-cm.channel.page');
+    module('hippo-cm.channel.page');
 
     inject((_RenderingService_, _$httpBackend_) => {
       $httpBackend = _$httpBackend_;

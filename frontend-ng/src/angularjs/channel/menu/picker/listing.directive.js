@@ -14,19 +14,15 @@
  * limitations under the License.
  */
 
-import template from './listing.html';
-
-function listingDirective() {
+export function listingDirective() {
   return {
     restrict: 'A',
     bindToController: {
       selectedItem: '=',
       selectedDocument: '=',
     },
-    template,
+    templateUrl: 'channel/menu/picker/listing.html',
     controller: 'ListingCtrl',
     controllerAs: 'listing',
   };
 }
-
-export default listingDirective;

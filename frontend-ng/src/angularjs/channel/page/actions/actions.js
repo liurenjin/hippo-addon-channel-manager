@@ -14,25 +14,19 @@
  * limitations under the License.
  */
 
-import ngMessages from 'angular-messages';
-import focusIf from 'ng-focus-if';
+import { pageActionsDirective } from './pageActions.directive';
+import { PageActionsCtrl } from './pageActions.controller';
+import { pageCreateDirective } from './create/create.directive.js';
+import { PageCreateCtrl } from './create/create.controller.js';
+import { pageEditDirective } from './edit/edit.directive';
+import { PageEditCtrl } from './edit/edit.controller';
+import { pageMoveDirective } from './move/move.directive';
+import { PageMoveCtrl } from './move/move.controller';
+import { pageCopyDirective } from './copy/copy.directive';
+import { PageCopyCtrl } from './copy/copy.controller';
 
-import pageActionsDirective from './pageActions.directive';
-import PageActionsCtrl from './pageActions.controller';
-import pageCreateDirective from './create/create.directive';
-import PageCreateCtrl from './create/create.controller';
-import pageEditDirective from './edit/edit.directive';
-import PageEditCtrl from './edit/edit.controller';
-import pageMoveDirective from './move/move.directive';
-import PageMoveCtrl from './move/move.controller';
-import pageCopyDirective from './copy/copy.directive';
-import PageCopyCtrl from './copy/copy.controller';
-
-const channelPageActionsModule = angular
-  .module('hippo-cm.channel.page.actions', [
-    ngMessages,
-    focusIf,
-  ])
+export const channelPageActionsModule = angular
+  .module('hippo-cm.channel.page.actions', ['ngMessages', 'focus-if'])
   .controller('PageActionsCtrl', PageActionsCtrl)
   .directive('pageActions', pageActionsDirective)
   .controller('PageCreateCtrl', PageCreateCtrl)
@@ -43,5 +37,3 @@ const channelPageActionsModule = angular
   .directive('pageMove', pageMoveDirective)
   .controller('PageCopyCtrl', PageCopyCtrl)
   .directive('pageCopy', pageCopyDirective);
-
-export default channelPageActionsModule;

@@ -24,10 +24,10 @@ function isInternalLink(link, internalLinks) {
   if (!angular.isArray(internalLinks)) {
     return false;
   }
-  return internalLinks.some(internalLink => startsWith(link, internalLink));
+  return internalLinks.some((internalLink) => startsWith(link, internalLink));
 }
 
-class LinkProcessorService {
+export class LinkProcessorService {
 
   constructor($translate) {
     'ngInject';
@@ -49,8 +49,7 @@ class LinkProcessorService {
       if (url && !isInternalLink(url, internalLinkPrefixes)) {
         link.attr('target', '_blank');
         link.click((event) => {
-          // TODO: should use proper dialog!!
-          if (!confirm(this.$translate.instant('CONFIRM_OPEN_EXTERNAL_LINK'))) { // eslint-disable-line no-alert
+          if (!confirm(this.$translate.instant('CONFIRM_OPEN_EXTERNAL_LINK'))) {
             event.preventDefault();
           }
         });
@@ -58,5 +57,3 @@ class LinkProcessorService {
     });
   }
 }
-
-export default LinkProcessorService;

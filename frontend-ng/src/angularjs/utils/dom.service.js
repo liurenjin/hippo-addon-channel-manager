@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-class DomService {
+export class DomService {
 
   constructor($q, $rootScope, $document) {
     'ngInject';
@@ -66,7 +66,7 @@ class DomService {
     const toComputedStyle = toElement.ownerDocument.defaultView.getComputedStyle(toElement, null);
     const cssDiff = [];
 
-    for (let i = 0, fromLength = fromComputedStyle.length; i < fromLength; i += 1) {
+    for (let i = 0, fromLength = fromComputedStyle.length; i < fromLength; i++) {
       const cssPropertyName = fromComputedStyle.item(i);
       if (!excludeRegExp || !excludeRegExp.test(cssPropertyName)) {
         const fromValue = fromComputedStyle.getPropertyValue(cssPropertyName);
@@ -142,9 +142,7 @@ class DomService {
         width: outerWidth,
         overflow: 'scroll',
       }).appendTo('body');
-      const widthWithScroll = $('<div>').css('width', '100%')
-        .appendTo($outer)
-        .outerWidth();
+      const widthWithScroll = $('<div>').css('width', '100%').appendTo($outer).outerWidth();
       $outer.remove();
       this._scrollBarWidth = outerWidth - widthWithScroll;
     }
@@ -190,5 +188,3 @@ class DomService {
     return lowest;
   }
 }
-
-export default DomService;

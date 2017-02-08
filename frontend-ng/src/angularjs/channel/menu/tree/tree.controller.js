@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-class HippoTreeCtrl {
+export class HippoTreeCtrl {
   constructor($scope, $filter, $transclude) {
     'ngInject';
 
@@ -85,5 +85,3 @@ class HippoTreeCtrl {
   }
 }
 
-
-export default HippoTreeCtrl;

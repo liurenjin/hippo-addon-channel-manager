@@ -14,23 +14,22 @@
  * limitations under the License.
  */
 
-import angular from 'angular';
-import 'angular-mocks';
-
 describe('ComponentsService', () => {
+  'use strict';
+
   let $q;
   let $rootScope;
   let HstServiceMock;
   let CatalogService;
 
   beforeEach(() => {
-    angular.mock.module('hippo-cm-api');
+    module('hippo-cm-api');
 
     HstServiceMock = jasmine.createSpyObj('HstService', [
       'doGet',
     ]);
 
-    angular.mock.module(($provide) => {
+    module(($provide) => {
       $provide.value('HstService', HstServiceMock);
     });
 
@@ -61,7 +60,7 @@ describe('ComponentsService', () => {
     $rootScope.$digest();
 
     const components = CatalogService.getComponents();
-    expect(components.map(c => c.label))
+    expect(components.map((c) => c.label))
       .toEqual(['bah component', 'foo component', 'foo2 component']);
   });
 

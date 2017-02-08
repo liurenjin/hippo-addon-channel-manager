@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-import angular from 'angular';
-import 'angular-mocks';
-
 describe('SubpageContent', () => {
+  'use strict';
+
   let $element;
   let $rootScope;
   let $compile;
 
   beforeEach(() => {
-    angular.mock.module('hippo-cm');
+    module('hippo-cm');
 
     inject((_$rootScope_, _$compile_) => {
       $rootScope = _$rootScope_;

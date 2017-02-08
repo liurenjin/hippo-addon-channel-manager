@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-class ChangesMenuCtrl {
+export class ChangesMenuCtrl {
   constructor(
       $log,
       $translate,
@@ -109,5 +109,3 @@ class ChangesMenuCtrl {
     return this.DialogService.show(confirm);
   }
 }
-
-export default ChangesMenuCtrl;
