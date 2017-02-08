@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-export class HippoIframeService {
+class HippoIframeService {
 
   constructor($q, $log, ChannelService, CmsService) {
     'ngInject';
@@ -98,4 +98,14 @@ export class HippoIframeService {
       return undefined;
     }
   }
+
+  liftIframeAboveMask() {
+    this.isIframeLifted = true;
+  }
+
+  lowerIframeBeneathMask() {
+    this.isIframeLifted = false;
+  }
 }
+
+export default HippoIframeService;

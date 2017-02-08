@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 
-import { channelSubpageModule } from './subpage/subpage';
-import { channelChangesModule } from './changes/changes';
-import { channelPageModule } from './page/page';
-import { channelPageActionsModule } from './page/actions/actions';
-import { channelActionsModule } from './actions/actions';
-import { channelSidenavModule } from './sidenav/sidenav';
-import { channelHippoIframeModule } from './hippoIframe/hippoIframe';
-import { channelMenuModule } from './menu/editor';
-import { channelMaskModule } from './mask/mask';
-import { channelRelevanceModule } from './relevance/relevance';
-import { config } from './channel.config';
-import { ChannelCtrl } from './channel.controller';
-import { ChannelService } from './channel.service';
-import { run } from './channel.run';
-import { CatalogComponentDirective } from './catalog.component.directive';
-import { channelViewportsModule } from './viewports/viewports';
+import channelSubpageModule from './subpage/subpage';
+import channelChangesModule from './changes/changes';
+import channelPageModule from './page/page';
+import channelPageActionsModule from './page/actions/actions';
+import channelActionsModule from './actions/actions';
+import channelSidenavModule from './sidenav/sidenav';
+import channelHippoIframeModule from './hippoIframe/hippoIframe';
+import channelMenuModule from './menu/editor';
+import maskModule from './mask/mask.module';
+import channelRelevanceModule from './relevance/relevance';
+import channelViewportsModule from './viewports/viewports';
+import componentCatalogModule from './componentCatalog/componentCatalog.module';
+import config from './channel.config';
+import ChannelCtrl from './channel.controller';
+import ChannelService from './channel.service';
+import run from './channel.run';
 
-export const channelModule = angular
+const channelModule = angular
   .module('hippo-cm.channel', [
     'hippo-cm-api',
     channelSubpageModule.name,
@@ -42,12 +42,14 @@ export const channelModule = angular
     channelSidenavModule.name,
     channelHippoIframeModule.name,
     channelMenuModule.name,
-    channelMaskModule.name,
     channelRelevanceModule.name,
     channelViewportsModule.name,
+    maskModule.name,
+    componentCatalogModule.name,
   ])
   .config(config)
   .controller('ChannelCtrl', ChannelCtrl)
   .service('ChannelService', ChannelService)
-  .directive('catalogComponent', CatalogComponentDirective)
   .run(run);
+
+export default channelModule;
