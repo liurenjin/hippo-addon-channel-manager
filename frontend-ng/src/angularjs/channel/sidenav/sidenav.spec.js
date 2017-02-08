@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-describe('ChannelSidenav', () => {
-  'use strict';
+import angular from 'angular';
+import 'angular-mocks';
 
+describe('ChannelSidenav', () => {
   let $rootScope;
   let $compile;
   let ChannelSidenavService;
   let SiteMapService;
   let ChannelService;
+  let CatalogService;
   let HippoIframeService;
   let parentScope;
   const catalogComponents = [
@@ -29,18 +31,21 @@ describe('ChannelSidenav', () => {
   ];
 
   beforeEach(() => {
-    module('hippo-cm');
+    angular.mock.module('hippo-cm');
 
-    inject((_$rootScope_, _$compile_, _ChannelSidenavService_, _ChannelService_, _SiteMapService_, _HippoIframeService_) => {
+    inject((_$rootScope_, _$compile_, _ChannelSidenavService_, _ChannelService_, _CatalogService_, _SiteMapService_, _HippoIframeService_) => {
       $rootScope = _$rootScope_;
       $compile = _$compile_;
       ChannelSidenavService = _ChannelSidenavService_;
       ChannelService = _ChannelService_;
+      CatalogService = _CatalogService_;
       SiteMapService = _SiteMapService_;
       HippoIframeService = _HippoIframeService_;
     });
 
-    spyOn(ChannelService, 'getCatalog').and.returnValue([]);
+    spyOn(ChannelService, 'getMountId');
+    spyOn(CatalogService, 'load');
+    spyOn(CatalogService, 'getComponents').and.returnValue([]);
     spyOn(ChannelSidenavService, 'initialize');
     spyOn(ChannelSidenavService, 'close');
     spyOn(SiteMapService, 'get');
@@ -65,7 +70,7 @@ describe('ChannelSidenav', () => {
   });
 
   it('retrieves the catalog from the channel service', () => {
-    ChannelService.getCatalog.and.returnValue(catalogComponents);
+    CatalogService.getComponents.and.returnValue(catalogComponents);
     const ChannelSidenavCtrl = instantiateController();
 
     expect(ChannelSidenavCtrl.getCatalog()).toBe(catalogComponents);
@@ -79,7 +84,7 @@ describe('ChannelSidenav', () => {
     $rootScope.$digest();
     expect(ChannelSidenavCtrl.showComponentsTab()).toBe(false);
 
-    ChannelService.getCatalog.and.returnValue(catalogComponents);
+    CatalogService.getComponents.and.returnValue(catalogComponents);
     expect(ChannelSidenavCtrl.showComponentsTab()).toBe(true);
 
     parentScope.editMode = false;

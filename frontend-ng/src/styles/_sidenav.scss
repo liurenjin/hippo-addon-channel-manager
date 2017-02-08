@@ -12,29 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-.md-button.md-icon-button.md-icon-button-sidenav {
-  padding-left: 0;
-  margin-left: 0;
-}
-
 .channel-sidenav {
-  border-right: 1px solid rgba(0, 0, 0, 0.12);
-}
+  border-right: 1px solid $grey-200;
 
-.list-item-active {
-  background-color: $list-item-active-bgcolor;
-}
+  md-list {
+    padding: 0;
+  }
 
-// OpenSans fonts cut off at the 'g' with line-height 1.2 from Material
-.md-list-item-text h4 {
-  line-height: 1.3em !important;
-}
+  .md-avatar {
+    border-radius: 0 !important;
+  }
 
-.catalog-dd-container-item {
-  cursor: move; // IE 11&edge
-  cursor: grab;
+  .list-item-active {
+    background-color: $list-item-active-bgcolor;
+  }
 
-  &:active, &.gu-mirror {
-    cursor: grabbing;
+  .catalog-list-item-active {
+    font-style: italic;
+  }
+
+  // OpenSans fonts cut off at the 'g' with line-height 1.2 from Material
+  .md-list-item-text h4 {
+    line-height: 1.3em !important;
+  }
+
+  &.sidenav-lifted {
+    z-index: $z-index-sidenav-lifted;
   }
 }

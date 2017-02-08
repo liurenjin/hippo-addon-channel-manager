@@ -16,7 +16,7 @@
 
 const CHANNEL_SIDENAV_ID = 'channel-sidenav'; // must match with directive mark-up
 
-export class ChannelSidenavService {
+class ChannelSidenavService {
   constructor($mdSidenav, ScalingService) {
     'ngInject';
 
@@ -43,5 +43,14 @@ export class ChannelSidenavService {
       this.ScalingService.setPushWidth(0);
     }
   }
+
+  liftSidenavAboveMask() {
+    this.isSidenavLifted = true;
+  }
+
+  lowerSidenavBeneathMask() {
+    this.isSidenavLifted = false;
+  }
 }
 
+export default ChannelSidenavService;

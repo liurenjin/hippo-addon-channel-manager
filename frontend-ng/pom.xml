@@ -54,7 +54,7 @@
             <goals><goal>exec</goal></goals>
             <configuration>
               <executable>npm</executable>
-              <commandlineArgs>run gulp buildDist -- --fail-on-gulp-error</commandlineArgs>
+              <commandlineArgs>run build</commandlineArgs>
             </configuration>
           </execution>
           <execution>
@@ -63,30 +63,23 @@
             <goals><goal>exec</goal></goals>
             <configuration>
               <executable>npm</executable>
-              <commandlineArgs>test -- --fail-on-gulp-error</commandlineArgs>
+              <commandlineArgs>run testOnce</commandlineArgs>
               <skip>${skipTests}</skip>
             </configuration>
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <inherited>false</inherited>
-        <executions>
-          <execution>
-            <id>dist-assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
+        <plugin>
+            <artifactId>maven-clean-plugin</artifactId>
             <configuration>
-              <descriptors>
-                <descriptor>${basedir}/maven-distribution.xml</descriptor>
-              </descriptors>
+                <filesets>
+                    <fileset>
+                        <directory>node_modules</directory>
+                        <followSymlinks>false</followSymlinks>
+                    </fileset>
+                </filesets>
             </configuration>
-          </execution>
-        </executions>
-      </plugin>
+        </plugin>
     </plugins>
   </build>
 </project>

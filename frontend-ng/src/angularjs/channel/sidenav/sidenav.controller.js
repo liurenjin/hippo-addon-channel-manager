@@ -14,14 +14,23 @@
  * limitations under the License.
  */
 
-export class ChannelSidenavCtrl {
-  constructor($scope, $element, ChannelSidenavService, ChannelService, SiteMapService, HippoIframeService) {
+class ChannelSidenavCtrl {
+  constructor(
+      $element,
+      $scope,
+      CatalogService,
+      ChannelService,
+      ChannelSidenavService,
+      HippoIframeService,
+      SiteMapService
+    ) {
     'ngInject';
 
+    this.CatalogService = CatalogService;
     this.ChannelService = ChannelService;
     this.ChannelSidenavService = ChannelSidenavService;
-    this.SiteMapService = SiteMapService;
     this.HippoIframeService = HippoIframeService;
+    this.SiteMapService = SiteMapService;
 
     ChannelSidenavService.initialize($element.find('md-sidenav'));
 
@@ -38,7 +47,7 @@ export class ChannelSidenavCtrl {
   }
 
   getCatalog() {
-    return this.ChannelService.getCatalog();
+    return this.CatalogService.getComponents();
   }
 
   getSiteMap() {
@@ -52,4 +61,10 @@ export class ChannelSidenavCtrl {
   isActiveSiteMapItem(siteMapItem) {
     return siteMapItem.renderPathInfo === this.HippoIframeService.getCurrentRenderPathInfo();
   }
+
+  isSidenavLifted() {
+    return this.ChannelSidenavService.isSidenavLifted;
+  }
 }
+
+export default ChannelSidenavCtrl;
