@@ -20,9 +20,8 @@
   <parent>
     <artifactId>hippo-addon-channel-manager</artifactId>
     <groupId>org.onehippo.cms7</groupId>
-    <version>4.1.1-cm-overlay-merge-SNAPSHOT</version>
+    <version>4.1.1-SNAPSHOT</version>
   </parent>
-
 
   <artifactId>hippo-addon-channel-manager-frontend</artifactId>
   <packaging>jar</packaging>
