@@ -20,7 +20,7 @@
   <parent>
     <artifactId>hippo-addon-channel-manager</artifactId>
     <groupId>org.onehippo.cms7</groupId>
-    <version>4.1.1-SNAPSHOT</version>
+    <version>4.1.1-cm-overlay-merge-SNAPSHOT</version>
   </parent>
 
   <artifactId>hippo-addon-channel-manager-frontend-ng</artifactId>
@@ -69,24 +69,17 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <inherited>false</inherited>
-        <executions>
-          <execution>
-            <id>dist-assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
+        <plugin>
+            <artifactId>maven-clean-plugin</artifactId>
             <configuration>
-              <descriptors>
-                <descriptor>${basedir}/maven-distribution.xml</descriptor>
-              </descriptors>
+                <filesets>
+                    <fileset>
+                        <directory>node_modules</directory>
+                        <followSymlinks>false</followSymlinks>
+                    </fileset>
+                </filesets>
             </configuration>
-          </execution>
-        </executions>
-      </plugin>
+        </plugin>
     </plugins>
   </build>
 </project>
