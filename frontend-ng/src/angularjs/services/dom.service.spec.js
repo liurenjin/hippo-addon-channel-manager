@@ -26,12 +26,18 @@ describe('DomService', () => {
     angular.mock.module('hippo-cm');
 
     angular.mock.module(($provide) => {
-      $provide.value('$document', [{
+      const documentMock = [{
         location: {
           pathname: '/app/root/index.html',
           host: 'localhost:8080',
         },
-      }]);
+      }];
+
+      // Internals of angular now depenend on $document.on being present
+      documentMock.on = angular.noop;
+      documentMock.off = angular.noop;
+
+      $provide.value('$document', documentMock);
     });
 
     inject((_BrowserService_, _DomService_) => {

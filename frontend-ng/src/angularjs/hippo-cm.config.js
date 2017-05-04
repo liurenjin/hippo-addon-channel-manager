@@ -16,8 +16,22 @@
 
 import template from './hippo-cm.html';
 
-function config($mdThemingProvider, $stateProvider, $urlRouterProvider, $translateProvider, $compileProvider) {
+function config(
+  $compileProvider,
+  $mdThemingProvider,
+  $qProvider,
+  $stateProvider,
+  $translateProvider,
+  $urlRouterProvider,
+) {
   'ngInject';
+
+  // This turns off any errors on unhandled rejections which is bad.
+  // But currently there seems to be a bug in Angular1.6 which falsely reports unhandeled errors.
+  $qProvider.errorOnUnhandledRejections(false);
+
+  // TODO: make directives components and put initialization logic in $onInit()
+  $compileProvider.preAssignBindingsEnabled(true);
 
   $urlRouterProvider.otherwise('/');
 
