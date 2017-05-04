@@ -15,11 +15,11 @@
     "testOnce": "gulp testOnce"
   },
   "dependencies": {
-    "angular": "1.5.11",
-    "angular-animate": "1.5.11",
-    "angular-aria": "1.5.11",
-    "angular-material": "1.1.3",
-    "angular-messages": "1.5.11",
+    "angular": "1.6.4",
+    "angular-animate": "1.6.4",
+    "angular-aria": "1.6.4",
+    "angular-material": "1.1.4",
+    "angular-messages": "1.6.4",
     "angular-translate": "2.15.1",
     "angular-translate-loader-static-files": "2.15.1",
     "angular-ui-router": "1.0.0-rc.1",
@@ -33,7 +33,7 @@
     "open-sans-fontface": "git+https://github.com/FontFaceKit/open-sans.git#1.4.2"
   },
   "devDependencies": {
-    "angular-mocks": "1.5.11",
+    "angular-mocks": "1.6.4",
     "frontend-build": "5.0.4",
     "gulp": "gulpjs/gulp#4.0",
     "gulp-hub": "frankwallis/gulp-hub#4.1.0"

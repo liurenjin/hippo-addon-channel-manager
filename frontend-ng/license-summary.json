@@ -1,24 +1,24 @@
 {
-  "angular-animate@1.5.11": {
+  "angular-animate@1.6.4": {
     "licenses": "MIT",
     "repository": "https://github.com/angular/angular.js",
     "publisher": "Angular Core Team",
     "email": "angular-core+npm@google.com",
     "licenseFile": "node_modules/angular-animate/LICENSE.md"
   },
-  "angular-aria@1.5.11": {
+  "angular-aria@1.6.4": {
     "licenses": "MIT",
     "repository": "https://github.com/angular/angular.js",
     "publisher": "Angular Core Team",
     "email": "angular-core+npm@google.com",
     "licenseFile": "node_modules/angular-aria/LICENSE.md"
   },
-  "angular-material@1.1.3": {
+  "angular-material@1.1.4": {
     "licenses": "MIT",
     "repository": "https://github.com/angular/material",
     "licenseFile": "node_modules/angular-material/LICENSE"
   },
-  "angular-messages@1.5.11": {
+  "angular-messages@1.6.4": {
     "licenses": "MIT",
     "repository": "https://github.com/angular/angular.js",
     "publisher": "Angular Core Team",
@@ -46,7 +46,7 @@
     "repository": "https://github.com/angular-ui-tree/angular-ui-tree",
     "licenseFile": "node_modules/angular-ui-tree/LICENSE"
   },
-  "angular@1.5.11": {
+  "angular@1.6.4": {
     "licenses": "MIT",
     "repository": "https://github.com/angular/angular.js",
     "publisher": "Angular Core Team",
@@ -98,10 +98,6 @@
     "publisher": "Paul Miller",
     "url": "http://paulmillr.com",
     "licenseFile": "node_modules/es6-shim/LICENSE"
-  },
-  "hippo-cm@": {
-    "licenses": "Apache-2.0",
-    "licenseFile": "license-summary.json"
   },
   "jquery@3.2.1": {
     "licenses": "MIT",
