@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-let q;
-let http;
-
 class HstService {
   constructor($q, $http, CmsService, ConfigService, PathService) {
     'ngInject';
 
-    q = $q;
-    http = $http;
+    this.$q = $q;
+    this.$http = $http;
 
     this.CmsService = CmsService;
     this.config = ConfigService;
@@ -92,11 +89,14 @@ class HstService {
 
     this.CmsService.publish('user-activity');
 
-    return q((resolve, reject) => {
-      http({ method, url, headers, data })
-        .success(response => resolve(response))
-        .error(error => reject(error));
-    });
+    const httpOptions = {
+      method,
+      url,
+      headers,
+      data,
+    };
+
+    return this.$http(httpOptions).then(response => response.data);
   }
 
   _createApiUrl(uuid, pathElements, params) {

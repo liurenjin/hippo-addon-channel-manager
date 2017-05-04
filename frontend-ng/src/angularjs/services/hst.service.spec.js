@@ -106,7 +106,14 @@ describe('HstService', () => {
 
   it('returns a rejected promise when a GET call fails', () => {
     $httpBackend.expectGET(`${contextPath}${apiUrlPrefix}/some-uuid./one/two/three`).respond(500);
-    hstService.doGet('some-uuid', 'one', 'two', 'three').then(fail);
+
+    hstService.doGet('some-uuid', 'one', 'two', 'three')
+      .then(() => {
+        fail('Promise was not rejected');
+      }).catch((error) => {
+        expect(error).toBeDefined();
+      });
+
     $httpBackend.flush();
   });
 
@@ -134,7 +141,14 @@ describe('HstService', () => {
 
   it('returns a rejected promise when a POST call fails', () => {
     $httpBackend.expectPOST(`${contextPath}${apiUrlPrefix}/some-uuid./one/two/three`, { foo: 1 }).respond(500);
-    hstService.doPost({ foo: 1 }, 'some-uuid', 'one', 'two', 'three').then(fail);
+
+    hstService.doPost({ foo: 1 }, 'some-uuid', 'one', 'two', 'three')
+      .then(() => {
+        fail('Promise was not rejected');
+      }).catch((error) => {
+        expect(error).toBeDefined();
+      });
+
     $httpBackend.flush();
   });
 
