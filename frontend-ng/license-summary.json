@@ -84,13 +84,13 @@
     "email": "nathan@tootallnate.net",
     "url": "http://n8.io/"
   },
-  "dragula@3.7.2": {
+  "hippo-dragula@3.7.2-br.2": {
     "licenses": "MIT",
     "repository": "https://github.com/bevacqua/dragula",
     "publisher": "Nicolas Bevacqua",
     "email": "nicolasbevacqua@gmail.com",
     "url": "http://bevacqua.io/",
-    "licenseFile": "node_modules/dragula/license"
+    "licenseFile": "node_modules/hippo-dragula/license"
   },
   "es6-shim@0.35.3": {
     "licenses": "MIT",

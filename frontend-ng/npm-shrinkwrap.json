@@ -1802,10 +1802,10 @@
       "resolved": "https://maven.onehippo.com/content/groups/npm-all/domutils/-/domutils-1.5.1.tgz",
       "dev": true
     },
-    "dragula": {
-      "version": "3.7.2",
-      "from": "dragula@3.7.2",
-      "resolved": "https://maven.onehippo.com/content/groups/npm-all/dragula/-/dragula-3.7.2.tgz"
+    "hippo-dragula": {
+      "version": "3.7.2-br.2",
+      "from": "hippo-dragula@3.7.2-br.2",
+      "resolved": "https://maven.onehippo.com/content/groups/npm-all/hippo-dragula/-/hippo-dragula-3.7.2-br.2.tgz"
     },
     "duplexer": {
       "version": "0.1.1",
