@@ -13,67 +13,38 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-<!-- TODO: add trackBy -->
+<!-- TODO: add trackBy hash -->
 <div class="field-wrapper"
      *ngFor="let fieldType of fieldTypes"
      [ngSwitch]="fieldType.type">
 
-  <div *ngSwitchCase="'COMPOUND'">
-    <!--<compound-field ng-switch-when="COMPOUND"-->
-    <!--ng-if="hasValue(fieldType)"-->
-    <!--ng-repeat="fieldValue in $ctrl.fieldValues[fieldType.id] track by $index"-->
-    <!--name="::$ctrl.getFieldName(fieldType, $index)"-->
-    <!--field-type="::fieldType"-->
-    <!--field-values="fieldValue.fields"-->
-    <!--on-field-focus="$ctrl.onFieldFocus()"-->
-    <!--on-field-blur="$ctrl.onFieldBlur()">-->
-    <!--</compound-field>-->
-  </div>
+  <ng-container *ngSwitchCase="'COMPOUND'">
+    <ng-container  *ngIf="hasValue(fieldType)">
+      <!-- TODO: trackBy index -->
+      <hippo-compound-field *ngFor="let fieldValue of fieldValues[fieldType.id]"
+                            [fieldType]="fieldType"
+                            [fieldValues]="fieldValue.fields"
+                            (onFieldFocus)="onFieldFocus()"
+                            (onFieldBlur)="onFieldBlur()">
+      </hippo-compound-field>
+    </ng-container>
+  </ng-container>
 
-  <div *ngSwitchCase="'CHOICE'">
-    CHOICE
-  </div>
+  <ng-container *ngSwitchCase="'CHOICE'">
+    <hippo-choice-field *ngIf="hasValue(fieldType)"
+                        [fieldType]="fieldType"
+                        [fieldValues]="fieldValues[fieldType.id]"
+                        (onFieldFocus)="onFieldFocus()"
+                        (onFieldBlur)="onFieldBlur()">
+    </hippo-choice-field>
+  </ng-container>
 
-  <div *ngSwitchDefault>
-    <hippo-primitive-field
-      ng-if="hasValue(fieldType)"
-      [fieldType]="fieldType"
-      [fieldValues]="fieldValues[fieldType.id]"
-      (onFieldFocus)="onFieldFocus()"
-      (onFieldBlur)="onFieldBlur()">
+  <ng-container *ngSwitchDefault>
+    <hippo-primitive-field *ngIf="hasValue(fieldType)"
+                           [fieldType]="fieldType"
+                           [fieldValues]="fieldValues[fieldType.id]"
+                           (onFieldFocus)="onFieldFocus()"
+                           (onFieldBlur)="onFieldBlur()">
     </hippo-primitive-field>
-  </div>
+  </ng-container>
 </div>
-<!--<div class="field-wrapper"-->
-     <!--ng-repeat="fieldType in fieldTypes track by getFieldTypeHash(fieldType)"-->
-     <!--ng-switch="::fieldType.type">-->
-
-
-
-  <!--<choice-field ng-switch-when="CHOICE"-->
-                <!--ng-if="::$ctrl.hasValue(fieldType)"-->
-                <!--name="::$ctrl.getFieldName(fieldType)"-->
-                <!--field-type="::fieldType"-->
-                <!--field-values="$ctrl.fieldValues[fieldType.id]"-->
-                <!--on-field-focus="$ctrl.onFieldFocus()"-->
-                <!--on-field-blur="$ctrl.onFieldBlur()">-->
-  <!--</choice-field>-->
-
-  <!--<hippo-image-link ng-switch-when="IMAGE_LINK"-->
-                    <!--[value]="$ctrl.fieldValues[fieldType.id][0].value"-->
-                    <!--[url]="$ctrl.fieldValues[fieldType.id][0].url"-->
-                    <!--[display-name]="::fieldType.displayName"-->
-                    <!--[config]="::fieldType.config"-->
-                    <!--[form-object]="$ctrl.form"-->
-                    <!--[is-required]="::fieldType.required">-->
-  <!--</hippo-image-link>-->
-
-  <!--<primitive-field ng-switch-default-->
-                   <!--ng-if="::$ctrl.hasValue(fieldType)"-->
-                   <!--name="::$ctrl.name"-->
-                   <!--field-type="::fieldType"-->
-                   <!--field-values="$ctrl.fieldValues[fieldType.id]"-->
-                   <!--on-field-focus="$ctrl.onFieldFocus()"-->
-                   <!--on-field-blur="$ctrl.onFieldBlur()">-->
-  <!--</primitive-field>-->
-<!--</div>-->

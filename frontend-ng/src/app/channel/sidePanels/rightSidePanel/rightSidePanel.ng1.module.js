@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { downgradeComponent } from '@angular/upgrade/static';
-import { DocumentFormComponent } from './fields/documentForm/documentForm.component.ts';
+import { DocumentFormComponent } from './fields/document-form/document-form.component.ts';
 import fieldsModule from './fields/fields.ng1.module';
 import rightSidePanelComponent from './rightSidePanel.component';
 import resizeHandleModule from './resizeHandle/resizeHandle.ng1.module';

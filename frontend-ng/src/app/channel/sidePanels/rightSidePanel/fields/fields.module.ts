@@ -1,17 +1,26 @@
 import { NgModule } from '@angular/core';
-import { ImageLinkComponent } from './imageLink/imageLink.component';
+import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from '../../../../material/material.module';
-import { DocumentFormComponent } from './documentForm/documentForm.component';
-import { DocumentFieldsComponent } from './documentFields/upgrade/documentFields.component';
+
+import { ImageLinkComponent } from './imageLink/imageLink.component';
+import { DocumentFormComponent } from './document-form/document-form.component';
+import { DocumentFieldsDirective } from './document-form/document-fields/document-fields.directive';
+import { PrimitiveFieldDirective } from './document-form/primitive-field/primitive-field.directive';
+import { CompoundFieldDirective } from './document-form/compound-field/compound-field.directive';
+import { ChoiceFieldDirective } from './document-form/choice-field/choice-field.directive';
 
 @NgModule({
   imports: [
     MaterialModule,
+    BrowserModule
   ],
   declarations: [
     ImageLinkComponent,
     DocumentFormComponent,
-    DocumentFieldsComponent
+    DocumentFieldsDirective,
+    PrimitiveFieldDirective,
+    CompoundFieldDirective,
+    ChoiceFieldDirective
   ],
   entryComponents: [
     ImageLinkComponent,

@@ -2,15 +2,15 @@ import { Directive, ElementRef, EventEmitter, Injector, Input, Output } from '@a
 import { UpgradeComponent } from '@angular/upgrade/static';
 
 @Directive({
-  selector: 'hippo-primitive-field'
+  selector: 'hippo-choice-field'
 })
-export class CompoundFieldComponent extends UpgradeComponent {
+export class ChoiceFieldDirective extends UpgradeComponent {
   @Input() fieldType: Object;
   @Input() fieldValues: Object;
   @Output() onFieldFocus: EventEmitter<any>;
   @Output() onFieldBlur: EventEmitter<any>;
 
   constructor(elementRef: ElementRef, injector: Injector) {
-    super('compoundField', elementRef, injector);
+    super('choiceField', elementRef, injector);
   }
 }

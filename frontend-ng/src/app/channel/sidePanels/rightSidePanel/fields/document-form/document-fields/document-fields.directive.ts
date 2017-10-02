@@ -1,11 +1,10 @@
-import { Component, Directive, ElementRef, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
-import { UpgradeComponent } from '@angular/upgrade/static';
+import { Component, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'hippo-document-fields',
   templateUrl: './document-fields.html'
 })
-export class DocumentFieldsComponent implements OnInit {
+export class DocumentFieldsDirective implements OnInit {
   @Input('name') fieldName: string;
   @Input() fieldTypes: Object;
   @Input() fieldValues: Object;

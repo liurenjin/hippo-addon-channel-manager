@@ -15,10 +15,9 @@
  */
 import { downgradeComponent } from '@angular/upgrade/static';
 import { ImageLinkComponent } from './imageLink/imageLink.component.ts';
-import documentFieldsComponent from './documentFields/documentFields.component';
-import primitiveFieldComponent from './primitiveField/primitiveField.component';
-import choiceFieldComponent from './choiceField/choiceField.component';
-import compoundFieldComponent from './compoundField/compoundField.component';
+import primitiveFieldComponent from './document-form/primitive-field/ng1/primitiveField/primitiveField.component';
+import choiceFieldComponent from './document-form/choice-field/ng1/choiceField/choiceField.component';
+import compoundFieldComponent from './document-form/compound-field/ng1/compoundField/compoundField.component';
 import ckeditorModule from './ckeditor/ckeditor.ng1.module';
 import collapse from './collapse/collapse.directive';
 import fieldService from './field.service';
@@ -28,7 +27,6 @@ const fieldsModule = angular
   .module('hippo-cm.channel.fieldsModule', [
     ckeditorModule,
   ])
-  .component('hippoDocumentFields', documentFieldsComponent)
   .component('primitiveField', primitiveFieldComponent)
   .component('choiceField', choiceFieldComponent)
   .component('compoundField', compoundFieldComponent)
