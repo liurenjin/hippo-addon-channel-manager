@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { ImageLinkComponent } from './imageLink/imageLink.component';
 import { MaterialModule } from '../../../../material/material.module';
-import { documentFormComponent } from './documentForm/documentForm.component';
+import { DocumentFormComponent } from './documentForm/documentForm.component';
+import { DocumentFieldsComponent } from './documentFields/upgrade/documentFields.component';
 
 @NgModule({
   imports: [
@@ -9,11 +10,12 @@ import { documentFormComponent } from './documentForm/documentForm.component';
   ],
   declarations: [
     ImageLinkComponent,
-    documentFormComponent
+    DocumentFormComponent,
+    DocumentFieldsComponent
   ],
   entryComponents: [
     ImageLinkComponent,
-    documentFormComponent
+    DocumentFormComponent,
   ]
 })
 export class FieldsModule {

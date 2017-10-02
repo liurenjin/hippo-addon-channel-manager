@@ -28,7 +28,7 @@ const fieldsModule = angular
   .module('hippo-cm.channel.fieldsModule', [
     ckeditorModule,
   ])
-  .component('documentFields', documentFieldsComponent)
+  .component('hippoDocumentFields', documentFieldsComponent)
   .component('primitiveField', primitiveFieldComponent)
   .component('choiceField', choiceFieldComponent)
   .component('compoundField', compoundFieldComponent)

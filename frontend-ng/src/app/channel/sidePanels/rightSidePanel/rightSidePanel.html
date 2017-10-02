@@ -96,21 +96,17 @@
         {{ ::'FEEDBACK_SWITCH_TO_CONTENT_EDITOR' | translate }}
       </md-button>
     </div>
-    <!--
+
+    <!-- Angular 4 document-form component -->
     <form ng-if="$ctrl.editing"
           name="$ctrl.form"
           class="form-dense-layout">
-      <document-fields class="top-level"
-                       field-types="$ctrl.docType.fields"
-                       field-values="$ctrl.doc.fields">
-      </document-fields>
+      <document-form [form]="$ctrl.form"
+                     [field-types]="$ctrl.docType.fields"
+                     [field-values]="$ctrl.doc.fields">
+      </document-form>
     </form>
-    -->
-    <document-form ng-if="$ctrl.editing"
-                   [form-name]="$ctrl.form"
-                   [field-types]="$ctrl.docType.fields"
-                   [field-values]="$ctrl.doc.fields">
-    </document-form>
+
   </md-content>
 
   <md-toolbar>

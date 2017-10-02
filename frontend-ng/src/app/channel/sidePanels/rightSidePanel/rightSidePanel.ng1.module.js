@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { downgradeComponent } from '@angular/upgrade/static';
-import { documentFormComponent } from './fields/documentForm/documentForm.component.ts';
+import { DocumentFormComponent } from './fields/documentForm/documentForm.component.ts';
 import fieldsModule from './fields/fields.ng1.module';
 import rightSidePanelComponent from './rightSidePanel.component';
 import resizeHandleModule from './resizeHandle/resizeHandle.ng1.module';
@@ -25,7 +25,7 @@ const rightSidePanelModule = angular
     resizeHandleModule,
   ])
   .component('rightSidePanel', rightSidePanelComponent)
-  .directive('documentForm', downgradeComponent({ component: documentFormComponent }));
+  .directive('documentForm', downgradeComponent({ component: DocumentFormComponent }));
 
 export default rightSidePanelModule.name;
 

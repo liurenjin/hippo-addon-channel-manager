@@ -1,12 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import './documentForm.scss';
 
 @Component({
-  selector: 'document-form',
+  selector: 'hippo-document-form',
   templateUrl: './documentForm.html'
 })
-export class documentFormComponent implements OnInit {
-  @Input() formName: string;
+export class DocumentFormComponent implements OnInit {
+  @Input() form: any;
   @Input() fieldTypes: any;
   @Input() fieldValues: any;
 
@@ -17,5 +16,13 @@ export class documentFormComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  onFocus() {
+    console.log('focus');
+  }
+
+  onBlur() {
+    console.log('blur');
   }
 }
