@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import CmsService from '../../../../../services/cms.service.js';
 import './imageLink.scss';
 
 @Component({
@@ -6,12 +7,21 @@ import './imageLink.scss';
   templateUrl: './imageLink.html'
 })
 export class ImageLinkComponent implements OnInit {
-  @Input('displayName') displayName: string;
+  @Input() value: any;
+  @Input() url: string;
+  @Input() displayName: string;
+  @Input() fieldObject: any;
+  @Input() config: any;
+  @Input() formObject: any;
+  @Input() isRequired: boolean;
 
-  constructor() {
+  constructor(private cmsService: CmsService) {
   }
 
   ngOnInit() {
-    console.log(this.displayName);
+    console.log(this);
+  }
+
+  openImagePicker() {
   }
 }

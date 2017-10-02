@@ -37,7 +37,12 @@
   </choice-field>
 
   <hippo-image-link ng-switch-when="IMAGE_LINK"
-                    display-name="{{ ::fieldType.displayName }}">
+                    [value]="$ctrl.fieldValues[fieldType.id][0].value"
+                    [url]="$ctrl.fieldValues[fieldType.id][0].url"
+                    [display-name]="::fieldType.displayName"
+                    [config]="::fieldType.config"
+                    [form-object]="$ctrl.form"
+                    [is-required]="::fieldType.required">
   </hippo-image-link>
 
   <primitive-field ng-switch-default

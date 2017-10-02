@@ -22,6 +22,7 @@ import { UpgradeModule  } from '@angular/upgrade/static';
 import { MaterialModule } from './material/material.module';
 import ng1Module from './hippo-cm.ng1.module.js';
 import { FieldsModule } from './channel/sidePanels/rightSidePanel/fields/fields.module';
+import { CmsServiceProvider } from './ajs-upgraded-providers';
 
 @NgModule({
   imports: [
@@ -31,6 +32,9 @@ import { FieldsModule } from './channel/sidePanels/rightSidePanel/fields/fields.
     MaterialModule,
     FieldsModule
   ],
+  providers: [
+    CmsServiceProvider
+  ]
 })
 export class AppModule {
   constructor(private upgrade: UpgradeModule) {}

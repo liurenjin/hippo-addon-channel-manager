@@ -22,7 +22,7 @@ import {
   MdButtonModule,
   MdFormFieldModule,
   MdInputModule,
-  MatGridListModule
+  MatGridListModule,
 } from '@angular/material';
 import './material.scss';
 
@@ -33,7 +33,7 @@ import './material.scss';
     MdButtonModule,
     MdFormFieldModule,
     MdInputModule,
-    MatGridListModule
+    MatGridListModule,
   ],
   providers: [
     {provide: MATERIAL_SANITY_CHECKS, useValue: false},

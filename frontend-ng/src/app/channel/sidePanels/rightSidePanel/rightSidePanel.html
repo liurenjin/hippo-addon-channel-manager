@@ -96,7 +96,7 @@
         {{ ::'FEEDBACK_SWITCH_TO_CONTENT_EDITOR' | translate }}
       </md-button>
     </div>
-
+    <!--
     <form ng-if="$ctrl.editing"
           name="$ctrl.form"
           class="form-dense-layout">
@@ -105,6 +105,12 @@
                        field-values="$ctrl.doc.fields">
       </document-fields>
     </form>
+    -->
+    <document-form ng-if="$ctrl.editing"
+                   [form-name]="$ctrl.form"
+                   [field-types]="$ctrl.docType.fields"
+                   [field-values]="$ctrl.doc.fields">
+    </document-form>
   </md-content>
 
   <md-toolbar>
