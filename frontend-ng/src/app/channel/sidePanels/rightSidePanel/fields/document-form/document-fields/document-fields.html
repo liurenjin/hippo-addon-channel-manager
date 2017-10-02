@@ -1,0 +1,79 @@
+<!--
+  Copyright 2016-2017 Hippo B.V. (http://www.onehippo.com)
+
+  Licensed under the Apache License, Version 2.0 (the "License")
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+<!-- TODO: add trackBy -->
+<div class="field-wrapper"
+     *ngFor="let fieldType of fieldTypes"
+     [ngSwitch]="fieldType.type">
+
+  <div *ngSwitchCase="'COMPOUND'">
+    <!--<compound-field ng-switch-when="COMPOUND"-->
+    <!--ng-if="hasValue(fieldType)"-->
+    <!--ng-repeat="fieldValue in $ctrl.fieldValues[fieldType.id] track by $index"-->
+    <!--name="::$ctrl.getFieldName(fieldType, $index)"-->
+    <!--field-type="::fieldType"-->
+    <!--field-values="fieldValue.fields"-->
+    <!--on-field-focus="$ctrl.onFieldFocus()"-->
+    <!--on-field-blur="$ctrl.onFieldBlur()">-->
+    <!--</compound-field>-->
+  </div>
+
+  <div *ngSwitchCase="'CHOICE'">
+    CHOICE
+  </div>
+
+  <div *ngSwitchDefault>
+    <hippo-primitive-field
+      ng-if="hasValue(fieldType)"
+      [fieldType]="fieldType"
+      [fieldValues]="fieldValues[fieldType.id]"
+      (onFieldFocus)="onFieldFocus()"
+      (onFieldBlur)="onFieldBlur()">
+    </hippo-primitive-field>
+  </div>
+</div>
+<!--<div class="field-wrapper"-->
+     <!--ng-repeat="fieldType in fieldTypes track by getFieldTypeHash(fieldType)"-->
+     <!--ng-switch="::fieldType.type">-->
+
+
+
+  <!--<choice-field ng-switch-when="CHOICE"-->
+                <!--ng-if="::$ctrl.hasValue(fieldType)"-->
+                <!--name="::$ctrl.getFieldName(fieldType)"-->
+                <!--field-type="::fieldType"-->
+                <!--field-values="$ctrl.fieldValues[fieldType.id]"-->
+                <!--on-field-focus="$ctrl.onFieldFocus()"-->
+                <!--on-field-blur="$ctrl.onFieldBlur()">-->
+  <!--</choice-field>-->
+
+  <!--<hippo-image-link ng-switch-when="IMAGE_LINK"-->
+                    <!--[value]="$ctrl.fieldValues[fieldType.id][0].value"-->
+                    <!--[url]="$ctrl.fieldValues[fieldType.id][0].url"-->
+                    <!--[display-name]="::fieldType.displayName"-->
+                    <!--[config]="::fieldType.config"-->
+                    <!--[form-object]="$ctrl.form"-->
+                    <!--[is-required]="::fieldType.required">-->
+  <!--</hippo-image-link>-->
+
+  <!--<primitive-field ng-switch-default-->
+                   <!--ng-if="::$ctrl.hasValue(fieldType)"-->
+                   <!--name="::$ctrl.name"-->
+                   <!--field-type="::fieldType"-->
+                   <!--field-values="$ctrl.fieldValues[fieldType.id]"-->
+                   <!--on-field-focus="$ctrl.onFieldFocus()"-->
+                   <!--on-field-blur="$ctrl.onFieldBlur()">-->
+  <!--</primitive-field>-->
+<!--</div>-->

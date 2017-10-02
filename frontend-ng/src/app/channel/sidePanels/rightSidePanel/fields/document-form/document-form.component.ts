@@ -2,9 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'hippo-document-form',
-  templateUrl: './documentForm.html'
+  templateUrl: './document-form.html'
 })
 export class DocumentFormComponent implements OnInit {
+  @Input('name') fieldName: string;
   @Input() form: any;
   @Input() fieldTypes: any;
   @Input() fieldValues: any;
