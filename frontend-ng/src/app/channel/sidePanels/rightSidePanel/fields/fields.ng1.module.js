@@ -15,9 +15,9 @@
  */
 import { downgradeComponent } from '@angular/upgrade/static';
 import { ImageLinkComponent } from './imageLink/imageLink.component.ts';
-import primitiveFieldComponent from './document-form/primitive-field/ng1/primitiveField/primitiveField.component';
-import choiceFieldComponent from './document-form/choice-field/ng1/choiceField/choiceField.component';
-import compoundFieldComponent from './document-form/compound-field/ng1/compoundField/compoundField.component';
+import primitiveFieldComponent from './document-form/primitive-field/ng1/primitiveField.component';
+import choiceFieldComponent from './document-form/choice-field/ng1/choiceField.component';
+import compoundFieldComponent from './document-form/compound-field/ng1/compoundField.component';
 import ckeditorModule from './ckeditor/ckeditor.ng1.module';
 import collapse from './collapse/collapse.directive';
 import fieldService from './field.service';
