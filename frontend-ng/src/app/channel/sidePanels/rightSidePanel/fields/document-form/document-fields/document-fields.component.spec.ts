@@ -1,20 +1,20 @@
 import { DocumentFieldsComponent } from './document-fields.component';
-import { TestBed } from '@angular/core/testing';
+import { IDocument } from '../shared/document.interface';
 
-const stringField = { id: 'ns:string', type: 'STRING', displayName: 'String', config: {}, valid: true };
-const multipleStringField = { id: 'ns:multiplestring', type: 'STRING', displayName: 'MultipleString', config: {}, valid: true};
-const emptyMultipleStringField = { id: 'ns:emptymultiplestring', type: 'STRING', displayName: 'EmptyMultipleString', config: {}, valid: true};
-const compoundField = { id: 'ns:compound', type: 'COMPOUMD', displayName: 'Compound', config: {}, valid: true, fields: [  ]};
+const stringField = { id: 'ns:string', type: 'STRING' };
+const multipleStringField = { id: 'ns:multiplestring', type: 'STRING' };
+const emptyMultipleStringField = { id: 'ns:emptymultiplestring', type: 'STRING' };
+const compoundField = { id: 'ns:compound', type: 'COMPOUND' };
 
 const testDocumentType = {
   id: 'ns:testdocument',
   fields: [stringField, multipleStringField, emptyMultipleStringField, compoundField]
 };
 
-const testDocument = {
+// IDocument
+const testDocument: IDocument = {
   id: 'test',
-  info: { type: { id: 'ns:testdocument' } },
-  editing: { state: 'AVAILABLE' },
+  info: { type: { id: 'ns:testdocument' }, dirty: false },
   fields: {
     'ns:string': ['String value'],
     'ns:multiplestring': ['One', 'Two'],
@@ -75,7 +75,7 @@ fdescribe('DocumentsFieldComponent', () => {
     component.ngOnInit();
     component.fieldName = 'ns:compound';
     component.fieldTypes = compoundField;
-    component.fieldValues = [stringField];
+    component.fieldValues = { id: 'someId', fields: [stringField] };
     expect(component.getFieldName(stringField)).toEqual('ns:compound/ns:string');
   });
 
