@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import { downgradeComponent } from '@angular/upgrade/static';
 import { ImageLinkComponent } from './imageLink/imageLink.component.ts';
 import primitiveFieldComponent from './document-form/primitive-field/ng1/primitiveField.component';

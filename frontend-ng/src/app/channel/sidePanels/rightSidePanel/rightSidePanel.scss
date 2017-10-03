@@ -58,9 +58,9 @@ right-side-panel {
   margin-bottom: 0;
 }
 
-primitive-field,
-compound-field,
-choice-field {
+hippo-primitive-field,
+hippo-compound-field,
+hippo-choice-field {
   display: block;
 
   > .field {
@@ -68,9 +68,9 @@ choice-field {
   }
 }
 
-primitive-field,
-compound-field {
-  primitive-field > .field {
+hippo-primitive-field,
+hippo-compound-field {
+  hippo-primitive-field > .field {
     padding-left: 0;
   }
 }
