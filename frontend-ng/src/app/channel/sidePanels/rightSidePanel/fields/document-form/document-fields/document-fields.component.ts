@@ -16,7 +16,7 @@ export class DocumentFieldsComponent implements OnInit {
     this.onFieldBlur = this.onFieldBlur || (() => {});
   }
 
-  getFieldName(fieldType, index) {
+  getFieldName(fieldType, index?) {
     const fieldName = this.fieldName ? `${this.fieldName}/${fieldType.id}` : fieldType.id;
     return index > 0 ? `${fieldName}[${index + 1}]` : fieldName;
   }
