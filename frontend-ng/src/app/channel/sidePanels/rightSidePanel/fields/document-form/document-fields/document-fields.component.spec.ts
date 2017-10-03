@@ -23,7 +23,7 @@ const testDocument: IDocument = {
   }
 };
 
-fdescribe('DocumentsFieldComponent', () => {
+describe('DocumentsFieldComponent', () => {
   let component: DocumentFieldsComponent;
   let onFieldFocus;
   let onFieldBlur;
