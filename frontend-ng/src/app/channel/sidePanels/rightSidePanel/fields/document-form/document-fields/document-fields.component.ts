@@ -4,7 +4,7 @@ import { Component, Input, OnInit, Output } from '@angular/core';
   selector: 'hippo-document-fields',
   templateUrl: './document-fields.html'
 })
-export class DocumentFieldsDirective implements OnInit {
+export class DocumentFieldsComponent implements OnInit {
   @Input('name') fieldName: string;
   @Input() fieldTypes: Object;
   @Input() fieldValues: Object;
