@@ -121,10 +121,6 @@ class CKEditorController {
   }
 
   onEditorFocus() {
-    this.$scope.$apply(() => {
-      this.textAreaElement.addClass('focused');
-    });
-
     this.onFocus({
       $event: {
         target: this.$element.find('.cke_editable'),
@@ -137,17 +133,21 @@ class CKEditorController {
         hasBottomToolbar: this.config.hippo && this.config.hippo.hasBottomToolbar,
       });
     }
+    this.$scope.$apply(() => {
+      this.textAreaElement.addClass('focused');
+    });
     this._validate();
   }
 
   onEditorBlur($event) {
-    this.onBlur({ $event });
-
     const relatedTarget = angular.element($event.relatedTarget);
     if (!this.FieldService.shouldPreserveFocus(relatedTarget) && this.SharedSpaceToolbarService.isToolbarPinned === false) {
       this.SharedSpaceToolbarService.hideToolbar();
     }
 
+    this.$scope.$apply(() => {
+      this.onBlur({ $event });
+    });
     this._validate();
   }
 
